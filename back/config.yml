@@ -1,1 +1,4 @@
-:server_ip: http://mnling500.apac.nsn-net.net/
+:server_ip: http://mnling500.apac.nsn-net.net
+:server_port: 80
+:proxy_ip: http://10.158.17.67/
+:proxy_port: 8080
