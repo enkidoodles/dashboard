@@ -10,20 +10,40 @@ class Branch
 	def initialize(name, url)
 		@branch_name = name;
 		@teams = Array.new
-		@branch_url = url + $AccessJob
-		uri = URI.parse(@branch_url)
+		@branch_url = url
+		url_temp = url + $AccessJob
+		uri = URI.parse(url_temp)
 		response = Net::HTTP.get(uri)
 		parsed = JSON.parse(response)
 		
-		puts name
 		parsed["jobs"].each do |k|
-			puts k["name"]
 			tmp = Team.new(k["name"], url + "job/" + k["name"] + "/")
 			unless tmp.isInvalid
 				@teams.push(tmp)
 			end
 		end
 	end	
+
+	def softUpdate
+		@teams.each do |i|
+			i.update
+		end
+	end
+
+	def hardUpdate
+		@teams.clear
+		url_temp = @branch_url + $AccessJob
+		uri = URI.parse(url_temp)
+		response = Net::HTTP.get(uri)
+		parsed = JSON.parse(response)
+		
+		parsed["jobs"].each do |k|
+			tmp = Team.new(k["name"], @branch_url + "job/" + k["name"] + "/")
+			unless tmp.isInvalid
+				@teams.push(tmp)
+			end
+		end
+	end
 end
 
 
@@ -39,7 +59,6 @@ class Team
 		
 		if parsed["jobs"] != nil
 			parsed["jobs"].each do |k|
-				print "\t#{k["name"]} "
 				@builds << Build.new(k["name"], url + "job/" + k["name"] + "/")
 			end
 		else
@@ -50,6 +69,13 @@ class Team
 	def isInvalid
 		return @team_name.nil?
 	end
+
+	def update
+		@builds.each do |i|
+			i.update
+		end
+	end
+
 end
 
 class Build
@@ -67,25 +93,42 @@ class Build
 				build_name = nil;
 			elsif parsed["result"] == "SUCCESS"
 				@result = true
-				puts @result ? "true" : false
 			else
 				@result = false
-				puts @result ? "true" : false
 			end
 
 		else
 			@build_name = nil;
-		end
-		if @build_name == nil
-			puts "n/a"
 		end
 	end
 
 	def isInvalid
 		return @build_name.nil?
 	end
+
+	def update
+		uri = URI.parse(@build_url)
+		response = Net::HTTP.get(uri)
+
+		if response[0] == '{'
+			parsed = JSON.parse(response)
+
+			if parsed["result"] == nil
+				build_name = nil;
+			elsif parsed["result"] == "SUCCESS"
+				@result = true
+			else
+				@result = false
+			end
+
+		else
+			@build_name = nil;
+		end
+	end
+
 end
 
 
-
 Airphone = Branch.new("Airphone","http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/L1_GATEWAY_632B_DEV/job/AIRPHONE/")
+
+Airphone.hardUpdate
