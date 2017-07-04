@@ -44,6 +44,13 @@ class Branch
 			end
 		end
 	end
+
+	def printBranch
+		puts @branch_name
+		@teams.each do |i|
+			i.printTeam
+		end
+	end
 end
 
 
@@ -59,7 +66,10 @@ class Team
 		
 		if parsed["jobs"] != nil
 			parsed["jobs"].each do |k|
-				@builds << Build.new(k["name"], url + "job/" + k["name"] + "/")
+				tmp = Build.new(k["name"], url + "job/" + k["name"] + "/")
+				unless tmp.isInvalid
+					@builds << tmp
+				end
 			end
 		else
 			@team_name = nil;
@@ -73,6 +83,13 @@ class Team
 	def update
 		@builds.each do |i|
 			i.update
+		end
+	end
+
+	def printTeam
+		puts "\t#{@team_name}"
+		@builds.each do |i|
+			i.printBuild
 		end
 	end
 
@@ -126,9 +143,7 @@ class Build
 		end
 	end
 
+	def printBuild
+		puts "\t\t#{@build_name} #{@result ? "true" : "false"}"
+	end
 end
-
-
-Airphone = Branch.new("Airphone","http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/L1_GATEWAY_632B_DEV/job/AIRPHONE/")
-
-Airphone.hardUpdate
