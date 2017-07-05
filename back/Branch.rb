@@ -8,39 +8,28 @@ class Branch
 
 	def initialize(url)
 		@teams = Array.new
-		@branch_url = url
-		url_temp = url + $AccessJob
-		uri = URI.parse(url_temp)
+		@branch_url = url + $AccessTree
+		uri = URI.parse(@branch_url)
 		response = Net::HTTP.get(uri)
-		parsed = JSON.parse(response)
-		
-		parsed["jobs"].each do |k|
-			tmp = Team.new(k["name"], url + "job/" + k["name"] + "/")
-			unless tmp.isInvalid
-				@teams.push(tmp)
+
+		if response[0] == '{'
+			parsed = JSON.parse(response)
+			@branch_name = parsed["name"];
+			
+			parsed["jobs"].each do |team_info|
+				tmp = Team.new(team_info)
+				unless tmp.isInvalid
+					@teams.push(tmp)
+				end
 			end
+		else
+			@branch_name = nil;
 		end
-		@branch_name = parsed["name"];
 	end	
 
-	def softUpdate
+	def update
 		@teams.each do |i|
 			i.update
-		end
-	end
-
-	def hardUpdate
-		@teams.clear
-		url_temp = @branch_url + $AccessJob
-		uri = URI.parse(url_temp)
-		response = Net::HTTP.get(uri)
-		parsed = JSON.parse(response)
-		
-		parsed["jobs"].each do |k|
-			tmp = Team.new(k["name"], @branch_url + "job/" + k["name"] + "/")
-			unless tmp.isInvalid
-				@teams.push(tmp)
-			end
 		end
 	end
 
@@ -52,20 +41,15 @@ class Branch
 	end
 end
 
-
 class Team
 
-	def initialize(name, url)
+	def initialize(team_info)
 		@builds = Array.new
-		@team_name = name;
-		@team_url = url + $AccessJob
-		uri = URI.parse(@team_url)
-		response = Net::HTTP.get(uri)
-		parsed = JSON.parse(response)
+		@team_name = team_info["name"];
 		
-		if parsed["jobs"] != nil
-			parsed["jobs"].each do |k|
-				tmp = Build.new(k["name"], url + "job/" + k["name"] + "/")
+		if team_info["jobs"] != nil
+			team_info["jobs"].each do |build_info|
+				tmp = Build.new(build_info)
 				unless tmp.isInvalid
 					@builds << tmp
 				end
@@ -79,12 +63,6 @@ class Team
 		return @team_name.nil?
 	end
 
-	def update
-		@builds.each do |i|
-			i.update
-		end
-	end
-
 	def printTeam
 		puts "\t#{@team_name}"
 		@builds.each do |i|
@@ -96,25 +74,22 @@ end
 
 class Build
 
-	def initialize(name, url)
-		@build_name = name;
-		@build_url = url + $AccessLastBuild
-		uri = URI.parse(@build_url)
-		response = Net::HTTP.get(uri)
+	def initialize(build_info)
+		@build_name = build_info["name"]
 
-		if response[0] == '{'
-			parsed = JSON.parse(response)
-
-			if parsed["result"] == nil
-				build_name = nil;
-			elsif parsed["result"] == "SUCCESS"
-				@result = true
-			else
-				@result = false
-			end
-
+		if build_info["color"] != nil
+			@color = build_info["color"]
+			@num = @den = 0
 		else
-			@build_name = nil;
+			@color = "black"
+			i = 0
+			build_info["jobs"].to_a.each do |k|
+				if k["color"] == "blue"
+					i += 1
+				end
+			end
+			@num = i
+			@den = build_info["jobs"].to_a.size
 		end
 	end
 
@@ -122,27 +97,7 @@ class Build
 		return @build_name.nil?
 	end
 
-	def update
-		uri = URI.parse(@build_url)
-		response = Net::HTTP.get(uri)
-
-		if response[0] == '{'
-			parsed = JSON.parse(response)
-
-			if parsed["result"] == nil
-				build_name = nil;
-			elsif parsed["result"] == "SUCCESS"
-				@result = true
-			else
-				@result = false
-			end
-
-		else
-			@build_name = nil;
-		end
-	end
-
 	def printBuild
-		puts "\t\t#{@build_name} #{@result ? "true" : "false"}"
+		puts "\t\t#{@build_name} #{@color} #{@num}/#{@den}"
 	end
 end
