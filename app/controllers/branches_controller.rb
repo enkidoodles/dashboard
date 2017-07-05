@@ -1,11 +1,19 @@
 class BranchesController < ApplicationController
+  require 'cranch'
   before_action :authenticate_user!, :except => [:show, :index]
   before_action :set_branch, only: [:show, :edit, :update, :destroy]
-
   # GET /branches
   # GET /branches.json
   def index
     @branches = Branch.all
+    if @@cranches.to_a.empty
+      @branches.each do |k|
+        tmp = Cranch.new(k.branch_json_url)
+        unless tmp.nil?
+          @@cranches << tmp
+        end
+      end
+    end
   end
 
   # GET /branches/1
@@ -26,7 +34,10 @@ class BranchesController < ApplicationController
   # POST /branches.json
   def create
     @branch = Branch.new(branch_params)
-
+    tmp = Cranch.new(@branch.branch_json_url)
+    unless tmp.nil?
+      @@cranches << tmp
+    end
     respond_to do |format|
       if @branch.save
         format.html { redirect_to @branch, notice: 'Branch was successfully created.' }
