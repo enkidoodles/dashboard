@@ -2,6 +2,8 @@
 
 one:
   name: MyString
+  branch_json_url: MyText
 
 two:
   name: MyString
+  branch_json_url: MyText

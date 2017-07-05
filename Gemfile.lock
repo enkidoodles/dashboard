@@ -145,7 +145,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coffee-rails (~> 4.2)
-  coffee-script-source (= 1.8.0)
+  coffee-script-source (~> 1.8.0)
   jbuilder (~> 2.5)
   jquery-rails
   puma (~> 3.0)

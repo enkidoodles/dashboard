@@ -10,8 +10,6 @@ class BranchesController < ApplicationController
   # GET /branches/1
   # GET /branches/1.json
   def show
-    @teams = Team.where(branch_id: @branch.id)
-
   end
 
   # GET /branches/new
@@ -71,6 +69,6 @@ class BranchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def branch_params
-      params.require(:branch).permit(:name)
+      params.require(:branch).permit(:name, :branch_json_url)
     end
 end
