@@ -2,13 +2,12 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-$AccessJob = "api/json?tree=jobs[name,color]"
-$AccessLastBuild = "lastBuild/api/json?tree=result,timestamp,estimatedDuration"
+$AccessJob = "api/json?tree=name,jobs[name,color]"
+$AccessLastBuild = "lastBuild/api/json?tree=result"
 
 class Branch
 
-	def initialize(name, url)
-		@branch_name = name;
+	def initialize(url)
 		@teams = Array.new
 		@branch_url = url
 		url_temp = url + $AccessJob
@@ -22,6 +21,7 @@ class Branch
 				@teams.push(tmp)
 			end
 		end
+		@branch_name = parsed["name"];
 	end	
 
 	def softUpdate
