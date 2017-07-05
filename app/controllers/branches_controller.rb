@@ -4,16 +4,11 @@ class BranchesController < ApplicationController
   before_action :set_branch, only: [:show, :edit, :update, :destroy]
   # GET /branches
   # GET /branches.json
+
+  @@cranches = Array.new
+
   def index
     @branches = Branch.all
-    if @@cranches.to_a.empty
-      @branches.each do |k|
-        tmp = Cranch.new(k.branch_json_url)
-        unless tmp.nil?
-          @@cranches << tmp
-        end
-      end
-    end
   end
 
   # GET /branches/1

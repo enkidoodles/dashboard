@@ -24,8 +24,3 @@ module Dashboard
     }
   end
 end
-
-config.after_initialize do
-  BranchesController.cranches = Array.new
-  #code
-end

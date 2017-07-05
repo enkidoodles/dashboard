@@ -9,8 +9,8 @@ class Cranch
 	def initialize(url)
 		@teams = Array.new
 		@branch_url = url + $AccessTree
-		uri = URI.parse(@branch_url
-)		response = Net::HTTP.get(uri)
+		uri = URI.parse(@branch_url)
+		response = Net::HTTP.get(uri)
 
 		if response[0] == '{'
 			parsed = JSON.parse(response)

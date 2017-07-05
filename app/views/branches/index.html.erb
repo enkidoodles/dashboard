@@ -32,22 +32,72 @@
 
 <% else %>
 
+<%
+  if defined? @@cranches
+    if @@cranches.to_a.empty?
+      @branches.each do |k|
+        tmp = Cranch.new(k.branch_json_url)
+        unless tmp.nil?
+          @@cranches << tmp
+        end
+      end
+    end
+  else
+    @@cranches = Array.new
+    @branches.each do |k|
+      tmp = Cranch.new(k.branch_json_url)
+      unless tmp.nil?
+        @@cranches << tmp
+      end
+    end
+  end
+%>
+
 <div class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
-  <% @branches.each do |branch| %>
-    <% if branch == @branches.first %>
+  <% @@cranches.each_with_index do |branch, index| %>
+
+    <% if branch == @@cranches.first %>
       <div class="carousel-item active flex-wrap">
-        <nav class="navbar navbar-inverse text-center bg-primary w-100">
-          <h1 class="display-4"><%= branch.name %></h1>
-        </nav>
-      </div>
     <% else %>
       <div class="carousel-item flex-wrap">
-        <nav class="navbar navbar-inverse text-center bg-primary w-100">
-          <h1 class="display-4"><%= branch.name %></h1>
-        </nav>
-      </div>
     <% end %>
+
+        <nav class="navbar navbar-inverse text-center bg-primary w-100">
+          <h1 class="display-4"><%= @branches[index].name %></h1>
+        </nav>
+        <div class="row w-100 justify-content-center m-0 p-4">
+          
+          <% branch.getTeams.each do |i| %>
+          
+            <div class="card">
+              <div class="card-header card-header-success">
+                  <h4 class="d-flex justify-content-between"><%= i.name %><i class="fa fa-check"></i></h4>
+              </div>
+              <div class="card-block">
+                <% i.getBuilds.each do |j| %>
+                  <p class="card-text d-flex justify-content-between"><%= j.getInfo[0] %>
+                  <% if j.getInfo[3] == 0 %>
+                    <% if j.getInfo[1] == "blue" %>
+                      <i class="fa fa-check-circle"></i>
+                    <% elsif j.getInfo[1] == "red" %>
+                      <i class="fa fa-times-circle"></i>
+                    <% else %>
+                      <i class="fa fa-warning"></i>
+                    <% end %>
+                  <% else %>
+                    <span><%= j.getInfo[2] %>/<%= j.getInfo[3] %></span>
+                  <% end %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          
+          <% end %>
+        
+        </div>
+      </div>
+  
   <% end %>
   </div>
 </div>
