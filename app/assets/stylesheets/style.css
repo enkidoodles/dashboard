@@ -48,12 +48,12 @@ nav.navbar h1 {
 /* ---------------------------- Card Header Background --------------------------------*/
 
 .card-header-success {
-    background: #4b77be;
+    background: #4b77be !important;
     color: #fff;
 }
 
 .card-header-danger {
-    background: #96281b;
+    background: #96281b !important;
     color: #fff;
 }
 
