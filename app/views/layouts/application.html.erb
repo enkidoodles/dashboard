@@ -17,9 +17,7 @@
     </li>
     <br>
     <% else %>
-        <%- if controller_name != 'sessions' %>
-         <%= link_to "Log in", new_session_path(resource_name) , :class=>"btn btn-secondary"%>
-        <% end -%>
+        
     <% end %>
     <%= yield %>
   </body>
