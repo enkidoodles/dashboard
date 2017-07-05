@@ -101,3 +101,4 @@ class Build
 		puts "\t\t#{@build_name} #{@color} #{@num}/#{@den}"
 	end
 end
+
