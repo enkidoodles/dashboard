@@ -21,21 +21,63 @@
                     <h1 class="display-4">AIRPHONE</h1>
                 </nav>
                 <div class="row w-100 justify-content-center m-0 p-4">
-                	<%= Branch.new("http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/MASTER_DEV/job/AIRPHONE/").getTeams.each do |k| %>
+                	<% %>
                     <div class="card">
                         <div class="card-header card-header-success">
-                            <h4 class="d-flex justify-content-between"><%= k.name %><i class="fa fa-check"></i></h4>
+                            <h4 class="d-flex justify-content-between">L1Emu<i class="fa fa-check"></i></h4>
                         </div>
                         <div class="card-block">
-                        	<%= k.getBuilds.each do |j| %>
-                            <p class="card-text d-flex justify-content-between"><%= j.info[0] %><i class="fa fa-check-circle"></i></p>
-                            <% end %>
+                            <p class="card-text d-flex justify-content-between">Build <i class="fa fa-check-circle"></i></p>
+                            <p class="card-text d-flex justify-content-between">Lorem Ipsum <i class="fa fa-warning"></i></p>
+                            <p class="card-text d-flex justify-content-between">UT <span>24/30 <i class="fa fa-times-circle"></i></span> </p>
+                            <p class="card-text d-flex justify-content-between">MT <span>100/100 <i class="fa fa-check-circle"></i></span></p>
                         </div>
                         <div class="card-footer text-muted">
                             Last commit by: <b>Mario</b>
                         </div>
                     </div>
-                    <% end %>
+                    <div class="card">
+                        <div class="card-header card-header-success">
+                            <h4 class="d-flex justify-content-between">L2<i class="fa fa-check"></i></h4>
+                        </div>
+                        <div class="card-block">
+                            <p class="card-text d-flex justify-content-between">Build <i class="fa fa-check-circle"></i></p>
+                            <p class="card-text d-flex justify-content-between">Lorem Ipsum <i class="fa fa-warning"></i></p>
+                            <p class="card-text d-flex justify-content-between">UT <span>24/30 <i class="fa fa-times-circle"></i></span> </p>
+                            <p class="card-text d-flex justify-content-between">MT <span>100/100 <i class="fa fa-check-circle"></i></span></p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Last commit by: <b>Mario</b>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header card-header-success">
+                            <h4 class="d-flex justify-content-between">L3<i class="fa fa-check"></i></h4>
+                        </div>
+                        <div class="card-block">
+                            <p class="card-text d-flex justify-content-between">Build <i class="fa fa-check-circle"></i></p>
+                            <p class="card-text d-flex justify-content-between">Lorem Ipsum <i class="fa fa-warning"></i></p>
+                            <p class="card-text d-flex justify-content-between">UT <span>24/30 <i class="fa fa-times-circle"></i></span> </p>
+                            <p class="card-text d-flex justify-content-between">MT <span>100/100 <i class="fa fa-check-circle"></i></span></p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Last commit by: <b>Mario</b>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header card-header-success">
+                            <h4 class="d-flex justify-content-between">OAMLight<i class="fa fa-check"></i></h4>
+                        </div>
+                        <div class="card-block">
+                            <p class="card-text d-flex justify-content-between">Build <i class="fa fa-check-circle"></i></p>
+                            <p class="card-text d-flex justify-content-between">Lorem Ipsum <i class="fa fa-warning"></i></p>
+                            <p class="card-text d-flex justify-content-between">UT <span>24/30 <i class="fa fa-times-circle"></i></span> </p>
+                            <p class="card-text d-flex justify-content-between">MT <span>100/100 <i class="fa fa-check-circle"></i></span></p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Last commit by: <b>Mario</b>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="carousel-item flex-wrap">
