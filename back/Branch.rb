@@ -4,7 +4,7 @@ require 'json'
 
 $AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color]]]"
 
-class Branch
+class Branch_json
 
 	def initialize(url)
 		@teams = Array.new
@@ -39,7 +39,16 @@ class Branch
 			i.printTeam
 		end
 	end
+
+	def getTeams
+		return @teams
+	end
+
+	def name
+		return @branch_name
+	end
 end
+
 
 class Team
 
@@ -70,6 +79,13 @@ class Team
 		end
 	end
 
+	def getBuilds
+		return @builds
+	end
+
+	def name
+		return @team_name
+	end
 end
 
 class Build
@@ -100,5 +116,17 @@ class Build
 	def printBuild
 		puts "\t\t#{@build_name} #{@color} #{@num}/#{@den}"
 	end
+
+	def getInfo
+		return [@build_name, @color, @num, @den]
+	end
 end
 
+Airphone = Branch_json.new("http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/MASTER_DEV/job/AIRPHONE/")
+Airphone.printBranch
+
+Airphone.getTeams.each do |i|
+	i.getBuilds.each do |j|
+		puts "#{j.getInfo}"
+	end
+end
