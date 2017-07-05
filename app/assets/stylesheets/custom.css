@@ -1,0 +1,132 @@
+@import url('https://fonts.google.com/specimen/Lato?selection.family=Lato');
+
+body{
+  height: 100%;
+}
+
+.row#header{
+  height: 20%;
+}
+
+.col-xs-6#logodiv{
+  padding: 2%;
+}
+
+img#logo{
+  width: 40%;
+  height: auto;
+  margin: auto;
+}
+
+.col-xs-6#links{
+  text-align: right;
+  padding: 2%;
+  vertical-align: bottom;
+}
+
+.container-fluid#body{
+  padding: 10%;
+  height: 80%;
+  font-family: 'Lato', Lato;
+  background-image: url(/admin_background.jpg);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: 100%;
+  font-size: 150%;
+}
+
+.height-full {
+  height: 100vh;
+}
+
+.form-check#loginbutton, .form-check#signupbutton{
+  color: black;
+}
+
+.jumbotron#login{
+  box-shadow: 0 0 30px black;
+  margin: auto;
+  width: 40%; /*can be in percentage also.*/
+  height: auto;
+  margin: 0 auto;
+  padding: 1%;
+  position: relative;
+  background-color: rgba(68, 108, 179, 0.7);
+  border-radius: 25px;
+  text-align: center;
+}
+
+#body{
+  font-family: 'Lato', Lato;
+  background-image: url(/admin_background.jpg);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: 100%;
+  height: 80%;
+  font-size: 150%;
+}
+
+.inner{
+  font-size: 70%;
+  text-align: left;
+  margin: auto;
+  width: 80%;
+  color: white;
+}
+
+#user_email, #user_password, #user_password_confirmation{
+  width: 100%;
+  color: black;
+  font-size: 110%;
+}
+
+.actions{
+  color: black;
+}
+
+label{
+  font-size: 130%;
+}
+
+.btn:hover{
+  background-image:none;
+  background-color:rgba(68, 108, 179, 0.3);
+}
+
+.col-group {
+  overflow: hidden;
+}
+.col-group > div {
+  padding: 1em;
+}
+
+@media screen and (min-width: 44em) {
+  .col-group > div {
+    float: left;
+    width: 50%;
+  }
+  .col-group > div:nth-child(odd) {
+    clear: left;
+  }
+}
+
+@media screen and (min-width: 50em) {
+  .col-group > div {
+    float: left;
+    width: 33.3333333%;
+  }
+  .col-group > div:nth-child(3n+1) {
+    clear: left;
+  }
+  .col-group > div:nth-child(odd) {
+    clear: none;
+  }
+}
+
+@media screen and (min-width: 70em) {
+  .col-group > div {
+    width: 20%;
+  }
+  .col-group > div:nth-child(odd), .col-group > div:nth-child(3n+1) {
+    clear: none;
+  }
+}
+
