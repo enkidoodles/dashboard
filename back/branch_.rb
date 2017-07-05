@@ -2,7 +2,8 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color]]]"
+$AccessJob = "api/json?tree=name,jobs[name,color]"
+$AccessLastBuild = "lastBuild/api/json?tree=result"
 
 class Branch
 
