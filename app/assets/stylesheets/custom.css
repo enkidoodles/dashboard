@@ -130,3 +130,19 @@ label{
   }
 }
 
+
+.container#branchesheader{
+  background-color: rgba(68, 108, 179, 0.7);
+}
+
+.navbar#signedin{
+  background-color: rgba(68, 108, 179, 0.7);
+}
+
+.col-sm-6#signout{
+  text-align: right;
+}
+
+.col-sm-6#newbranchbutton{
+  text-align: right;
+}

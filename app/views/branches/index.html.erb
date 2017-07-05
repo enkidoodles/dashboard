@@ -2,32 +2,33 @@
 
 <p id="notice"><%= notice %></p>
 
-<h1>Branches</h1>
+<div class = "container" id="branchestable">
+  <div class="col-sm-6">
+    <h1>Branches</h1>
+  </div>
+  <div class="col-sm-6" id="newbranchbutton">
+    <h1><%= link_to 'New Branch', new_branch_path, :class=> "btn btn-info" %></h1>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Branch json url</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @branches.each do |branch| %>
-      <tr>
-        <td><%= branch.name %></td>
-        <td><%= branch.branch_json_url %></td>
-        <td><%= link_to 'Show', branch %></td>
-        <td><%= link_to 'Edit', edit_branch_path(branch) %></td>
-        <td><%= link_to 'Destroy', branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <table class="table table-hover table-default table-responsive" id="branches">
+    <thead>
+      <tr class="row-sm-6">
+        <th class="col-sm-6">Name</th>
+        <th class="col-sm-6">Branch json url</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+      <% @branches.each do |branch| %>
+        <tr class="row-sm-6">
+          <td class="col-sm-6"><%= branch.name %></td>
+          <td class="col-sm-6"><%= branch.branch_json_url %></td>
+          <!--<td class="col-sm-6"><%= link_to 'Show', branch %></td>-->
+          <td class="col-sm-6"><%= link_to 'Edit', edit_branch_path(branch) %></td>
+          <td class="col-sm-6"><%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+  </table>
 
-<br>
-
+<<<<<<< HEAD
 <%= link_to 'New Branch', new_branch_path %>
 
 <% else %>
@@ -111,3 +112,7 @@
     crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
     crossorigin="anonymous"></script>
+=======
+  <br>
+</div>
+>>>>>>> d713341241e716be0c2cace6a9fc80d050bf1744
