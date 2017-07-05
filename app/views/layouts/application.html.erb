@@ -10,17 +10,14 @@
 
   <body>
     <% if user_signed_in? %>
-    <p>Hello, <%= current_user.name %> - <%= link_to "Sign_out", destroy_user_session_path, :method => 'delete' %></p>
+    <p>Hello, <%= current_user.email %> - <%= link_to "Sign_out", destroy_user_session_path, :method => 'delete' %></p>
     <li>
       <%= link_to('Branches', branches_path)  %>  
       <%= link_to('Home', :controller => 'home', :action => 'index')  %>  
     </li>
     <br>
     <% else %>
-      <li>
-        <%= link_to('Login', new_user_session_path)  %>  
-      </li>
+        <%= yield %>
     <% end %>
-    <%= yield %>
   </body>
 </html>

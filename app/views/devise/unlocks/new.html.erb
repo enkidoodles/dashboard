@@ -1,16 +1,29 @@
-<h2>Resend unlock instructions</h2>
-
-<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+<div class="row" id="header">
+  <div class="col-xs-6" id="logodiv">
+    <img id="logo" src="/nokiaLogo.png" alt="rss feed" />
   </div>
-
-  <div class="actions">
-    <%= f.submit "Resend unlock instructions" %>
+  <div class="col-xs-6" id="links">
+    <%= render "devise/shared/links" %>
   </div>
-<% end %>
+</div>
 
-<%= render "devise/shared/links" %>
+<div class="container-fluid" id="body">
+  <div class="jumbotron" id="login">
+    <div class="inner">
+		<h2>Resend unlock instructions</h2>
+
+		<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+		  <%= devise_error_messages! %>
+
+		  <div class="field">
+		    <%= f.label :email %><br />
+		    <%= f.email_field :email, autofocus: true %>
+		  </div>
+
+		  <div class="actions">
+		    <%= f.submit "Resend unlock instructions" %>
+		  </div>
+		<% end %>
+    </div>
+  </div>
+</div>
