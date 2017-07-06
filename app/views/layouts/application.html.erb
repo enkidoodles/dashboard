@@ -22,16 +22,17 @@
   <body>
     <% if user_signed_in? %>
       <nav class="navbar" id="signedin">
-       <div class="col-sm-6">
-          <p><%= link_to('Branches', branches_path)%> 
-          <%= link_to('Home', :controller => 'home', :action => 'index') %></p>
-      </div>
-      <div class="col-sm-6" id="signout">
-        <p>Hello, <%= current_user.email %> - <%= link_to "Sign_out", destroy_user_session_path, :method => 'delete' %></p> 
-      </div>
-      
+        <div class="row">
+           <div class="col-sm-6" id="header">
+              <%= link_to('Branches', branches_path , :class => "btn btn-info")%> 
+              <%= link_to('Home', {:controller => 'home', :action => 'index'}, { :class => "btn btn-info"})%>
+          </div>
+          <div class="col-sm-6" id="signout">
+            <p>Hello, <%= current_user.email %> | <%= link_to "Sign_out", destroy_user_session_path, :method => 'delete', :class => "btn btn-info" %></p> 
+          </div>
+        </div>
       </nav>
-     <% end %>
+    <% end %>
     <%= yield %>
   </body>
 </html>
