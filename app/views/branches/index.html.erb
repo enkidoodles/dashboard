@@ -28,33 +28,24 @@
       <% end %>
   </table>
 
-<<<<<<< HEAD
 <%= link_to 'New Branch', new_branch_path %>
 
 <% else %>
 
 <%
   if defined? @@cranches
-    if @@cranches.to_a.empty?
-      @branches.each do |k|
-        tmp = Cranch.new(k.branch_json_url)
-        unless tmp.nil?
-          @@cranches << tmp
-        end
-      end
-    end
-  else
-    @@cranches = Array.new
-    @branches.each do |k|
-      tmp = Cranch.new(k.branch_json_url)
-      unless tmp.nil?
-        @@cranches << tmp
-      end
+    @@cranches.clear
+  end
+  @@cranches = Array.new
+  @branches.each do |k|
+    tmp = Cranch.new(k.branch_json_url)
+    unless tmp.nil?
+      @@cranches << tmp
     end
   end
 %>
 
-<div class="carousel slide" data-ride="carousel">
+<div class="carousel slide" data-ride="carousel" data-interval="20000">
   <div class="carousel-inner">
   <% @@cranches.each_with_index do |branch, index| %>
 
@@ -65,14 +56,14 @@
     <% end %>
 
         <nav class="navbar navbar-inverse text-center bg-primary w-100">
-          <h1 class="display-4"><%= @branches[index].name %></h1>
+          <h1 class="display-4"><%= @branches.to_a[index].name %></h1>
         </nav>
         <div class="row w-100 justify-content-center m-0 p-4">
           
           <% branch.getTeams.each do |i| %>
           
             <div class="card">
-              <div class="card-header card-header-success">
+              <div class="card-header card-header-danger">
                   <h4 class="d-flex justify-content-between"><%= i.name %><i class="fa fa-check"></i></h4>
               </div>
               <div class="card-block">
@@ -105,6 +96,8 @@
 
 <% end %>
 
+
+</div>
 <!--JQuery, Bootstrap JS-->
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
     crossorigin="anonymous"></script>
@@ -112,7 +105,13 @@
     crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
     crossorigin="anonymous"></script>
-=======
-  <br>
-</div>
->>>>>>> d713341241e716be0c2cace6a9fc80d050bf1744
+
+
+<script type="text/javascript">
+  setInterval(
+    function()
+    {
+      window.location.reload();
+    }, 60000
+  );
+</script>
