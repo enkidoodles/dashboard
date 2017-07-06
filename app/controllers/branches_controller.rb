@@ -29,18 +29,18 @@ class BranchesController < ApplicationController
   # POST /branches.json
   def create
     @branch = Branch.new(branch_params)
-    tmp = Cranch.new(@branch.branch_json_url)
-    unless tmp.nil?
-      @@cranches << tmp
-    end
     respond_to do |format|
-      if @branch.save
-        format.html { redirect_to @branch, notice: 'Branch was successfully created.' }
-        format.json { render :show, status: :created, location: @branch }
-      else
-        format.html { render :new }
-        format.json { render json: @branch.errors, status: :unprocessable_entity }
-      end
+        if @branch.save
+          tmp = Cranch.new(@branch.branch_json_url)
+          unless tmp.nil?
+            @@cranches << tmp
+          end
+          format.html { redirect_to @branch, notice: 'Branch was successfully created.' }
+          format.json { render :show, status: :created, location: @branch }
+        else
+          format.html { render :new }
+          format.json { render json: @branch.errors, status: :unprocessable_entity }
+        end
     end
   end
 

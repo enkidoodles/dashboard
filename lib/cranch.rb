@@ -95,7 +95,12 @@ class Build
 
 		if build_info["color"] != nil
 			@color = build_info["color"]
-			@num = @den = 0
+			if @color ==  "blue"
+				@num = 1;
+			else
+				@num = 0;
+			end
+			@den = 1;
 		else
 			@color = "black"
 			i = 0
