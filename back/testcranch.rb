@@ -2,8 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color]]]"
-
+$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,builds[number,changeSet[items[author[fullName]]]]],builds[number,changeSet[items[author[fullName]]]]]]"
 class Cranch
 
 	def initialize(url)
@@ -55,6 +54,8 @@ class Team
 	def initialize(team_info)
 		@builds = Array.new
 		@team_name = team_info["name"];
+		@ref_number = 0
+		commits = Array.new
 		
 		if team_info["jobs"] != nil
 			team_info["jobs"].each do |build_info|
@@ -62,7 +63,59 @@ class Team
 				unless tmp.isInvalid
 					@builds << tmp
 				end
+
+				z = nil
+				if build_info["jobs"] != nil
+					z = build_info["jobs"]
+					z.each do |x|
+						if x["builds"] != nil
+							x["builds"].each do |y|
+								@ref_number = @ref_number > y["number"] ? @ref_number : y["number"]
+								if y["changeSet"] != nil
+									a = y["changeSet"]
+									if a["items"] != nil
+										b = a["items"]
+										if b.to_a[-1] != nil
+											if b[-1]["author"] != nil
+												c = b[-1]["author"]
+												if c["fullName"] != nil
+													commits << [y["number"], c["fullName"]]
+													break
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				else
+					z = build_info
+
+					if z["builds"] != nil
+						z["builds"].each do |y|
+							@ref_number = @ref_number > y["number"] ? @ref_number : y["number"]
+							if y["changeSet"] != nil
+								a = y["changeSet"]
+								if a["items"] != nil
+									b = a["items"]
+									if b.to_a[-1] != nil
+										if b[-1]["author"] != nil
+											c = b[-1]["author"]
+											if c["fullName"] != nil
+												commits << [y["number"], c["fullName"]]
+												break
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+				
 			end
+			@lastcommit = commits.max[1]
 		else
 			@team_name = nil;
 		end
@@ -73,7 +126,7 @@ class Team
 	end
 
 	def printTeam
-		puts "\t#{@team_name}"
+		puts "\t#{@team_name} #{@ref_number} #{@lastcommit}"
 		@builds.each do |i|
 			i.printBuild
 		end
@@ -126,3 +179,6 @@ class Build
 		return [@build_name, @color, @num, @den]
 	end
 end
+
+Airphone = Cranch.new("http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/5G17_PROD/job/AIRPHONE/")
+Airphone.printBranch
