@@ -1,27 +1,34 @@
-<%= form_for(branch) do |f| %>
-  <% if branch.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(branch.errors.count, "error") %> prohibited this branch from being saved:</h2>
 
-      <ul>
-      <% branch.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <%= form_for(branch) do |f| %>
+    <% if branch.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(branch.errors.count, "error") %> prohibited this branch from being saved:</h2>
+
+        <ul>
+        <% branch.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name , :class => "form-control"%>
     </div>
-  <% end %>
 
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
+    <div class="form-group">
+      <%= f.label :branch_json_url %>
+      <%= f.text_area :branch_json_url , :class => "form-control"%>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :branch_json_url %>
-    <%= f.text_area :branch_json_url %>
-  </div>
+    <div class="row">
+      <div class="col-sm-6" id="submitbutton">
+        <%= f.submit :class => "btn btn-secondary"%>
+      </div>
 
-  <div class="actions">
-    <%= f.submit :class => "btn btn-secondary"%>
-  </div>
-<% end %>
+      <div class="col-sm-6" id="backbutton">
+        <%= link_to 'Back', branches_path  , :class => "btn btn-secondary"%>
+      </div>
+      </div>
+  <% end %>   

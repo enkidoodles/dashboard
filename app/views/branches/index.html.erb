@@ -3,11 +3,13 @@
 <p id="notice"><%= notice %></p>
 
 <div class = "container" id="branchestable">
-  <div class="col-sm-6">
-    <h1>Branches</h1>
-  </div>
-  <div class="col-sm-6" id="newbranchbutton">
-    <h1><%= link_to 'New Branch', new_branch_path, :class=> "btn btn-info" %></h1>
+  <div class="row" id="branchesheader">
+    <div class="col-sm-6" id="brancheslabel">
+      <h1>Branches</h1>
+    </div>
+    <div class="col-sm-6" id="newbranchbutton">
+      <h1><%= link_to 'New Branch', new_branch_path, :class=> "btn btn-info" %></h1>
+    </div>
   </div>
 
   <table class="table table-hover table-default table-responsive" id="branches">
@@ -27,8 +29,9 @@
         </tr>
       <% end %>
   </table>
+</div>
 
-<%= link_to 'New Branch', new_branch_path %>
+<!--<%= link_to 'New Branch', new_branch_path %>-->
 
 <% else %>
 
@@ -45,8 +48,7 @@
   end
 %>
 
-
-<div class="carousel slide" data-ride="carousel" data-interval="20000" data-wrap="false">
+<div class="carousel slide" data-ride="carousel" data-interval="20000">
   <div class="carousel-inner">
   <% @@cranches.each_with_index do |branch, index| %>
 
@@ -64,33 +66,13 @@
           <% branch.getTeams.each do |i| %>
           
             <div class="card">
-              <% 
-                n = d = 0 
-                i.getBuilds.each do |j|
-                  n += j.getInfo[2]
-                  d += j.getInfo[3]
-                end
-              %>
-
-              <% if 10 * n < 7 * d %>
-                <div class="card-header card-header-danger">
-              <% else %>
-                <div class="card-header card-header-success">
-              <% end %>
-              
-                  <h4 class="d-flex justify-content-between"><%= i.name %>
-
-                    <% if 10 * n < 7 * d %>
-                      <i class="fa fa-times"></i>
-                    <% else %>
-                      <i class="fa fa-check"></i>
-                    <% end %>
-                  </h4>
+              <div class="card-header card-header-danger">
+                  <h4 class="d-flex justify-content-between"><%= i.name %><i class="fa fa-check"></i></h4>
               </div>
               <div class="card-block">
                 <% i.getBuilds.each do |j| %>
                   <p class="card-text d-flex justify-content-between"><%= j.getInfo[0] %>
-                  <% if j.getInfo[3] == 1 %>
+                  <% if j.getInfo[3] == 0 %>
                     <% if j.getInfo[1] == "blue" %>
                       <i class="fa fa-check-circle"></i>
                     <% elsif j.getInfo[1] == "red" %>
@@ -133,7 +115,6 @@
     function()
     {
       window.location.reload();
-    }, 
-    <%= @branches.size * 20000 %>
+    }, 60000
   );
 </script>

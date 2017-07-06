@@ -131,12 +131,36 @@ label{
 }
 
 
+.table#branches{
+  padding: 2%;
+  margin: 0 auto;
+
+}
+.container#branchestable{
+  background-color:#ededed;
+  margin: auto;
+  margin-top: 5%;
+  text-align: middle;
+}
+
 .container#branchesheader{
   background-color: rgba(68, 108, 179, 0.7);
 }
 
+.row#branchesheader{
+  background-color: #d3d3d3;
+  padding: 2%;
+}
+
+.col-sm-#brancheslabel{
+  margin: auto;
+  vertical-align: middle;
+}
+
 .navbar#signedin{
-  background-color: rgba(68, 108, 179, 0.7);
+  background-color: #183693;
+  padding: 2%;
+  color: white;
 }
 
 .col-sm-6#signout{
@@ -145,4 +169,96 @@ label{
 
 .col-sm-6#newbranchbutton{
   text-align: right;
+}
+
+.container#branchnewform{
+  width: 50%;
+  margin:auto;
+  margin-top: 5%;
+  padding: 2%;
+  background-color:#ededed;
+}
+
+.col-sm-6#submitbutton, .col-sm-6#editbutton{
+  text-align: left;
+}
+
+.col-sm-6#backbutton{
+  text-align: right;
+}
+
+.brancheslink{
+  color: white;
+}
+
+.homelink{
+  color: white;
+  background-color: pink; 
+}
+
+.col-sm-6#header{
+  color: white;
+}
+.container#branchestable{
+  background-color:#ededed;
+  margin: auto;
+  margin-top: 5%;
+  text-align: middle;
+}
+
+.container#branchesheader{
+  background-color: rgba(68, 108, 179, 0.7);
+}
+
+.row#branchesheader{
+  background-color: #d3d3d3;
+  padding: 2%;
+}
+
+.col-sm-#brancheslabel{
+  margin: auto;
+  vertical-align: middle;
+}
+
+.navbar#signedin{
+  background-color: #183693;
+  padding: 2%;
+  color: white;
+}
+
+.col-sm-6#signout{
+  text-align: right;
+}
+
+.col-sm-6#newbranchbutton{
+  text-align: right;
+}
+
+.container#branchnewform{
+  width: 50%;
+  margin:auto;
+  margin-top: 5%;
+  padding: 2%;
+  background-color:#ededed;
+}
+
+.col-sm-6#submitbutton, .col-sm-6#editbutton{
+  text-align: left;
+}
+
+.col-sm-6#backbutton{
+  text-align: right;
+}
+
+.brancheslink{
+  color: white;
+}
+
+.homelink{
+  color: white;
+  background-color: pink; 
+}
+
+.col-sm-6#header{
+  color: white;
 }
