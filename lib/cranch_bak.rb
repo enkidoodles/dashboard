@@ -2,7 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,lastBuild[timestamp,number,changeSet[items[author[fullName]]]]],lastBuild[timestamp,number,changeSet[items[author[fullName]]]]]]"
+$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color]]]"
 
 class Cranch
 
@@ -55,8 +55,6 @@ class Team
 	def initialize(team_info)
 		@builds = Array.new
 		@team_name = team_info["name"];
-		@lastcommit = nil
-		commits = Array.new
 		
 		if team_info["jobs"] != nil
 			team_info["jobs"].each do |build_info|
@@ -64,51 +62,7 @@ class Team
 				unless tmp.isInvalid
 					@builds << tmp
 				end
-
-				if build_info["jobs"] != nil
-					z = build_info["jobs"]
-					z.each do |sub_build|
-						if sub_build["lastBuild"] != nil
-							lastBuild = sub_build["lastBuild"]
-							if lastBuild["changeSet"] != nil
-								changeSet = lastBuild["changeSet"]
-								if changeSet["items"] != nil
-									items = changeSet["items"] 
-									if items.to_a[-1] != nil
-										if items.to_a[-1]["author"] != nil
-											author = items.to_a[-1]["author"]
-											if author["fullName"] != nil
-												commits << [lastBuild["timestamp"],author["fullName"]]
-											end
-										end
-									end
-								end
-							end
-						end
-					end
-				else
-					sub_build = build_info
-					if sub_build["lastBuild"] != nil
-						lastBuild = sub_build["lastBuild"]
-						if lastBuild["changeSet"] != nil
-							changeSet = lastBuild["changeSet"]
-							if changeSet["items"] != nil
-								items = changeSet["items"] 
-								if items.to_a[-1] != nil
-									if items.to_a[-1]["author"] != nil
-										author = items.to_a[-1]["author"]
-										if author["fullName"] != nil
-											commits << [lastBuild["timestamp"],author["fullName"]]
-										end
-									end
-								end
-							end
-						end
-					end
-				end
-				
 			end
-			@lastcommit = commits.max.to_a[1]
 		else
 			@team_name = nil;
 		end
@@ -119,14 +73,10 @@ class Team
 	end
 
 	def printTeam
-		puts "\t#{@team_name} #{@lastcommit}"
+		puts "\t#{@team_name}"
 		@builds.each do |i|
 			i.printBuild
 		end
-	end
-
-	def commit
-		return @lastcommit
 	end
 
 	def getBuilds

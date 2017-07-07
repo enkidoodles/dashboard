@@ -2,7 +2,8 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,builds[number,changeSet[items[author[fullName]]]]],builds[number,changeSet[items[author[fullName]]]]]]"
+$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,lastBuild[timestamp,number,changeSet[items[author[fullName]]]]],lastBuild[timestamp,number,changeSet[items[author[fullName]]]]]]"
+
 class Cranch
 
 	def initialize(url)
@@ -54,7 +55,6 @@ class Team
 	def initialize(team_info)
 		@builds = Array.new
 		@team_name = team_info["name"];
-		@ref_number = 0
 		commits = Array.new
 		
 		if team_info["jobs"] != nil
@@ -64,24 +64,20 @@ class Team
 					@builds << tmp
 				end
 
-				z = nil
 				if build_info["jobs"] != nil
 					z = build_info["jobs"]
-					z.each do |x|
-						if x["builds"] != nil
-							x["builds"].each do |y|
-								@ref_number = @ref_number > y["number"] ? @ref_number : y["number"]
-								if y["changeSet"] != nil
-									a = y["changeSet"]
-									if a["items"] != nil
-										b = a["items"]
-										if b.to_a[-1] != nil
-											if b[-1]["author"] != nil
-												c = b[-1]["author"]
-												if c["fullName"] != nil
-													commits << [y["number"], c["fullName"]]
-													break
-												end
+					z.each do |sub_build|
+						if sub_build["lastBuild"] != nil
+							lastBuild = sub_build["lastBuild"]
+							if lastBuild["changeSet"] != nil
+								changeSet = lastBuild["changeSet"]
+								if changeSet["items"] != nil
+									items = changeSet["items"] 
+									if items.to_a[-1] != nil
+										if items.to_a[-1]["author"] != nil
+											author = items.to_a[-1]["author"]
+											if author["fullName"] != nil
+												commits << [lastBuild["timestamp"],author["fullName"]]
 											end
 										end
 									end
@@ -90,22 +86,18 @@ class Team
 						end
 					end
 				else
-					z = build_info
-
-					if z["builds"] != nil
-						z["builds"].each do |y|
-							@ref_number = @ref_number > y["number"] ? @ref_number : y["number"]
-							if y["changeSet"] != nil
-								a = y["changeSet"]
-								if a["items"] != nil
-									b = a["items"]
-									if b.to_a[-1] != nil
-										if b[-1]["author"] != nil
-											c = b[-1]["author"]
-											if c["fullName"] != nil
-												commits << [y["number"], c["fullName"]]
-												break
-											end
+					sub_build = build_info
+					if sub_build["lastBuild"] != nil
+						lastBuild = sub_build["lastBuild"]
+						if lastBuild["changeSet"] != nil
+							changeSet = lastBuild["changeSet"]
+							if changeSet["items"] != nil
+								items = changeSet["items"] 
+								if items.to_a[-1] != nil
+									if items.to_a[-1]["author"] != nil
+										author = items.to_a[-1]["author"]
+										if author["fullName"] != nil
+											commits << [lastBuild["timestamp"],author["fullName"]]
 										end
 									end
 								end
@@ -115,7 +107,8 @@ class Team
 				end
 				
 			end
-			@lastcommit = commits.max[1]
+			@lastcommit = commits.max.to_a[1]
+			puts "#{@team_name} #{@lastcommit}"
 		else
 			@team_name = nil;
 		end
@@ -126,10 +119,14 @@ class Team
 	end
 
 	def printTeam
-		puts "\t#{@team_name} #{@ref_number} #{@lastcommit}"
+		puts "\t#{@team_name} #{@lastcommit}"
 		@builds.each do |i|
 			i.printBuild
 		end
+	end
+
+	def commit
+		return @lastcommit
 	end
 
 	def getBuilds
@@ -180,5 +177,5 @@ class Build
 	end
 end
 
-Airphone = Cranch.new("http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/5G17_PROD/job/AIRPHONE/")
+Airphone = Cranch.new("http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/MASTER_DEV/job/AIRPHONE/")
 Airphone.printBranch
