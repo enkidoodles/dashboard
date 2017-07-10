@@ -24,14 +24,8 @@
           <%= f.label :password %>
           <%= f.password_field :password, autocomplete: "off" %>
         </div>
-        
-        <center><% if devise_mapping.rememberable? -%>
-          <div class="form-group">
-            <%= f.check_box :remember_me %> Remember me
-          </div>
-        <% end -%>
 
-        <div class="form-check" id="loginbutton">
+        <center><div class="form-check" id="loginbutton">
            <%= f.submit "Log in" , :class => "btn btn-secondary"%>
         </div></center>
          
