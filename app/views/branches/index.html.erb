@@ -40,7 +40,7 @@
     @@cranches.clear
   end
   if @branches.empty? || @branches.nil?
-    sleep(10)
+    @branches = Branch.all
   end
   @@cranches = Array.new
   @branches.each do |k|
