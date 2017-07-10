@@ -33,116 +33,45 @@
 
 <!--<%= link_to 'New Branch', new_branch_path %>-->
 
+
 <% else %>
-
-<%
-  if defined? @@cranches
-    @@cranches.clear
-  end
-  if @branches.empty? || @branches.nil?
-    @branches = Branch.all
-  end
-  @@cranches = Array.new
-  @branches.each do |k|
-    tmp = Cranch.new(k.branch_json_url)
-    unless tmp.nil?
-      @@cranches << tmp
-    end
-  end
-%>
-
-<div class="carousel slide" data-ride="carousel" data-interval="20000" data-pause="false">
-  <div class="carousel-inner">
-  <% @@cranches.each_with_index do |branch, index| %>
-
-    <% if branch == @@cranches.first %>
-      <div class="carousel-item active flex-wrap">
-    <% else %>
-      <div class="carousel-item flex-wrap">
-    <% end %>
-
-        <nav class="navbar text-center w-100">
-          <h1 class="display-3">{ <%= @branches.to_a[index].name %> }</h1>
-        </nav>
-        <div class="row w-100 justify-content-center m-0 p-4">
-          
-          <% branch.getTeams.each do |i| %>
-          
-            <div class="card">
-
-              <% 
-                n = d = 0 
-                i.getBuilds.each do |j|
-                  n += j.getInfo[2]
-                  d += j.getInfo[3]
-                end
-              %>
-
-              <% if 10 * n < 7 * d %>
-                <div class="card-header card-header-danger">
-              <% else %>
-                <div class="card-header card-header-success">
-              <% end %>
-              
-                  <h4 class="d-flex justify-content-between"><%= i.name %>
-
-                    <% if 10 * n < 7 * d %>
-                      <i class="fa fa-times"></i>
-                    <% else %>
-                      <i class="fa fa-check"></i>
-                    <% end %>
-                  </h4>
-              </div>
-
-                <div class="card-block ">
-
-                <% i.getBuilds.each do |j| %>
-                  <p class="card-text d-flex justify-content-between"><%= j.getInfo[0] %>
-                  <% if j.getInfo[3] == 1 %>
-                    <% if j.getInfo[1] == "blue" %>
-                      <i class="fa fa-check-circle"></i>
-                    <% elsif j.getInfo[1] == "red" %>
-                      <i class="fa fa-times-circle"></i>
-                    <% else %>
-                      <i class="fa fa-warning"></i>
-                    <% end %>
-                  <% else %>
-                    <span><%= j.getInfo[2] %>/<%= j.getInfo[3] %></span>
-                  <% end %>
-                  </p>
-                <% end %>
-              </div>
-
-              <% if 10 * n < 7 * d %>
-                <div class="card-footer card-header-danger">
-              <% else %>
-                <div class="card-footer card-header-success">
-              <% end %>
-
-                <% if i.commit != nil %>
-                  Last commit by: <br><b><%= i.commit %></b>
-                <% else %>
-                  Last commit by: <br><b>Nokia</b>
-                <% end %>
-              </div>
-            </div>
-          
-          <% end %>
-        
-        </div>
-      </div>
-  
-  <% end %>
-  </div>
+<div class="content carousel slide" data-ride="carousel" data-interval="20000" data-pause="false" id="dashes">
 </div>
 
+<footer>
+</footer>
 <script type="text/javascript">
-  setInterval(
-    function()
-    {
-      window.location.reload();
-    }, <%= (@@cranches.size * 20000) + 60000 %>
-  );
+  $.ajax({
+          'type': 'GET',
+          'url': 'branches/updates',
+          'dataType': 'html',
+          'success': function(response)
+           {
+               $("#dashes").html(response);
+               console.log(response);
+           },
+           'error': function(errorThrown)
+           {
+             console.log('Error on saving appointment:', errorThrown);    
+           }
+        });
+  setInterval(function(){
+
+      $.ajax({
+          'type': 'GET',
+          'url': 'branches/updates',
+          'dataType': 'html',
+          'success': function(response)
+           {
+               $("#dashes").html(response);
+               console.log(response);
+           },
+           'error': function(errorThrown)
+           {
+             console.log('Error on saving appointment:', errorThrown);    
+           }
+        });
+  }, 60000);
 </script>
 
 <% end %>
@@ -156,3 +85,5 @@
     crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
     crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="js/captcha/jquery.clientsidecaptcha.js" type="text/javascript"></script>

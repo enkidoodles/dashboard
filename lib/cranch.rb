@@ -6,7 +6,7 @@ $AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,last
 
 class Cranch
 
-	def initialize(url)
+	def initialize(url, name)
 		@teams = Array.new
 		@branch_url = url + $AccessTree
 		uri = URI.parse(@branch_url)
@@ -14,7 +14,7 @@ class Cranch
 
 		if response[0] == '{'
 			parsed = JSON.parse(response)
-			@branch_name = parsed["name"];
+			@branch_name = name;
 			
 			parsed["jobs"].each do |team_info|
 				tmp = Team.new(team_info)
