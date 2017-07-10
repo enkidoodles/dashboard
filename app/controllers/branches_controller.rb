@@ -2,6 +2,7 @@ class BranchesController < ApplicationController
   require 'cranch'
   before_action :authenticate_user!, :except => [:show, :index]
   before_action :set_branch, only: [:show, :edit, :update, :destroy]
+  respond_to :html :js
   # GET /branches
   # GET /branches.json
 
