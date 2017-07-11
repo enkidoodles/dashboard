@@ -1,7 +1,8 @@
 class BranchesController < ApplicationController
   require 'cranch'
-  before_action :authenticate_user!, :except => [:show, :index]
+  before_action :authenticate_user!, :except => [:show, :index, :updates]
   before_action :set_branch, only: [:show, :edit, :update, :destroy]
+  respond_to :html, :js
   # GET /branches
   # GET /branches.json
 
@@ -16,6 +17,9 @@ class BranchesController < ApplicationController
   def show
   end
 
+  def ayyyy
+  end
+
   # GET /branches/new
   def new
     @branch = Branch.new
@@ -23,6 +27,13 @@ class BranchesController < ApplicationController
 
   # GET /branches/1/edit
   def edit
+  end
+
+  def updates
+    @branches = Branch.all
+    respond_to do |format|
+      format.js
+    end
   end
 
   # POST /branches

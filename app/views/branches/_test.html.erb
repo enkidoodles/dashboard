@@ -3,6 +3,9 @@
   if defined? @@cranches
     @@cranches.clear
   end
+  if @branches.empty? || @branches.nil?
+    @branches = Branch.all
+  end
   @@cranches = Array.new
   @branches.each do |k|
     tmp = Cranch.new(k.branch_json_url)
@@ -12,7 +15,7 @@
   end
 %>
 
-<div class="content carousel slide" data-ride="carousel" data-interval="20000" data-wrap="false">
+<div class="carousel slide" data-ride="carousel" data-interval="20000" data-pause="false">
   <div class="carousel-inner">
   <% @@cranches.each_with_index do |branch, index| %>
 
@@ -22,8 +25,8 @@
       <div class="carousel-item flex-wrap">
     <% end %>
 
-        <nav class="navbar navbar-inverse text-center bg-primary w-100">
-          <h1 class="display-4"><%= @branches.to_a[index].name %></h1>
+        <nav class="navbar text-center w-100">
+          <h1 class="display-3">{ <%= @branches.to_a[index].name %> }</h1>
         </nav>
         <div class="row w-100 justify-content-center m-0 p-4">
           
@@ -55,7 +58,8 @@
                   </h4>
               </div>
 
-              <div class="card-block">
+                <div class="card-block ">
+
                 <% i.getBuilds.each do |j| %>
                   <p class="card-text d-flex justify-content-between"><%= j.getInfo[0] %>
                   <% if j.getInfo[3] == 1 %>
@@ -72,8 +76,18 @@
                   </p>
                 <% end %>
               </div>
-              <div class="card-footer text-muted">
-                  Last commit by: <b>Nokia</b>
+
+              <% if 10 * n < 7 * d %>
+                <div class="card-footer card-header-danger">
+              <% else %>
+                <div class="card-footer card-header-success">
+              <% end %>
+
+                <% if i.commit != nil %>
+                  Last commit by: <br><b><%= i.commit %></b>
+                <% else %>
+                  Last commit by: <br><b>Nokia</b>
+                <% end %>
               </div>
             </div>
           
@@ -86,22 +100,14 @@
   </div>
 </div>
 
-</div>
-
-<!--JQuery, Bootstrap JS-->
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-    crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
-    crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-    crossorigin="anonymous"></script>
-
-
 <script type="text/javascript">
   setInterval(
     function()
     {
       window.location.reload();
-    }, <%= @@cranches.size * 20000 %>
+    }, <%= (@@cranches.size * 20000) + 60000 %>
   );
 </script>
+
+
+</div>

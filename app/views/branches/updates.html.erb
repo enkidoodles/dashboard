@@ -1,0 +1,85 @@
+
+<% cranches = init_branches %>
+
+<div class="carousel-inner">
+<% cranches.each do |branch| %>
+
+  <% if branch == cranches.first %>
+    <div class="carousel-item active flex-wrap">
+  <% else %>
+    <div class="carousel-item flex-wrap">
+  <% end %>
+
+      <nav class="navbar text-center w-100">
+        <h1 class="display-3">{ <%= branch.name %> }</h1>
+      </nav>
+      <div class="row w-100 justify-content-center m-0 p-4">
+        
+        <% branch.getTeams.each do |i| %>
+        
+          <div class="card">
+
+            <% 
+              n = d = 0 
+              i.getBuilds.each do |j|
+                n += j.getInfo[2]
+                d += j.getInfo[3]
+              end
+            %>
+
+            <% if 10 * n < 7 * d %>
+              <div class="card-header card-header-danger">
+            <% else %>
+              <div class="card-header card-header-success">
+            <% end %>
+            
+                <h4 class="d-flex justify-content-between"><%= i.name %>
+
+                  <% if 10 * n < 7 * d %>
+                    <i class="fa fa-times"></i>
+                  <% else %>
+                    <i class="fa fa-check"></i>
+                  <% end %>
+                </h4>
+            </div>
+
+              <div class="card-block ">
+
+              <% i.getBuilds.each do |j| %>
+                <p class="card-text d-flex justify-content-between"><%= j.getInfo[0] %>
+                <% if j.getInfo[3] == 1 %>
+                  <% if j.getInfo[1] == "blue" %>
+                    <i class="fa fa-check-circle"></i>
+                  <% elsif j.getInfo[1] == "red" %>
+                    <i class="fa fa-times-circle"></i>
+                  <% else %>
+                    <i class="fa fa-warning"></i>
+                  <% end %>
+                <% else %>
+                  <span><%= j.getInfo[2] %>/<%= j.getInfo[3] %></span>
+                <% end %>
+                </p>
+              <% end %>
+            </div>
+
+            <% if 10 * n < 7 * d %>
+              <div class="card-footer card-header-danger">
+            <% else %>
+              <div class="card-footer card-header-success">
+            <% end %>
+
+              <% if i.commit != nil %>
+                Last commit by: <br><b><%= i.commit %></b>
+              <% else %>
+                Last commit by: <br><b>Nokia</b>
+              <% end %>
+            </div>
+          </div>
+        
+        <% end %>
+      
+      </div>
+    </div>
+
+<% end %>
+</div>
