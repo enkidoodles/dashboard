@@ -38,7 +38,7 @@
 <div class="content carousel slide" data-ride="carousel" data-interval="20000" data-pause="false" id="dashes">
 </div>
 
-<footer>
+<footer><p id="loading" class="loading" style="color: #fff;">Loading</p>
 </footer>
 <script type="text/javascript">
   $.ajax({
@@ -48,7 +48,7 @@
           'success': function(response)
            {
                $("#dashes").html(response);
-               console.log('Success');
+               $("#loading").hide()
            },
            'error': function(errorThrown)
            {
@@ -73,6 +73,14 @@
            }
         });
   }, 120000);
+
+  $(document).ready(function () {
+    $(document).ajaxStart(function () {
+        $("#loading").show();
+    }).ajaxStop(function () {
+        $("#loading").hide();
+    });
+  });
 </script>
 
 <% end %>
