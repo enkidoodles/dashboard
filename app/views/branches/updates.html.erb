@@ -68,12 +68,9 @@
               <div class="card-footer card-header-success">
             <% end %>
 
-              <% if i.commit != nil %>
-                Last commit by: <br><b><%= i.commit %></b>
-              <% else %>
-                Last commit by: <br><b>Nokia</b>
-              <% end %>
-            </div>
+                Last commit by: <br><b><%= commiter(i.commit, branch.name) %></b>
+            
+              </div>
           </div>
         
         <% end %>

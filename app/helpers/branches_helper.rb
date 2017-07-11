@@ -10,4 +10,8 @@ module BranchesHelper
 		end
 		return cranches
 	end
+
+	def commiter(a, b)
+		return a.nil? ? b : a
+	end
 end
