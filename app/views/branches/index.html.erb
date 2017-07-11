@@ -48,11 +48,12 @@
           'success': function(response)
            {
                $("#dashes").html(response);
-               console.log(response);
+               console.log('Success');
            },
            'error': function(errorThrown)
            {
-             console.log('Error on saving appointment:', errorThrown);    
+            window.location.reload();
+             console.log('Error:', errorThrown);    
            }
         });
   setInterval(function(){
@@ -71,7 +72,7 @@
              console.log('Error on saving appointment:', errorThrown);    
            }
         });
-  }, 60000);
+  }, 120000);
 </script>
 
 <% end %>
