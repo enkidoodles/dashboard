@@ -48,7 +48,8 @@
           'success': function(response)
            {
                $("#dashes").html(response);
-               $("#loading").hide()
+               $("#loading").hide();
+               $("#0").addClass("active");
            },
            'error': function(errorThrown)
            {
@@ -64,8 +65,11 @@
           'dataType': 'html',
           'success': function(response)
            {
-               $("#dashes").html(response);
-               console.log('Success');
+              var cur = $(".active")[0].id;
+              $("#dashes").html(response);
+              $("#"+cur).addClass("active");
+
+
            },
            'error': function(errorThrown)
            {
@@ -94,5 +98,4 @@
     crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
     crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="js/captcha/jquery.clientsidecaptcha.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
