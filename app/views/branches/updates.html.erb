@@ -46,8 +46,10 @@
                     <i class="fa fa-check-circle"></i>
                   <% elsif j.getInfo[1] == "red" %>
                     <i class="fa fa-times-circle"></i>
-                  <% else %>
+                  <% elsif j.getInfo[1] == "yellow" %>
                     <i class="fa fa-warning"></i>
+                  <% else %>
+                    <i class="fa fa-ban"></i>
                   <% end %>
                 <% else %>
                   <span><%= j.getInfo[2] %>/<%= j.getInfo[3] %></span>
@@ -62,8 +64,10 @@
               <div class="card-footer card-header-success">
             <% end %>
 
-                Last commit by: <br><b><%= commiter(i.commit, branch.name) %></b>
-            
+                Last commit by: <br><b><%= commiter(i.commit[1], branch.name) %></b><br>
+                Last ID: <br><b><%= commiter(i.commit[3], "-") %></b><br>
+                Last commit message: <br><b><%= commiter(i.commit[2], "-") %></b>
+
               </div>
           </div>
         

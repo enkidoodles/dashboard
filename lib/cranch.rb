@@ -2,7 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,lastBuild[timestamp,number,changeSet[items[author[fullName]]]]],lastBuild[timestamp,number,changeSet[items[author[fullName]]]]]]"
+$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]],lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]]]"
 
 class Cranch
 
@@ -77,8 +77,10 @@ class Team
 									if items.to_a[-1] != nil
 										if items.to_a[-1]["author"] != nil
 											author = items.to_a[-1]["author"]
+											msg = items.to_a[-1]["msg"]
+											id = items.to_a[-1]["id"]
 											if author["fullName"] != nil
-												commits << [lastBuild["timestamp"],author["fullName"]]
+												commits << [lastBuild["timestamp"],author["fullName"], msg, id]
 											end
 										end
 									end
@@ -97,8 +99,10 @@ class Team
 								if items.to_a[-1] != nil
 									if items.to_a[-1]["author"] != nil
 										author = items.to_a[-1]["author"]
+										msg = items.to_a[-1]["msg"]
+										id = items.to_a[-1]["id"]
 										if author["fullName"] != nil
-											commits << [lastBuild["timestamp"],author["fullName"]]
+											commits << [lastBuild["timestamp"],author["fullName"], msg, id]
 										end
 									end
 								end
@@ -108,7 +112,7 @@ class Team
 				end
 				
 			end
-			@lastcommit = commits.max.to_a[1]
+			@lastcommit = commits.max.to_a
 		else
 			@team_name = nil;
 		end

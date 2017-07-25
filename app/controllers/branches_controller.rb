@@ -42,10 +42,6 @@ class BranchesController < ApplicationController
     @branch = Branch.new(branch_params)
     respond_to do |format|
         if @branch.save
-          tmp = Cranch.new(@branch.branch_json_url)
-          unless tmp.nil?
-            @@cranches << tmp
-          end
           format.html { redirect_to @branch, notice: 'Branch was successfully created.' }
           format.json { render :show, status: :created, location: @branch }
         else
