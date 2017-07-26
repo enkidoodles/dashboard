@@ -58,9 +58,8 @@ nav.navbar h1 {
 }
 
 .card-footer b{
-    font-size: 1.2em;
+    font-size: 1em;
 }
-
 
 /* ---------------------------- Card Header Background --------------------------------*/
 
@@ -133,21 +132,11 @@ footer{
 
 @media screen and (min-width: 992px) {
     .card {
-        flex: 0 0 29%;
+        flex: 0 0 33%;
+        margin: 10px 0;
     }
 }
 
-@media screen and (min-width: 1280px) {
-    .card {
-        flex: 0 0 23%;
-    }
-}
-
-@media screen and (min-width: 1680px) {
-    .card {
-        flex: 0 0 18%;
-    }
-}
 
 
 /* ---------------------------- Loader --------------------------------*/
@@ -189,4 +178,56 @@ footer{
     text-shadow:
       .25em 0 0 white,
       .5em 0 0 white;}
+}
+
+/* ******************** Badges ******************** */
+
+
+.badge {
+    float: right;
+    font-family: "Courier New";
+    font-size: 1em;
+    background: #d1d1d1;
+    padding: 4px 6px;
+    border-radius: 0.25em;
+    color: #424242;
+}
+    
+.badge.badge-author {
+    font-family: default;
+}
+
+/* ******************** Commit Info ******************** */
+
+.commit-info {
+    display: block;
+    background: #e5e5e5;
+    padding: 4px 6px;
+    border-radius: 0.25em;
+    color: black;
+}
+
+/* ******************** Status ******************** */
+
+.passed p{
+    padding: 8px 8px;
+}
+
+.failed p{
+    background: #F2DEDE;
+    padding: 8px 8px;
+}
+
+.aborted p{
+    background: #f1f1f1;
+    padding: 8px 8px;
+}
+
+.unstable p{
+    background: #FCF8E3;
+    padding: 8px 8px;
+}
+
+.default p{
+    padding: 8px 8px;
 }
