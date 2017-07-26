@@ -6,7 +6,9 @@ $AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,last
 
 class Cranch
 
-	def initialize(url, name)
+	def initialize(url, name, disp, msg)
+		@display = disp
+		@message = msg
 		@teams = Array.new
 		@branch_url = url + $AccessTree
 		uri = URI.parse(@branch_url)
@@ -47,6 +49,15 @@ class Cranch
 	def name
 		return @branch_name
 	end
+
+	def display
+		return @display
+	end
+
+	def msg
+		return @message
+	end
+
 end
 
 

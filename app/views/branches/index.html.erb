@@ -15,24 +15,25 @@
   <table class="table table-hover table-default table-responsive" id="branches">
     <thead>
       <tr class="row-sm-6">
-        <th class="col-sm-6">Name</th>
-        <th class="col-sm-6">Branch json url</th>
+        <th class="col-sm-2">Name</th>
+        <th class="col-sm-4">Branch json url</th>
+        <th class="col-sm-4">Alert Message</th>
+        <th class="col-sm-2">Display on view?</th>
       </tr>
     </thead>
       <% @branches.each do |branch| %>
         <tr class="row-sm-6">
-          <td class="col-sm-6"><%= branch.name %></td>
-          <td class="col-sm-6"><%= branch.branch_json_url %></td>
-          <!--<td class="col-sm-6"><%= link_to 'Show', branch %></td>-->
-          <td class="col-sm-6"><%= link_to 'Edit', edit_branch_path(branch) %></td>
-          <td class="col-sm-6"><%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= branch.name %></td>
+          <td><%= branch.branch_json_url %></td>
+          <td><%= branch.alertMessage %></td>
+          <td><%= branch.displayAlert? %></td>
+          <td><%= link_to 'Edit', edit_branch_path(branch) %></td>
+          <td><%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
   </table>
 </div>
-
-<!--<%= link_to 'New Branch', new_branch_path %>-->
-
+<br><br>
 
 <% else %>
 <div class="content carousel slide" data-ride="carousel" data-interval="20000" data-pause="false" id="dashes">

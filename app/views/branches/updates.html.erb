@@ -11,6 +11,7 @@
       <% indx += 1 %>
       <% teamSet = branch.getTeams[i_team..(i_team+2)] %>
       <% i_team += 3 %>
+
       <!-- FRAME FOR EACH 4 -->
       <div class="carousel-item flex-wrap" id="<%= indx %>">
 
@@ -19,9 +20,15 @@
           <h1 class="display-3">{ <%= branch.name %> }</h1>
         </nav>
 
+        <!-- INSERT ALERT IF displayAlert IS TRUE -->
+          <% if branch.display %>
+            <nav class="navbar alertbar w-100" style="padding-top: 20px; padding-right: 20px; padding-left: 20px;">
+              <h3><span class="badge badge-alert">ALERT!</span> <%= branch.msg %></h3>
+            </nav>
+          <% end %>
         <!-- THIS DIV IS FOR ALL CARDS IN A FRAME -->
         <div class="row w-100 justify-content-around flex-nowrap m-0 p-4">
-      
+
           <!-- GO THROUGH EACH CARD -->
           <% teamSet.each do |i| %>
           

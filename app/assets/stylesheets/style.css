@@ -29,6 +29,12 @@ nav.navbar h1 {
     font-weight: 900;
 }
 
+nav.navbar.alertbar {
+    background: #1E2121 !important;
+    color: white !important;
+    display: block !important;
+}
+
 /* ---------------------------- Carousel Item --------------------------------*/
 
 .carousel-item{
@@ -132,7 +138,7 @@ footer{
 
 @media screen and (min-width: 992px) {
     .card {
-        flex: 0 0 33%;
+        flex: 0 0 30%;
         margin: 10px 0;
     }
 }
@@ -197,6 +203,12 @@ footer{
     font-family: default;
 }
 
+.badge.badge-alert{
+    float: none;
+    font-size: 29px !important;
+    background: yellow !important;
+    color: black !important;
+}
 /* ******************** Commit Info ******************** */
 
 .commit-info {
@@ -205,6 +217,10 @@ footer{
     padding: 4px 6px;
     border-radius: 0.25em;
     color: black;
+}
+
+.commit-info b{
+    font-size: 21px;
 }
 
 /* ******************** Status ******************** */
@@ -230,4 +246,38 @@ footer{
 
 .default p{
     padding: 8px 8px;
+}
+
+/* ******************** Overlay ******************** */
+
+.overlay-container{
+    position: relative;
+}
+
+.overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.overlay-content{
+    position: absolute;
+    top: 20%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 60%;
+    max-width: 596px;
+    background: #f9f9f9;
+    padding: 10px;
+}
+
+.overlay-text{
+    font-size: 1.2em;
+    color: #777;
+    text-transform: uppercase;
 }

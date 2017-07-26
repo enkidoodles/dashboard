@@ -22,6 +22,11 @@
       <%= f.text_area :branch_json_url , :class => "form-control"%>
     </div>
 
+    <div class="form-group">
+      <%= f.label "Alert Message" %>&emsp;<%= f.check_box :displayAlert %> Display this alert on view.
+      <%= f.text_field :alertMessage, :class => "form-control"%>
+    </div>
+
     <div class="row">
       <div class="col-sm-6" id="submitbutton">
         <%= f.submit :class => "btn btn-secondary"%>
