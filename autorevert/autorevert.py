@@ -1,1 +1,0 @@
-print("I am a not a programming language. I am a pseudocode.")
