@@ -36,60 +36,58 @@
 <br><br>
 
 <% else %>
-<div class="content carousel slide" data-ride="carousel" data-interval="20000" data-pause="false" id="dashes">
+<div class="content carousel slide" data-ride="carousel" data-interval="120000" data-pause="false" id="dashes">
 </div>
 
 <footer><p id="loading" class="loading" style="color: #fff;">Loading</p>
 </footer>
 <script type="text/javascript">
   $.ajax({
-          'type': 'GET',
-          'url': 'branches/updates',
-          'dataType': 'html',
-          'success': function(response)
-           {
-               $("#dashes").html(response);
-               $("#loading").hide();
-               $("#1").addClass("active");
-           },
-           'error': function(errorThrown)
-           {
-            window.location.reload();
-             console.log('Error:', errorThrown);    
-           }
-        });
+    'type': 'GET',
+    'url': 'branches/updates',
+    'dataType': 'html',
+    'success': function(response)
+    {
+      $("#dashes").html(response);
+      $("#loading").hide();
+      $("#1").addClass("active");
+    },
+    'error': function(errorThrown)
+    {
+      window.location.reload();
+      console.log('Error:', errorThrown);    
+    }
+  });
+
   setInterval(function(){
-
-      $.ajax({
-          'type': 'GET',
-          'url': 'branches/updates',
-          'dataType': 'html',
-          'success': function(response)
-           {
-              var cur = $(".active")[0].id;
-              $("#dashes").html(response);
-              $("#"+cur).addClass("active");
-
-
-           },
-           'error': function(errorThrown)
-           {
-             console.log('Error on saving appointment:', errorThrown);    
-           }
-        });
+    $.ajax({
+      'type': 'GET',
+      'url': 'branches/updates',
+      'dataType': 'html',
+      'success': function(response)
+      {
+        console.log("suces");
+        var cur = $(".active")[0].id;
+        $("#dashes").html(response);
+        $("#"+cur).addClass("active");
+      },
+      'error': function(errorThrown)
+      {
+        console.log('Error on update:', errorThrown);    
+      }
+    });
   }, 120000);
 
   $(document).ready(function () {
     $(document).ajaxStart(function () {
-        $("#loading").show();
+      $("#loading").show();
     }).ajaxStop(function () {
-        $("#loading").hide();
+      $("#loading").hide();
     });
   });
 </script>
 
 <% end %>
-
 
 </div>
 <!--JQuery, Bootstrap JS-->
