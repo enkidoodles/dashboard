@@ -36,7 +36,7 @@
 <br><br>
 
 <% else %>
-<div class="content carousel slide" data-ride="carousel" data-interval="120000" data-pause="false" id="dashes">
+<div class="content carousel slide" data-ride="carousel" data-interval="20000" data-pause="false" id="dashes">
 </div>
 
 <footer><p id="loading" class="loading" style="color: #fff;">Loading</p>
@@ -66,7 +66,6 @@
       'dataType': 'html',
       'success': function(response)
       {
-        console.log("suces");
         var cur = $(".active")[0].id;
         $("#dashes").html(response);
         $("#"+cur).addClass("active");
