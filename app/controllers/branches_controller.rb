@@ -17,9 +17,6 @@ class BranchesController < ApplicationController
   def show
   end
 
-  def ayyyy
-  end
-
   # GET /branches/new
   def new
     @branch = Branch.new
