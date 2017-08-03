@@ -3,7 +3,7 @@ module BranchesHelper
 		@branches = Branch.all
 		cranches = Array.new
 		@branches.each do |k|
-	    	tmp = Cranch.new(k.branch_json_url, k.name, k.displayAlert, k.alertMessage)
+	    	tmp = Branchdata.new(k.branch_json_url, k.name, k.displayAlert, k.alertMessage)
 	    	unless tmp.nil?
 	    		cranches << tmp
 	    	end

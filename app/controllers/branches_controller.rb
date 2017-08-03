@@ -1,5 +1,5 @@
 class BranchesController < ApplicationController
-  require 'cranch'
+  require 'branchdata'
   before_action :authenticate_user!, :except => [:show, :index, :updates]
   before_action :set_branch, only: [:show, :edit, :update, :destroy]
   respond_to :html, :js

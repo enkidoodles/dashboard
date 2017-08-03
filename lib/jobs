@@ -1,0 +1,71 @@
+{"_class"=>"com.cloudbees.hudson.plugins.folder.Folder", "name"=>"L1emu", 
+
+		"jobs"=>[
+
+			{"_class"=>"hudson.model.FreeStyleProject", "name"=>"AirPhone_L1Emu.RELEASE_CB", "color"=>"yellow",
+				"lastBuild"=>
+					{"_class"=>"hudson.model.FreeStyleBuild", "number"=>7, "timestamp"=>1501133624451,
+						changeSet"=>{
+							"_class"=>"org.jenkinsci.plugins.multiplescms.MultiSCMChangeLogSet",
+							"items"=>[
+								{"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"loren.alatan"}, "id"=>"a1ef72ac6dfc92ddc0978f1f35fac1d55acc8326", "msg"=>"Console BUILD master_dev"}, {"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"}, "id"=>"0f95d76c163f7dba1e447008a5f772949391f420", "msg"=>"Updating UT L2 scripts"},{"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"karen.valencia"}, "id"=>"21d549896589f02a69c8607124aed2e1a9443707", "msg"=>"L1Emu UT_MT_Coverage Test added"}
+							]
+						}
+					}
+			},
+
+			{"_class"=>"hudson.model.FreeStyleProject", "name"=>"CHECK", "color"=>"notbuilt", "lastBuild"=>nil},
+
+			{"_class"=>"hudson.model.FreeStyleProject", "name"=>"x86_64.UT_MT", "color"=>"red", 
+				"lastBuild"=>
+					{"_class"=>"hudson.model.FreeStyleBuild", "number"=>142, "timestamp"=>1501220359539, 
+						"changeSet"=>{
+							"_class"=>"org.jenkinsci.plugins.multiplescms.MultiSCMChangeLogSet", "items"=>[]
+						}
+					}
+			},
+
+			{"_class"=>"hudson.model.FreeStyleProject", "name"=>"x86_64.debian.BUILD", "color"=>"blue", 
+				"lastBuild"=>
+					{"_class"=>"hudson.model.FreeStyleBuild", "number"=>240, "timestamp"=>1501218913888, 
+						"changeSet"=>{
+							"_class"=>"org.jenkinsci.plugins.multiplescms.MultiSCMChangeLogSet",
+							"items"=>[
+								{"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"}, "id"=>"9202e0a912391398c7ece3b8dfc8cb008d2556a9", "msg"=>"updating coverity for L2"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"}, "id"=>"8c6be91bcc81322f09b3545bbf63dc1afa49bc46", "msg"=>"adding coverity html report"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"}, "id"=>"47d557c499b5c9a0eb5dca950cbec9730ec496e7", "msg"=>"Updating HZ server for html report"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"}, "id"=>"fc3750d6670f4c7aca42d70eb2985c1e4d65bd43", "msg"=>"adding git trigger to coverity"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"}, "id"=>"c90efb96ea635f33ea4c2c081e81e6151ee91bcd", "msg"=>"enabling --scm git in script"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet", "author"=>{"fullName"=>"loren.alatan"}, "id"=>"4924716cb36d409c6ea08184c49723f0fc8fcf0f", "msg"=>"L1emu test"}
+							]
+						}
+					}
+			},
+
+
+
+			{"_class"=>"hudson.model.FreeStyleProject","name"=>"x86_64.debian.COVERITY","color"=>"blue",
+				"lastBuild"=>{
+					"_class"=>"hudson.model.FreeStyleBuild", "number"=>161, "timestamp"=>1501218913891,
+						"changeSet"=>{
+							"_class"=>"org.jenkinsci.plugins.multiplescms.MultiSCMChangeLogSet",
+							"items"=>[
+								{"_class"=>"hudson.plugins.git.GitChangeSet",
+								"author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"},
+								"id"=>"9202e0a912391398c7ece3b8dfc8cb008d2556a9",
+								"msg"=>"updating coverity for L2"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet",
+								"author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"},
+								"id"=>"8c6be91bcc81322f09b3545bbf63dc1afa49bc46",
+								"msg"=>"adding coverity html report"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet","author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"},"id"=>"47d557c499b5c9a0eb5dca950cbec9730ec496e7","msg"=>"Updating HZ server for html report"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet","author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"},"id"=>"fc3750d6670f4c7aca42d70eb2985c1e4d65bd43","msg"=>"adding git trigger to coverity"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet","author"=>{"fullName"=>"Ison, Jan (Nokia - PH/Quezon City)"},"id"=>"c90efb96ea635f33ea4c2c081e81e6151ee91bcd", "msg"=>"enabling --scm git in script"},
+								{"_class"=>"hudson.plugins.git.GitChangeSet","author"=>{"fullName"=>"loren.alatan"},"id"=>"4924716cb36d409c6ea08184c49723f0fc8fcf0f","msg"=>"L1emu test"}
+							]
+						}
+				}
+			}
+		]
+
+	}

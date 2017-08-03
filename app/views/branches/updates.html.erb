@@ -1,126 +1,211 @@
-
-<% cranches = init_branches %>
+<% branches = init_branches %>
 
 <div class="carousel-inner">
-<% indx = 0 %>
-<% cranches.each do |branch| %>
 
-    <!-- LOOP THRU EACH 4 CARDS-->
-    <% i_team = 0 %>
-    <% while i_team < branch.getTeams.size %>
-      <% indx += 1 %>
-      <% teamSet = branch.getTeams[i_team..(i_team+2)] %>
-      <% i_team += 3 %>
+  <% slide = 0 %>
 
-      <!-- FRAME FOR EACH 4 -->
-      <div class="carousel-item flex-wrap" id="<%= indx %>">
+  <% branches.each do |branch| %>
 
-        <!-- TITLE PER FRAME -->
-        <nav class="navbar text-center w-100">
-          <h1 class="display-3">{ <%= branch.name %> }</h1>
-        </nav>
+      <% i_team = 0 %>
 
-        <!-- INSERT ALERT IF displayAlert IS TRUE -->
-          <% if branch.display %>
+      <% while i_team < branch.getJobCount %>
+
+        <% slide += 1 %>
+        <% jobset = branch.getJobs[i_team..(i_team+2)] %>
+        <% i_team += 3 %>
+
+        <div class="carousel-item flex-wrap" id="<%= slide %>">
+
+          <!-- Nav bar for branch name -->
+          <nav class="navbar text-center w-100">
+            <h1 class="display-3">{ <%= branch.name %> }</h1>
+          </nav>
+
+          <!-- Display alert -->
+          <% if branch.display == true %>
             <nav class="navbar alertbar w-100" style="padding-top: 20px; padding-right: 20px; padding-left: 20px;">
-              <h3><span class="badge badge-alert">ALERT!</span> <%= branch.msg %></h3>
+              <h3><span class="badge badge-alert">ALERT!</span> <%= branch.msg %> </h3>
             </nav>
           <% end %>
-        <!-- THIS DIV IS FOR ALL CARDS IN A FRAME -->
-        <div class="row w-100 justify-content-around flex-nowrap m-0 p-4">
 
-          <!-- GO THROUGH EACH CARD -->
-          <% teamSet.each do |i| %>
-          
-            <!-- DISPLAY CARD -->
-            <div class="card">
-              <% 
-                n = d = 0 
-                i.getBuilds.each do |j|
-                  n += j.getInfo[2]
-                  d += j.getInfo[3]
-                end
-              %>
-              <% if 10 * n < 7 * d %>
-                <div class="card-header card-header-danger">
-              <% else %>
-                <div class="card-header card-header-success">
-              <% end %>
-                  <h4 class="d-flex justify-content-between"><%= i.name %>
-                    <% if 10 * n < 7 * d %>
-                      <i class="fa fa-times"></i>
-                    <% else %>
-                      <i class="fa fa-check"></i>
-                    <% end %>
-                  </h4>
-              </div>
-                <div class="card-block ">
-                <% if not commiter(i.commit[1], "") == "" %> 
-                  <div class="commit-info">
-                    <b><%= commiter(i.commit[1], "")[0..15] %><%= commiter(i.commit[1], "").size > 16 ? "..." : ""  %></b> <small class="badge"><%= commiter(i.commit[3], "")[0..7] %></small><br>
-                    <%= commiter(i.commit[2], "") %>
-                  </div><p></p>
-                <% end %>
-                <% i.getBuilds.each do |j| %>
 
-                  <% if j.getInfo[3] == 1 %>
+          <div class="row w-100 justify-content-around flex-nowrap m-0 p-4">
+            
+            <% jobset.each do |job| %>
 
-                    <% if j.getInfo[1] == "blue" %>
-                      <span class="passed">
-                        <p class="card-text d-flex justify-content-between">
-                          <%= j.getInfo[0] %>
-                          <i class="fa fa-check-circle" style="padding-top: 5px;"></i>
-                        </p>
-                      </span>
-                    
-                    <% elsif j.getInfo[1] == "red" %>
-                      <span class="failed">
-                        <p class="card-text d-flex justify-content-between">
-                          <%= j.getInfo[0] %>
-                          <i class="fa fa-times-circle" style="padding-top: 5px;"></i>
-                        </p>
-                      </span>
-                    
-                    <% elsif j.getInfo[1] == "yellow" %>
-                      <span class="unstable">
-                        <p class="card-text d-flex justify-content-between">
-                          <%= j.getInfo[0] %>
-                          <i class="fa fa-warning" style="padding-top: 5px;"></i>
-                        </p>
-                      </span>
-                    
-                    <% else %>
-                      <span class="aborted">
-                        <p class="card-text d-flex justify-content-between">
-                          <%= j.getInfo[0] %>
-                          <i class="fa fa-ban" style="padding-top: 5px; color: #888;"></i>
-                        </p>
-                      </span>
+                  <div class="card">
 
-                    <% end %>
-                  
-                  <% else %>
-                    <span class="default">
-                      <p class="card-text d-flex justify-content-between"><%= j.getInfo[0] %>
-                        <span><%= j.getInfo[2] %>/<%= j.getInfo[3] %></span>
-                      </p>
-                    </span>
-                  <% end %>
-                <% end %>
-              </div>
-              <% if 10 * n < 7 * d %>
-                <div class="card-footer card-header-danger">
-              <% else %>
-                <div class="card-footer card-header-success">
-              <% end %>
-                </div>
-            </div>
-          <% end %> 
-      </div>
-      <!-- ALL CARDS END HERE  -->     
-    </div>
-     <!-- FRAME ENDS HERE -->
-     <% end %> 
-<% end %>
-<!-- CAROUSEL ENDS HERE -->
+                      <% latestJob = branch.getLatestJob(job["jobs"]) %>
+                      <% latestBuild = branch.getLatestBuild(job) %>
+                      <% subjobs = branch.getSubjobs(job) %>
+
+                      <% status = branch.status(subjobs) %>  
+
+                      <!-- CARD HEADER -->
+                      <% if status >= 0.7 %>
+                        <div class="card-header card-header-success">
+                          <h4 class="d-flex justify-content-between"><%= job["name"] %>
+                              <i class="fa fa-check"></i>
+                          </h4>
+                        </div>
+                      <% elsif status < 0.7 and status >= 0 %>
+                        <div class="card-header card-header-danger">
+                          <h4 class="d-flex justify-content-between"><%= job["name"] %>
+                              <i class="fa fa-times"></i>
+                          </h4>
+                        </div>
+                      <% else %>
+                        <div class="card-header card-header-success">
+                          <h4 class="d-flex justify-content-between"><%= job["name"] %>
+                              <i class="fa fa-ban"></i>
+                          </h4>
+                        </div>
+                      <% end %>
+
+                      <!-- CARD BODY -->
+                      <div class="card-block ">
+
+                      <!-- Display latest build -->
+                        <% if latestBuild.nil? %>
+
+                          <div class="build-info" style="border-radius: 0.25em">
+                            <div style="text-align: center; font-size: 21px;">NO RECENT BUILDS</div>
+                          </div><p></p>
+
+                        <% else %>
+
+                          <% latestCommit = branch.getLatestCommit(latestBuild) %>
+                          <div class="build-info d-flex justify-content-between mb-0" style="border-top-left-radius: 0.25em; border-top-right-radius: 0.25em;">
+                            <b>BUILD#<%= latestBuild["number"]%></b>
+                            <b><%= latestJob["name"]%></b>
+                          </div>
+                          <% if not latestCommit.nil? %>
+                            <div class="commit-info mb-0">
+                              <b><%= latestCommit["author"]["fullName"][0..15] %><%= latestCommit["author"]["fullName"].size > 16 ? "..." : ""  %></b>
+                              <small class="badge"><%= latestCommit["id"][0..7] %></small><br>
+                              <%= latestCommit["msg"] %>
+                            </div>
+                          <% else %>
+                            <div class="commit-info mb-0" style="text-align: center;">
+                              NO RECENT CHANGES
+                            </div>
+                          <% end %>
+                          <div class="d-flex justify-content-around mb-3" style="border-bottom-left-radius: 0.25em; border-bottom-right-radius: 0.25em; background: #e0e0e0;">
+                            Last build on <%= Time.at(latestBuild["timestamp"]*0.001).to_datetime.strftime("%I:%M%p - %b %d, %Y (%a)") %>
+                          </div>
+                          
+                        <% end %>
+
+                        <% if not subjobs.nil? %>
+                          <% subjobs.each do |subjob| %>
+                            <% if subjob["color"] == "notbuilt" %>
+                            <% elsif subjob["color"] == "blue" %>
+                              <span class="passed">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-check-circle" style="padding-top: 5px;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "blue_anime" %>
+                              <span class="passed">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "red" %>
+                              <span class="failed">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-times-circle" style="padding-top: 5px;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "red_anime" %>
+                              <span class="failed">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "yellow" %>
+                              <span class="unstable">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-warning" style="padding-top: 5px;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "yellow_anime" %>
+                              <span class="unstable">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "grey" %>
+                              <span class="aborted">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-hand-paper-o " style="padding-top: 5px; color: #888;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "grey_anime" %>
+                              <span class="aborted">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px; color: #888;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "aborted" %>
+                              <span class="aborted">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-ban" style="padding-top: 5px; color: #888;"></i>
+                                </p>
+                              </span>
+                            <% elsif subjob["color"] == "aborted_anime" %>
+                              <span class="aborted">
+                                <p class="card-text d-flex justify-content-between">
+                                  <%= subjob["name"] %>
+                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px; color: #888;"></i>
+                                </p>
+                              </span>
+                            <% else %>
+
+                                <% if not subjob["jobs"].nil? %>
+                                  
+                                  <% folderStatus = branch.status(subjob["jobs"]) %>
+                                  <% if folderStatus >= 0.7 %>
+                                    <span class="passed">
+                                  <% elsif folderStatus < 0.7 and folderStatus >= 0 %>
+                                    <span class="failed">
+                                  <% else %>
+                                    <span class="passed"
+                                  <% end %>
+
+                                      <p class="card-text d-flex justify-content-between">
+                                        <%= subjob["name"] %>
+                                        <i class="fa fa-folder" style="padding-top: 5px; color: #888;"></i>
+                                      </p>
+                                    </span>
+
+                                <% end %>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+
+                      </div>
+                      <% if status >= 0.7 %>
+                        <div class="card-footer card-header-success">
+                      <% elsif status < 0.7 and status >= 0 %>
+                        <div class="card-footer card-header-danger">
+                      <% else %>
+                        <div class="card-footer card-header-success">
+                      <% end %>
+                      </div>
+                  </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+  <% end %>
 </div>

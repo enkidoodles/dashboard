@@ -109,8 +109,8 @@ nav.navbar.alertbar {
 
 /* ---------------------------- Icon Colors --------------------------------*/
 footer{
-    margin-top: -50px;
-    height: 50px;
+    margin-top: -20px;
+    height: 20px;
     background: #000;
 }
 
@@ -193,10 +193,10 @@ footer{
     float: right;
     font-family: "Courier New";
     font-size: 1em;
-    background: #d1d1d1;
+    background: #d3d3d3;
     padding: 4px 6px;
     border-radius: 0.25em;
-    color: #424242;
+    color: black;
 }
     
 .badge.badge-author {
@@ -213,9 +213,8 @@ footer{
 
 .commit-info {
     display: block;
-    background: #e5e5e5;
-    padding: 4px 6px;
-    border-radius: 0.25em;
+    background: #ededed;
+    padding: 8px 10px;
     color: black;
 }
 
@@ -223,29 +222,42 @@ footer{
     font-size: 21px;
 }
 
+/* ******************** Build Info ******************** */
+
+.build-info {
+    display: block;
+    background: #e0e0e0;
+    padding: 4px 6px;
+    color: #424242;
+}
+
+.build-info b{
+    font-size: 18px;
+}
+
 /* ******************** Status ******************** */
 
 .passed p{
-    padding: 8px 8px;
+    padding: 5px 5px;
 }
 
 .failed p{
     background: #F2DEDE;
-    padding: 8px 8px;
+    padding: 5px 5px;
 }
 
 .aborted p{
     background: #f1f1f1;
-    padding: 8px 8px;
+    padding: 5px 5px;
 }
 
 .unstable p{
     background: #FCF8E3;
-    padding: 8px 8px;
+    padding: 5px 5px;
 }
 
 .default p{
-    padding: 8px 8px;
+    padding: 5px 5px;
 }
 
 /* ******************** Overlay ******************** */
@@ -281,3 +293,36 @@ footer{
     color: #777;
     text-transform: uppercase;
 }
+
+@-moz-keyframes spin {
+    to { -moz-transform: rotate(359deg); }
+}
+@-webkit-keyframes spin {
+    to { -webkit-transform: rotate(359deg); }
+}
+@keyframes spin {
+    to {transform:rotate(359deg);}
+}
+
+.spin {
+    animation: spin 1000ms linear infinite;
+}
+
+api/json?tree=name,
+
+
+jobs[
+    name,
+    color,
+    jobs[
+        name,
+        color,
+        jobs[
+            name,
+            color,
+            lastBuild[
+                timestamp,
+                number,
+                changeSet[items[msg,id,author[fullName]]]]],
+                lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]
+        ]

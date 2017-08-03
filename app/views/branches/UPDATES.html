@@ -1,0 +1,126 @@
+
+<% cranches = init_branches %>
+
+<div class="carousel-inner">
+<% indx = 0 %>
+<% cranches.each do |branch| %>
+
+    <!-- LOOP THRU EACH 4 CARDS-->
+    <% i_team = 0 %>
+    <% while i_team < branch.getTeams.size %>
+      <% indx += 1 %>
+      <% teamSet = branch.getTeams[i_team..(i_team+2)] %>
+      <% i_team += 3 %>
+
+      <!-- FRAME FOR EACH 4 -->
+      <div class="carousel-item flex-wrap" id="<%= indx %>">
+
+        <!-- TITLE PER FRAME -->
+        <nav class="navbar text-center w-100">
+          <h1 class="display-3">{ <%= branch.name %> }</h1>
+        </nav>
+
+        <!-- INSERT ALERT IF displayAlert IS TRUE -->
+          <% if branch.display %>
+            <nav class="navbar alertbar w-100" style="padding-top: 20px; padding-right: 20px; padding-left: 20px;">
+              <h3><span class="badge badge-alert">ALERT!</span> <%= branch.msg %></h3>
+            </nav>
+          <% end %>
+        <!-- THIS DIV IS FOR ALL CARDS IN A FRAME -->
+        <div class="row w-100 justify-content-around flex-nowrap m-0 p-4">
+
+          <!-- GO THROUGH EACH CARD -->
+          <% teamSet.each do |i| %>
+          
+            <!-- DISPLAY CARD -->
+            <div class="card">
+              <% 
+                n = d = 0 
+                i.getBuilds.each do |j|
+                  n += j.getInfo[2]
+                  d += j.getInfo[3]
+                end
+              %>
+              <% if 10 * n < 7 * d %>
+                <div class="card-header card-header-danger">
+              <% else %>
+                <div class="card-header card-header-success">
+              <% end %>
+                  <h4 class="d-flex justify-content-between"><%= i.name %>
+                    <% if 10 * n < 7 * d %>
+                      <i class="fa fa-times"></i>
+                    <% else %>
+                      <i class="fa fa-check"></i>
+                    <% end %>
+                  </h4>
+              </div>
+                <div class="card-block ">
+                <% if not commiter(i.commit[1], "") == "" %> 
+                  <div class="commit-info">
+                    <b><%= commiter(i.commit[1], "")[0..15] %><%= commiter(i.commit[1], "").size > 16 ? "..." : ""  %></b> <small class="badge"><%= commiter(i.commit[3], "")[0..7] %></small><br>
+                    <%= commiter(i.commit[2], "") %>
+                  </div><p></p>
+                <% end %>
+                <% i.getBuilds.each do |j| %>
+
+                  <% if j.getInfo[3] == 1 %>
+
+                    <% if j.getInfo[1] == "blue" %>
+                      <span class="passed">
+                        <p class="card-text d-flex justify-content-between">
+                          <%= j.getInfo[0] %>
+                          <i class="fa fa-check-circle" style="padding-top: 5px;"></i>
+                        </p>
+                      </span>
+                    
+                    <% elsif j.getInfo[1] == "red" %>
+                      <span class="failed">
+                        <p class="card-text d-flex justify-content-between">
+                          <%= j.getInfo[0] %>
+                          <i class="fa fa-times-circle" style="padding-top: 5px;"></i>
+                        </p>
+                      </span>
+                    
+                    <% elsif j.getInfo[1] == "yellow" %>
+                      <span class="unstable">
+                        <p class="card-text d-flex justify-content-between">
+                          <%= j.getInfo[0] %>
+                          <i class="fa fa-warning" style="padding-top: 5px;"></i>
+                        </p>
+                      </span>
+                    
+                    <% else %>
+                      <span class="aborted">
+                        <p class="card-text d-flex justify-content-between">
+                          <%= j.getInfo[0] %>
+                          <i class="fa fa-ban" style="padding-top: 5px; color: #888;"></i>
+                        </p>
+                      </span>
+
+                    <% end %>
+                  
+                  <% else %>
+                    <span class="default">
+                      <p class="card-text d-flex justify-content-between"><%= j.getInfo[0] %>
+                        <span><%= j.getInfo[2] %>/<%= j.getInfo[3] %></span>
+                      </p>
+                    </span>
+                  <% end %>
+                <% end %>
+              </div>
+              <% if 10 * n < 7 * d %>
+                <div class="card-footer card-header-danger">
+              <% else %>
+                <div class="card-footer card-header-success">
+              <% end %>
+                </div>
+            </div>
+          <% end %> 
+      </div>
+      <!-- ALL CARDS END HERE  -->     
+    </div>
+     <!-- FRAME ENDS HERE -->
+     <% end %> 
+<% end %>
+<!-- CAROUSEL ENDS HERE -->
+</div>
