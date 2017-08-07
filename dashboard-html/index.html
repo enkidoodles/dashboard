@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Carousel Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="carousel slide h-100">
+        <div class="carousel-inner h-100" role="listbox">
+            <div class="carousel-item h-100 active">
+                <div class="wrapper">
+                    <aside id="health" class="card-inverse">
+                        <div style="max-height: 250px;">
+                            <canvas id="doughnutChart1"></canvas>
+                            <input type="hidden" id="success" value="60"></input>
+                            <input type="hidden" id="fail" value="28"></input>
+                            <input type="hidden" id="unstable" value="12"></input>
+                        </div>
+                        <span class="d-block text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat
+                                        a ante.</span>
+                        <div class="h-100">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>20%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar bg-danger" style="width: 20%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>40%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar bg-warning" style="width: 40%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>60%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar bg-success" style="width: 60%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>80%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar bg-info" style="width: 80%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>100%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 100%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                    <nav id="main-nav" class="navbar navbar-inverse">
+                        <button class="navbar-toggler navbar-toggler-left" type="button">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        <h1 class="mb-0 text-white text-center">[ Branch 1 ]</h1>
+                    </nav>
+                    <main id="branch" class="container-fluid mt-2 mb-2">
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                        </div>
+                        <section class="row">
+                            <article id="builds" class="col-md-8 col-xl-10">
+                                <div class="card-deck flex-nowrap overflow-hidden">
+                                    <div class="card border-0 mb-2 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            <i class="fa fa-folder-open"></i> L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <h5 class="text-center">Build#36 - x86_64.debian.BUILD</h5>
+                                            <div class="alert alert-info mb-0">
+                                                <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                                <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                            </div>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between bg-success text-white" style="font-size: 18px;">
+                                                Cras justo odio
+                                                <i class="fa fa-check"></i></li>
+                                            <li class="list-group-item justify-content-between bg-danger text-white" style="font-size: 18px;">
+                                                Cras justo odio
+                                                <i class="fa fa-times"></i></li>
+                                            <li class="list-group-item justify-content-between bg-warning text-white" style="font-size: 18px;">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-exclamation-triangle"></i></li>
+                                            <li class="list-group-item justify-content-between bg-info text-white" style="font-size: 18px;">
+                                                Vestibulum at eros
+                                                <i class="fa fa-spin fa-circle-o-notch"></i></li>
+                                            <li class="list-group-item justify-content-between bg-black text-white" style="font-size: 18px;">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-ban"></i></li>
+                                            <li class="list-group-item justify-content-between bg-faded" style="font-size: 18px;">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-folder text-muted"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 mb-2 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            <i class="fa fa-folder-open"></i> L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <h5 class="text-center">Build#36 - x86_64.debian.BUILD</h5>
+                                            <div class="alert alert-info mb-0">
+                                                <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                                <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                            </div>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between text-success" style="font-size: 18px;">
+                                                Cras justo odio
+                                                <i class="fa fa-check"></i></li>
+                                            <li class="list-group-item justify-content-between text-danger" style="font-size: 18px;">
+                                                Cras justo odio
+                                                <i class="fa fa-times"></i></li>
+                                            <li class="list-group-item justify-content-between text-warning" style="font-size: 18px;">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-exclamation-triangle"></i></li>
+                                            <li class="list-group-item justify-content-between text-primary" style="font-size: 18px;">
+                                                Vestibulum at eros
+                                                <i class="fa fa-spin fa-circle-o-notch"></i></li>
+                                            <li class="list-group-item justify-content-between text-muted" style="font-size: 18px;">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-ban"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <article id="projects" class="col-md-4 col-xl-2">
+                                <ul class="list-group list-group-flush overflow-hidden">
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i>
+                                        <div class="">
+                                            <h5 class="mb-0">Cras justo odio</h5>
+                                            <small>Donec id elit non mi porta.</small>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-times-circle text-red"></i>
+                                        <div class="">
+                                            <h5 class="mb-0">Cras justo odio</h5>
+                                            <small>Donec id elit non mi porta.</small>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-exclamation-triangle text-yellow"></i>
+                                        <div class="">
+                                            <h5 class="mb-0">Cras justo odio</h5>
+                                            <small>Donec id elit non mi porta.</small>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-spin fa-circle-o-notch text-primary"></i>
+                                        <div class="">
+                                            <h5 class="mb-0">Cras justo odio</h5>
+                                            <small>Donec id elit non mi porta.</small>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-ban text-blackgo"></i>
+                                        <div class="">
+                                            <h5 class="mb-0">Cras justo odio</h5>
+                                            <small>Donec id elit non mi porta.</small>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </article>
+                        </section>
+                    </main>
+                </div>
+            </div>
+            <!-- <div class="carousel-item h-100">
+                <div class="wrapper">
+                    <aside id="health" class="card-inverse">
+                        <div style="max-height: 250px;">
+                            <canvas id="doughnutChart2"></canvas>
+                        </div>
+                        <span class="d-block text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat
+                                        a ante.</span>
+                        <div class="h-100">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                    <nav id="main-nav" class="navbar navbar-inverse">
+                        <button class="navbar-toggler navbar-toggler-left" type="button">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        <h1 class="mb-0 text-white text-center">{ Branch 2 }</h1>
+                    </nav>
+                    <main id="branch" class="container-fluid mt-2 mb-2">
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                        </div>
+                        <section class="row">
+                            <article id="builds" class="col-md-8 col-xl-10">
+                                <div class="card-deck flex-nowrap overflow-hidden">
+                                    <div class="card border-0 mb-2 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                            <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                            <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                            <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                            <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <article id="projects" class="col-md-4 col-xl-2">
+                                <ul class="list-group list-group-flush overflow-hidden">
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Cras justo odio</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Dapibus ac facilisis in</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Morbi leo risus</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Porta ac consectetur ac Porta
+                                        ac consectetur ac Porta ac consectetur ac</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Vestibulum at eros</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Cras justo odio</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Dapibus ac facilisis in</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Morbi leo risus</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Porta ac consectetur ac</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Vestibulum at eros</li>
+                                </ul>
+                            </article>
+                        </section>
+                    </main>
+                </div>
+            </div>
+            <div class="carousel-item h-100">
+                <div class="wrapper">
+                    <aside id="health" class="card-inverse">
+                        <div style="max-height: 250px;">
+                            <canvas id="doughnutChart3"></canvas>
+                        </div>
+                        <span class="d-block text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat
+                                        a ante.</span>
+                        <div class="h-100">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item justify-content-between bg-transparent">
+                                    L1emu
+                                    <span>50%</span>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar" style="width: 50%; height: 5px;"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                    <nav id="main-nav" class="navbar navbar-inverse">
+                        <button class="navbar-toggler navbar-toggler-left" type="button">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        <h1 class="mb-0 text-white text-center">{ Branch 3 }</h1>
+                    </nav>
+                    <main id="branch" class="container-fluid mt-2 mb-2">
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                        </div>
+                        <section class="row">
+                            <article id="builds" class="col-md-8 col-xl-10">
+                                <div class="card-deck flex-nowrap overflow-hidden">
+                                    <div class="card border-0 mb-2 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                            <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                            <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                            <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 translate-x">
+                                        <h4 class="card-header bg-primary card-inverse">
+                                            L1emu
+                                            <i class="fa fa-check pull-right"></i>
+                                        </h4>
+                                        <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                                            <b>tomasz.rusinek</b> <small class="badge badge-primary pull-right">6130fa8f</small>
+                                            <small class="d-block text-center">BB1 Platform updated to TST5G371_PS_REL_2016_03_414</small>
+                                        </div>
+                                        <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                                            <li class="list-group-item justify-content-between">
+                                                Cras justo odio
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Dapibus ac facilisis in
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                            <li class="list-group-item justify-content-between">
+                                                Vestibulum at eros
+                                                <i class="fa fa-check-circle text-green"></i></li>
+                                        </ul>
+                                        <div class="card-footer bg-primary card-inverse text-center p-1">
+                                            <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <article id="projects" class="col-md-4 col-xl-2">
+                                <ul class="list-group list-group-flush overflow-hidden">
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Cras justo odio</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Dapibus ac facilisis in</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Morbi leo risus</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Porta ac consectetur ac Porta
+                                        ac consectetur ac Porta ac consectetur ac</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Vestibulum at eros</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Cras justo odio</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Dapibus ac facilisis in</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Morbi leo risus</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Porta ac consectetur ac</li>
+                                    <li class="list-group-item translate-y">
+                                        <i class="fa fa-3x fa-check-circle text-green"></i> Vestibulum at eros</li>
+                                </ul>
+                            </article>
+                        </section>
+                    </main>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

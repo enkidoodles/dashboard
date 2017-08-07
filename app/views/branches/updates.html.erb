@@ -1,211 +1,180 @@
 <% branches = init_branches %>
 
-<div class="carousel-inner">
+<div class="carousel-inner h-100">
 
   <% slide = 0 %>
-
   <% branches.each do |branch| %>
+  <% slide += 1 %>
 
-      <% i_team = 0 %>
+  <div class="carousel-item h-100" id="<%= slide %>">
 
-      <% while i_team < branch.getJobCount %>
+    <div class="wrapper">
 
-        <% slide += 1 %>
-        <% jobset = branch.getJobs[i_team..(i_team+2)] %>
-        <% i_team += 3 %>
+      <!-- SIDE NAV -->
+      <aside id="health" class="card-inverse">
 
-        <div class="carousel-item flex-wrap" id="<%= slide %>">
-
-          <!-- Nav bar for branch name -->
-          <nav class="navbar text-center w-100">
-            <h1 class="display-3">{ <%= branch.name %> }</h1>
-          </nav>
-
-          <!-- Display alert -->
-          <% if branch.display == true %>
-            <nav class="navbar alertbar w-100" style="padding-top: 20px; padding-right: 20px; padding-left: 20px;">
-              <h3><span class="badge badge-alert">ALERT!</span> <%= branch.msg %> </h3>
-            </nav>
-          <% end %>
-
-
-          <div class="row w-100 justify-content-around flex-nowrap m-0 p-4">
-            
-            <% jobset.each do |job| %>
-
-                  <div class="card">
-
-                      <% latestJob = branch.getLatestJob(job["jobs"]) %>
-                      <% latestBuild = branch.getLatestBuild(job) %>
-                      <% subjobs = branch.getSubjobs(job) %>
-
-                      <% status = branch.status(subjobs) %>  
-
-                      <!-- CARD HEADER -->
-                      <% if status >= 0.7 %>
-                        <div class="card-header card-header-success">
-                          <h4 class="d-flex justify-content-between"><%= job["name"] %>
-                              <i class="fa fa-check"></i>
-                          </h4>
-                        </div>
-                      <% elsif status < 0.7 and status >= 0 %>
-                        <div class="card-header card-header-danger">
-                          <h4 class="d-flex justify-content-between"><%= job["name"] %>
-                              <i class="fa fa-times"></i>
-                          </h4>
-                        </div>
-                      <% else %>
-                        <div class="card-header card-header-success">
-                          <h4 class="d-flex justify-content-between"><%= job["name"] %>
-                              <i class="fa fa-ban"></i>
-                          </h4>
-                        </div>
-                      <% end %>
-
-                      <!-- CARD BODY -->
-                      <div class="card-block ">
-
-                      <!-- Display latest build -->
-                        <% if latestBuild.nil? %>
-
-                          <div class="build-info" style="border-radius: 0.25em">
-                            <div style="text-align: center; font-size: 21px;">NO RECENT BUILDS</div>
-                          </div><p></p>
-
-                        <% else %>
-
-                          <% latestCommit = branch.getLatestCommit(latestBuild) %>
-                          <div class="build-info d-flex justify-content-between mb-0" style="border-top-left-radius: 0.25em; border-top-right-radius: 0.25em;">
-                            <b>BUILD#<%= latestBuild["number"]%></b>
-                            <b><%= latestJob["name"]%></b>
-                          </div>
-                          <% if not latestCommit.nil? %>
-                            <div class="commit-info mb-0">
-                              <b><%= latestCommit["author"]["fullName"][0..15] %><%= latestCommit["author"]["fullName"].size > 16 ? "..." : ""  %></b>
-                              <small class="badge"><%= latestCommit["id"][0..7] %></small><br>
-                              <%= latestCommit["msg"] %>
-                            </div>
-                          <% else %>
-                            <div class="commit-info mb-0" style="text-align: center;">
-                              NO RECENT CHANGES
-                            </div>
-                          <% end %>
-                          <div class="d-flex justify-content-around mb-3" style="border-bottom-left-radius: 0.25em; border-bottom-right-radius: 0.25em; background: #e0e0e0;">
-                            Last build on <%= Time.at(latestBuild["timestamp"]*0.001).to_datetime.strftime("%I:%M%p - %b %d, %Y (%a)") %>
-                          </div>
-                          
-                        <% end %>
-
-                        <% if not subjobs.nil? %>
-                          <% subjobs.each do |subjob| %>
-                            <% if subjob["color"] == "notbuilt" %>
-                            <% elsif subjob["color"] == "blue" %>
-                              <span class="passed">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-check-circle" style="padding-top: 5px;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "blue_anime" %>
-                              <span class="passed">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "red" %>
-                              <span class="failed">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-times-circle" style="padding-top: 5px;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "red_anime" %>
-                              <span class="failed">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "yellow" %>
-                              <span class="unstable">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-warning" style="padding-top: 5px;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "yellow_anime" %>
-                              <span class="unstable">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "grey" %>
-                              <span class="aborted">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-hand-paper-o " style="padding-top: 5px; color: #888;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "grey_anime" %>
-                              <span class="aborted">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px; color: #888;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "aborted" %>
-                              <span class="aborted">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-ban" style="padding-top: 5px; color: #888;"></i>
-                                </p>
-                              </span>
-                            <% elsif subjob["color"] == "aborted_anime" %>
-                              <span class="aborted">
-                                <p class="card-text d-flex justify-content-between">
-                                  <%= subjob["name"] %>
-                                  <i class="fa fa-circle-o-notch spin" style="padding-top: 5px; color: #888;"></i>
-                                </p>
-                              </span>
-                            <% else %>
-
-                                <% if not subjob["jobs"].nil? %>
-                                  
-                                  <% folderStatus = branch.status(subjob["jobs"]) %>
-                                  <% if folderStatus >= 0.7 %>
-                                    <span class="passed">
-                                  <% elsif folderStatus < 0.7 and folderStatus >= 0 %>
-                                    <span class="failed">
-                                  <% else %>
-                                    <span class="passed"
-                                  <% end %>
-
-                                      <p class="card-text d-flex justify-content-between">
-                                        <%= subjob["name"] %>
-                                        <i class="fa fa-folder" style="padding-top: 5px; color: #888;"></i>
-                                      </p>
-                                    </span>
-
-                                <% end %>
-                            <% end %>
-                          <% end %>
-                        <% end %>
-
-                      </div>
-                      <% if status >= 0.7 %>
-                        <div class="card-footer card-header-success">
-                      <% elsif status < 0.7 and status >= 0 %>
-                        <div class="card-footer card-header-danger">
-                      <% else %>
-                        <div class="card-footer card-header-success">
-                      <% end %>
-                      </div>
-                  </div>
-            <% end %>
-          </div>
+        <!-- CHART -->
+        <div style="max-height: 250px;">
+          <canvas id="doughnutChart1"></canvas>
+          <input type="hidden" id="success" value="60"></input>
+          <input type="hidden" id="fail" value="28"></input>
+          <input type="hidden" id="unstable" value="12"></input>
         </div>
-      <% end %>
+
+        <!-- WORST HEALTH -->
+        <span class="d-block text-center"><%= branch.reportHealth("worst") %></span>
+
+        <!-- PROGRESS BARS -->
+        <div class="h-100">
+          <ul class="list-group list-group-flush">
+            <% branch.folders.each do |folder| %>
+              <% stat = branch.getStatus(folder) %>
+              <li class="list-group-item justify-content-between bg-transparent">
+                <%= folder["name"] %>
+                <span>
+                  <% if stat == -1 %>
+                    N/A
+                  <% else %>
+                    <%= stat %>%
+                  <% end %>
+                </span>
+                <div class="progress w-100">
+                  <div class="progress-bar" style="width: <%= stat %>%; height: 5px;"></div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+      </aside>
+
+      <!-- NAV BAR -->
+      <nav id="main-nav" class="navbar navbar-inverse">
+        <button class="navbar-toggler navbar-toggler-left" type="button">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <h1 class="mb-0 text-white text-center">{ <%= branch.name %> }</h1>
+      </nav>
+
+      <!-- MAIN CONTENT -->
+      <main id="branch" class="container-fluid mt-2 mb-2">
+
+        <!-- ALERT -->
+        <% if branch.display == true %>
+          <div class="alert alert-warning" role="alert">
+            <strong>Holy guacamole!</strong> <%= branch.msg %>
+          </div>
+        <% end %>
+
+        <!-- ROW -->
+        <section class="row">
+
+          <!-- FOLDERS -->
+          <article id="builds" class="col-md-8 col-xl-10">
+       
+            <!-- CARDS -->
+            <div class="card-deck flex-nowrap overflow-hidden">
+              
+              <% branch.folders.each do |folder| %>
+              
+              <!-- ONE CARD -->
+              <div class="card border-0 mb-2 translate-x">
+       
+                <!-- CARD HEADER -->
+                <h4 class="card-header bg-primary card-inverse">
+                  <%= folder["name"] %>
+                  <i class="fa fa-check pull-right"></i>
+                </h4>
+       
+                <% latestJob = branch.getLatestJob(folder["jobs"]) %>
+                
+                <% latestBuild = branch.getLatestBuild(folder) %>
+
+                <% if latestBuild.nil? %>
+                  <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                    <b>NO RECENT BUILDS</b>
+                  </div>
+
+                <% else %>
+
+                  <% latestCommit = branch.getLatestCommit(latestBuild) %>
+
+                  <!-- COMMIT INFO -->
+                  <% if latestCommit.nil? %>
+                    <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                      <b>EMPTY CHANGESET</b>
+                    </div>
+                  <% else %>
+                    <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                      <b><%= latestCommit["author"]["fullName"] %></b> <small class="badge badge-primary pull-right"><%= latestCommit["id"][0..7] %></small>
+                      <small class="d-block text-center"><%= latestCommit["msg"] %></small>
+                    </div>
+                  <% end %>
+
+                <% end %>
+
+                <!-- LIST OF SUBJOBS -->
+                <% subjobs = folder["jobs"] %>
+                <% if not subjobs.nil? %>
+                  <ul class="list-group list-group-flush" style="flex: 1 auto;">
+                  <% subjobs.each do |subjob| %>
+                    <li class="list-group-item justify-content-between">
+                      <%= subjob["name"] %>
+
+                    <!-- SUBJOB STATUS ICONS -->
+                    <% subjobStatus = branch.getStatus(subjob) %>
+                    <% if subjobStatus == "success" %>
+                      <i class="fa fa-check-circle text-green"></i></li>
+                    <% elsif subjobStatus == "fail" %>
+                      <i class="fa fa-times-circle text-red"></i></li>
+                    <% else %>
+                      <i class="fa fa-ban"></i></li>
+                    <% end %>
+
+                  <% end %>
+                  </ul>
+                <% end %>
+       
+                <!-- CARD FOOTER -->
+                <div class="card-footer bg-primary card-inverse text-center p-1">
+                  <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                </div>
+              </div>
+              <% end %>
+            </div>
+          </article>
+
+          <!-- PROJECTS -->
+          <article id="projects" class="col-md-4 col-xl-2">
+
+            <ul class="list-group list-group-flush overflow-hidden">
+              <% branch.projects.each do |project| %>
+                <li class="list-group-item translate-y">
+
+                <!-- PROJECT STATUS ICONS -->
+                <% projectStatus = branch.getStatus(project) %>
+                <% if projectStatus == "success" %>
+                  <i class="fa fa-3x fa-check-circle text-green"></i> <%= project["name"] %></li>
+                <% elsif projectStatus == "fail" %>
+                  <i class="fa fa-3x fa-times-circle text-red"></i> <%= project["name"] %></li>
+                <% else %>
+                  <i class="fa fa-3x fa-ban"></i> <%= project["name"] %></li>
+                <% end %>
+
+
+              <% end %>
+            </ul>
+
+          </article>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
   <% end %>
+
 </div>

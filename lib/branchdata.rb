@@ -4,7 +4,7 @@ require 'json'
 require 'date'
 
 # String to be appended to the Jenkins URL to obtain the JSON file containing build information
-$AccessTree = "api/json?tree=name,jobs[name,jobs[name,color,jobs[name,color,lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]],lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]]]"
+$AccessTree = "api/json?tree=name,healthReport[description,score],jobs[name,healthReport[description,score],color,healthReport[description,score],jobs[name,healthReport[description,score],color,jobs[name,color,lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]],lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]]]"
 
 # Class to contain all parsed information of Jenkins job being pertained to by the Jenkins URL
 
@@ -17,6 +17,7 @@ class Branchdata
 		@display = disp
 		@message = msg
 		@parsed = nil
+		@jobs = nil
 
 		# Get json file
 		uri = URI.parse(@branch_url)
@@ -25,6 +26,7 @@ class Branchdata
 		# Was there a valid response?
 		if response[0] == '{'
 			@parsed = JSON.parse(response)
+			@jobs = @parsed["jobs"]
 		else
 			@branch_name = nil
 		end
@@ -118,31 +120,83 @@ class Branchdata
 		end
 	end
 
-	def status(subjobs)
-		if subjobs.nil? or subjobs.size == 0
-			return -1
-		end
-		total = 0
-		success = 0
-		subjobs.each do |sj|
-			if not sj.nil?
-				if sj["color"] == "blue"
-					success += 1
-				end
-				if not (sj["color"] == "notbuilt" or sj["color"] == "disabled" or sj["color"].nil?)
-					total += 1
-					if (sj["_class"] == "com.cloudbees.hudson.plugins.folder.Folder")
-						if not sj["jobs"].nil?
-							folderStatus = status(sj["jobs"])
-							if folderStatus >= 0.7
-								success += 1
-							end
-						end
+	def getStatus(job)
+		if job["_class"] == "com.cloudbees.hudson.plugins.folder.Folder"
+			healthReport = job["healthReport"]
+			if healthReport.nil? || healthReport == []
+				return -1
+			end
+			healthReport.each do |hr|
+				if hr["description"][0..17] == "Average health of "
+					if not hr["score"].nil?
+						return hr["score"]
+					else
+						return -1
 					end
 				end
 			end
+		elsif job["_class"] == "hudson.model.FreeStyleProject"
+			if job["color"] == "notbuilt"
+				return -1
+			else
+				if job["color"] == "blue"
+					return "success"
+				elsif job["color"] == "red"
+					return "fail"
+				elsif job["color"] == "notbuilt"
+					return "notbuilt"
+				else
+					return -1
+				end
+			end
+		else
+			return -1
 		end
-		return (success/(total.to_f))
+	end
+
+	def folders
+		folderList = Array.new
+		@jobs.each do |job|
+			if job["_class"] == "com.cloudbees.hudson.plugins.folder.Folder"
+				folderList << job
+			end
+		end
+		return folderList
+	end
+
+	def projects
+		projectList = Array.new
+		@jobs.each do |job|
+			if job["_class"] == "hudson.model.FreeStyleProject"
+				projectList << job
+			end
+		end
+		return projectList
+	end
+
+	def reportHealth(type)
+		healthReport = @parsed["healthReport"]
+		print "looking for "+type+": "
+		if healthReport.nil?
+			return nil
+		end
+		healthReport.each do |hr|
+			if hr["description"].include? "Average health" and type == "average"
+				return hr["score"].to_i
+			elsif hr["description"].include? "Worst health:" and type == "worst"
+			 	return hr["description"]
+			elsif hr["description"].include? "successful builds" and type == "success"
+				return hr["description"].split(' ')[4].to_i
+			elsif hr["description"].include? "failed builds" and type == "fail"
+			 	return hr["description"].split(' ')[4].to_i
+			elsif hr["description"].include? "Jobs with builds:" and type == "builds"
+				return hr["description"].split(' ')[3].to_i
+			end
+		end
+	end
+
+	def parsed
+		return @parsed
 	end
 
 end
