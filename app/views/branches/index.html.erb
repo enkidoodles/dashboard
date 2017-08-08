@@ -42,6 +42,27 @@
 
 <footer><p id="loading" class="loading" style="color: #fff;">Loading</p>
 </footer>
+<script type="text/javascript">
+  getJenkinsData();
+  function getJenkinsData() {
+    console.log("sending request to jenkins....");
+    $.ajax({
+        'type': 'GET',
+        'url': 'branches/updates',
+        'dataType': 'html',
+        'success': function (response) {
+            $("#dashes").html(response);
+            $("#1").addClass("active");
+            console.log("received data from jenkins");
+            start();
+        },
+        'error': function (errorThrown) {
+            window.location.reload();
+            console.log('Error:', errorThrown);
+        }
+    });
+}
+</script>
 <!-- <script type="text/javascript">
   $.ajax({
     'type': 'GET',

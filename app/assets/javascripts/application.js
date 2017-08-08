@@ -30,27 +30,7 @@ $(document).ready(function () {
     $(".navbar-toggler").on("click", function (event) {
         $(".active #health").toggleClass("toggle");
     });
-    getJenkinsData();
 });
-
-function getJenkinsData() {
-    console.log("sending request to jenkins....");
-    $.ajax({
-        'type': 'GET',
-        'url': 'branches/updates',
-        'dataType': 'html',
-        'success': function (response) {
-            $("#dashes").html(response);
-            $("#1").addClass("active");
-            console.log("received data from jenkins");
-            start();
-        },
-        'error': function (errorThrown) {
-            window.location.reload();
-            console.log('Error:', errorThrown);
-        }
-    });
-}
 
 function start() {
     console.log("start");
@@ -64,7 +44,9 @@ function start() {
     interval = setInterval(function () {
         console.log("move");
         // adds a css property transform to all the cards if the last card is not showing
-        if (!isShowing(card.last(), cardDeck)) {
+        console.log(card.length);
+        console.log(listItem.length);
+        if (card.length != 0 && !isShowing(card.last(), cardDeck)) {
             card.each(function () {
                 $(this).css("transform", "translateX(-" + translateX + "%)");
             });
@@ -75,7 +57,7 @@ function start() {
         }
 
         // adds a css property transform to all the list-items if the last item is not showing
-        if (!isShowing(listItem.last(), listGroup)) {
+        if (listItem.length != 0 && !isShowing(listItem.last(), listGroup)) {
             listItem.each(function () {
                 $(this).css("transform", "translateY(-" + translateY + "%)");
             });
