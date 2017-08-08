@@ -198,5 +198,89 @@ class Branchdata
 	def parsed
 		return @parsed
 	end
+	
+	def getStatusProps(status)
+		statusProps = {}
+		if status >= 0.7
+			statusProps = {
+				"bgColor" => "bg-primary",
+				"icon" => "fa-check",
+				"color" => ""
+			}
+		elsif status < 0.7 and status >= 0
+			statusProps = {
+				"bgColor" => "bg-danger",
+				"icon" => "fa-times"
+			}
+		else
+			statusProps = {
+				"bgColor" => "bg-primary",
+				"icon" => "fa-ban"
+			}
+		end
+		return statusProps
+	end
 
+	def getSubjobStatusProps(jobStatus)
+		jobStatusProps = {}
+		if subjob["color"] == "blue"
+			jobStatusProps = {
+				"bgColor" => "bg-success",
+				"icon" => "fa-check",
+				"color" => "text-white"
+			}
+		elsif subjob["color"] == "red"
+			jobStatusProps = {
+				"bgColor" => "bg-danger",
+				"icon" => "fa-times",
+				"color" => "text-white"
+			}
+		elsif subjob["color"] == "yellow"
+			jobStatusProps = {
+				"bgColor" => "bg-warning",
+				"icon" => "fa-exclamation-triangle",
+				"color" => "text-white"
+			}
+		elsif subjob["color"] == "grey"
+			jobStatusProps = {
+				"bgColor" => "bg-info",
+				"icon" => "fa-hand-paper-o",
+				"color" => "text-white"
+			}
+		elsif subjob["color"] == "aborted"
+			jobStatusProps = {
+				"bgColor" => "bg-black",
+				"icon" => "fa-ban",
+				"color" => "text-white"
+			}
+		end
+		if subjob["color"].include? "_anime"
+			jobStatusProps["icon"] = "fa-spin fa-circle-o-notch"
+		end
+	end
+
+	def getProjectProps(job)
+		projectProps = {}
+		if job["color"] == "blue"
+			projectProps = {
+				"bgColor" => "bg-success",
+				"icon" => "fa-check",
+				"color" => "text-white"
+			}
+		elsif job["color"] == "red"
+			projectProps = {
+				"bgColor" => "bg-danger",
+				"icon" => "fa-times",
+				"color" => "text-white"
+			}
+		elsif job["color"] == "notbuilt"
+			projectProps = {
+				"bgColor" => "bg-black",
+				"icon" => "fa-ban",
+				"color" => "text-white"
+			}
+		else
+		end
+		return projectProps
+	end
 end

@@ -22,7 +22,9 @@
         </div>
 
         <!-- WORST HEALTH -->
-        <span class="d-block text-center"><%= branch.reportHealth("worst") %></span>
+        <div class="alert alert-danger text-center" role="alert">
+          <%= branch.reportHealth("worst") %>
+        </div>
 
         <!-- PROGRESS BARS -->
         <div class="h-100">
@@ -80,10 +82,12 @@
               <!-- ONE CARD -->
               <div class="card border-0 mb-2 translate-x">
        
+                <% folderStatus = branch.getStatus(folder) %>
+                <% folderStatusProps = branch.getStatusProps(folderStatus) %>
                 <!-- CARD HEADER -->
-                <h4 class="card-header bg-primary card-inverse">
+                <h4 class="card-header card-inverse <%= folderStatusProps["bgColor"] %>">
                   <%= folder["name"] %>
-                  <i class="fa fa-check pull-right"></i>
+                  <i class="fa pull-right <%= folderStatusProps["icon"] %>"></i>
                 </h4>
        
                 <% latestJob = branch.getLatestJob(folder["jobs"]) %>
@@ -106,8 +110,12 @@
                     </div>
                   <% else %>
                     <div class="card-block bg-faded p-3" style="flex: 0 auto;">
-                      <b><%= latestCommit["author"]["fullName"] %></b> <small class="badge badge-primary pull-right"><%= latestCommit["id"][0..7] %></small>
-                      <small class="d-block text-center"><%= latestCommit["msg"] %></small>
+                      <h5 class="text-center">Build#<%= latestBuild["number"] %> - <%= latestJob["name"]%></h5>
+                      <div class="alert alert-info mb-0">
+                        <b><%= latestCommit["author"]["fullName"] %></b> 
+                        <small class="badge badge-primary pull-right"><%= latestCommit["id"][0..7] %></small>
+                        <small class="d-block text-center"><%= latestCommit["msg"] %></small>
+                      </div>
                     </div>
                   <% end %>
 
@@ -118,26 +126,28 @@
                 <% if not subjobs.nil? %>
                   <ul class="list-group list-group-flush" style="flex: 1 auto;">
                   <% subjobs.each do |subjob| %>
-                    <li class="list-group-item justify-content-between">
+                    <% subjobStatus = branch.getProjectProps(subjob) %>
+                    <li class="list-group-item justify-content-between <%= subjobStatus["bgColor"] %> <%= subjobStatus["color"] %>">
                       <%= subjob["name"] %>
+                      <i class="fa <%= subjobStatus["icon"] %>"></i>
 
                     <!-- SUBJOB STATUS ICONS -->
-                    <% subjobStatus = branch.getStatus(subjob) %>
-                    <% if subjobStatus == "success" %>
-                      <i class="fa fa-check-circle text-green"></i></li>
-                    <% elsif subjobStatus == "fail" %>
-                      <i class="fa fa-times-circle text-red"></i></li>
-                    <% else %>
-                      <i class="fa fa-ban"></i></li>
-                    <% end %>
-
+                    <%# subjobStatus = branch.getStatus(subjob) %>
+                    <%# if subjobStatus == "success" %>
+                      <!-- <i class="fa fa-check-circle text-green"></i> -->
+                    <%# elsif subjobStatus == "fail" %>
+                      <!-- <i class="fa fa-times-circle text-red"></i> -->
+                    <%# else %>
+                      <!-- <i class="fa fa-ban"></i> -->
+                    <%# end %>
+                    </li>
                   <% end %>
                   </ul>
                 <% end %>
        
                 <!-- CARD FOOTER -->
                 <div class="card-footer bg-primary card-inverse text-center p-1">
-                  <small>Last Built on 7:59pm, Aug 3, 2017</small>
+                  <small>Last build on <%= Time.at(latestBuild["timestamp"]*0.001).to_datetime.strftime("%I:%M%p - %b %d, %Y (%a)") %></small>
                 </div>
               </div>
               <% end %>
@@ -149,18 +159,24 @@
 
             <ul class="list-group list-group-flush overflow-hidden">
               <% branch.projects.each do |project| %>
-                <li class="list-group-item translate-y">
+                <% projectStatus = branch.getProjectProps(project) %>
+                <li class="list-group-item translate-y <%= projectStatus["bgColor"] %> <%= projectStatus["color"] %>">
+                  <i class="fa fa-3x <%= projectStatus["icon"] %>"></i>
+                  <div>
+                      <h5 class="mb-0"><%= project["name"] %></h5>
+                      <small>Donec id elit non mi porta.</small>
+                  </div>
 
                 <!-- PROJECT STATUS ICONS -->
-                <% projectStatus = branch.getStatus(project) %>
-                <% if projectStatus == "success" %>
-                  <i class="fa fa-3x fa-check-circle text-green"></i> <%= project["name"] %></li>
-                <% elsif projectStatus == "fail" %>
-                  <i class="fa fa-3x fa-times-circle text-red"></i> <%= project["name"] %></li>
-                <% else %>
-                  <i class="fa fa-3x fa-ban"></i> <%= project["name"] %></li>
-                <% end %>
-
+                <%# projectStatus = branch.getStatus(project) %>
+                <%# if projectStatus == "success" %>
+                  <!-- <i class="fa fa-3x fa-check-circle text-green"></i> <%= project["name"] %> -->
+                <%# elsif projectStatus == "fail" %>
+                  <!-- <i class="fa fa-3x fa-times-circle text-red"></i> <%= project["name"] %> -->
+                <%# else %>
+                  <!-- <i class="fa fa-3x fa-ban"></i> <%= project["name"] %> -->
+                <%# end %>
+                </li>
 
               <% end %>
             </ul>
