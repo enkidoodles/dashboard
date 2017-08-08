@@ -195,45 +195,69 @@ class Branchdata
 		end
 	end
 
-	def reportProjectHealth(project)
-		healthReport = project["healthReport"]
-		healthReport.each do |hr|
-			if hr["description"].include? "Build stability"
-				desc = hr["description"]
-				desc.slice!(0..16)
-				return desc
-			end
-		end
-	end
-
 	def parsed
 		return @parsed
 	end
 	
-	def getFolderProps(status)
+	def getStatusProps(status)
 		statusProps = {}
-		if status >= 70
+		if status >= 0.7
 			statusProps = {
 				"bgColor" => "bg-primary",
 				"icon" => "fa-check",
-				"color" => "text-white"
+				"color" => ""
 			}
-		elsif status < 70 and status >= 0
+		elsif status < 0.7 and status >= 0
 			statusProps = {
 				"bgColor" => "bg-danger",
-				"icon" => "fa-times",
-				"color" => "text-white"
+				"icon" => "fa-times"
 			}
 		else
 			statusProps = {
-				"bgColor" => "bg-black",
-				"icon" => "fa-ban",
-				"color" => "text-white"
+				"bgColor" => "bg-primary",
+				"icon" => "fa-ban"
 			}
 		end
 		return statusProps
 	end
 
+	def getSubjobStatusProps(jobStatus)
+		jobStatusProps = {}
+		if subjob["color"] == "blue"
+			jobStatusProps = {
+				"bgColor" => "bg-success",
+				"icon" => "fa-check",
+				"color" => "text-white"
+			}
+		elsif subjob["color"] == "red"
+			jobStatusProps = {
+				"bgColor" => "bg-danger",
+				"icon" => "fa-times",
+				"color" => "text-white"
+			}
+		elsif subjob["color"] == "yellow"
+			jobStatusProps = {
+				"bgColor" => "bg-warning",
+				"icon" => "fa-exclamation-triangle",
+				"color" => "text-white"
+			}
+		elsif subjob["color"] == "grey"
+			jobStatusProps = {
+				"bgColor" => "bg-info",
+				"icon" => "fa-hand-paper-o",
+				"color" => "text-white"
+			}
+		elsif subjob["color"] == "aborted"
+			jobStatusProps = {
+				"bgColor" => "bg-black",
+				"icon" => "fa-ban",
+				"color" => "text-white"
+			}
+		end
+		if subjob["color"].include? "_anime"
+			jobStatusProps["icon"] = "fa-spin fa-circle-o-notch"
+		end
+	end
 
 	def getProjectProps(job)
 		projectProps = {}
@@ -249,39 +273,13 @@ class Branchdata
 				"icon" => "fa-times",
 				"color" => "text-white"
 			}
-		elsif job["color"] == "yellow"
-			projectProps = {
-				"bgColor" => "bg-warning",
-				"icon" => "fa-exclamation-triangle",
-				"color" => "text-white"
-			}
-		elsif job["color"] == "grey"
-			projectProps = {
-				"bgColor" => "bg-info",
-				"icon" => "fa-hand-paper-o",
-				"color" => "text-white"
-			}
-		elsif job["color"] == "aborted"
-			projectProps = {
-				"bgColor" => "bg-black",
-				"icon" => "fa-ban",
-				"color" => "text-white"
-			}
 		elsif job["color"] == "notbuilt"
 			projectProps = {
 				"bgColor" => "bg-black",
-				"icon" => "fa-question",
-				"color" => "text-white"
-			}
-		else
-			projectProps = {
-				"bgColor" => "bg-info",
 				"icon" => "fa-ban",
 				"color" => "text-white"
 			}
-		end
-		if job["color"].include? "_anime"
-			projectProps["icon"] = "fa-spin fa-circle-o-notch"
+		else
 		end
 		return projectProps
 	end
