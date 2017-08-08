@@ -24,6 +24,7 @@ var translateX; // value for moving the card elements (x-axis)
 var translateY; // value for moving the list-item elements (y-axis)
 var isLastCardShowing; // is the last card inside the parent element
 var isLastListItemShowing; // is the last item inside the parent element
+var interval;
 
 $(document).ready(function () {
     $(".navbar-toggler").on("click", function (event) {
@@ -33,6 +34,7 @@ $(document).ready(function () {
 });
 
 function getJenkinsData() {
+    console.log("sending request to jenkins....");
     $.ajax({
         'type': 'GET',
         'url': 'branches/updates',
@@ -40,6 +42,7 @@ function getJenkinsData() {
         'success': function (response) {
             $("#dashes").html(response);
             $("#1").addClass("active");
+            console.log("received data from jenkins");
             start();
         },
         'error': function (errorThrown) {
@@ -50,14 +53,16 @@ function getJenkinsData() {
 }
 
 function start() {
+    console.log("start");
+    $(".navbar-toggler").on("click", function (event) {
+        $(".active #health").toggleClass("toggle");
+    });
     setChartConfig();
     makeChart();
-    move();
-}
-
-function move() {
     initializeValues();
-    setInterval(function () {
+    console.log("setting interval");
+    interval = setInterval(function () {
+        console.log("move");
         // adds a css property transform to all the cards if the last card is not showing
         if (!isShowing(card.last(), cardDeck)) {
             card.each(function () {
@@ -65,6 +70,7 @@ function move() {
             });
             translateX = translateX + initalOffset + cardMargin;
         } else {
+            console.log("showing last card");
             isLastCardShowing = true;
         }
 
@@ -78,19 +84,45 @@ function move() {
             isLastListItemShowing = true;
         }
 
+        console.log("isLastCardShowing: " + isLastCardShowing);
+        console.log("isLastListItemShowing: " + isLastListItemShowing);
         // moves to the next carousel when the last card and item is showing
         if (isLastCardShowing && isLastListItemShowing) {
             if ($(".carousel div:last-child").hasClass("active")) {
+                console.log("last child");
+                clearInterval(interval);
+                console.log("clear interval");
                 getJenkinsData();
             } else {
                 slideCarousel();
-                initializeValues();
+                console.log("after slide");
             }
         }
     }, 5000);
 }
 
+function slideCarousel() {
+    console.log("will go to next");
+    $(".carousel").carousel("next");
+    // fires callback after carousel has slid
+    $('.carousel').on('slid.bs.carousel', function () {
+        // reset position
+        card.each(function () {
+            $(this).css("transform", "translateX(0%)");
+        });
+        listItem.each(function () {
+            $(this).css("transform", "translateY(0%)");
+        });
+        initializeValues();
+        makeChart();
+        // move();
+        console.log("after slid");
+    });
+}
+
+
 function initializeValues() {
+    console.log("initialize values");
     card = $(".active .card.translate-x");
     listItem = $(".active .list-group-item.translate-y");
     cardDeck = card.parent();
@@ -102,20 +134,6 @@ function initializeValues() {
     isLastListItemShowing = false;
 }
 
-function slideCarousel() {
-    $(".carousel").carousel("next");
-    // fires callback after carousel has slid
-    $('.carousel').on('slid.bs.carousel', function () {
-        // reset position
-        card.each(function () {
-            $(this).css("transform", "translateX(0%)");
-        });
-        listItem.each(function () {
-            $(this).css("transform", "translateY(0%)");
-        });
-    });
-}
-
 function isShowing(element, container) {
     var elementPos = element.position();
     var containerPos = container.position();
@@ -125,6 +143,11 @@ function isShowing(element, container) {
         return false;
     }
 }
+
+// Chart.js Section
+
+
+// PluginService
 
 function setChartConfig() {
     Chart.pluginService.register({
@@ -176,23 +199,11 @@ function setChartConfig() {
 }
 
 function makeChart() {
-    var successPercent = document.getElementById("success1").value;
-    var failPercent = document.getElementById("fail1").value;
-    var unstablePercent = document.getElementById("unstable1").value;
-
-    var data = {
-        datasets: [{
-            data: [successPercent, failPercent, unstablePercent],
-            backgroundColor: [
-                '#36A2EB', //light blue
-                "#FF6384", //light red
-                "#FFCD56" //light yellow
-            ],
-            borderColor: ["#333645", "#333645", "#333645"],
-            borderWidth: [2, 2, 2],
-        }],
-        labels: ['Success', 'Fail', 'Unstable']
-    };
+    var activeCarouselId = $(".active")[0].id;
+    var successValue = $("#success" + activeCarouselId).val();
+    var failValue = $("#fail" + activeCarouselId).val();
+    var unstableValue = $("#unstable" + activeCarouselId).val();
+    var data = initializeChartData(successValue, failValue, unstableValue);
     var options = {
         showAllTooltips: true,
         cutoutPercentage: 50,
@@ -212,8 +223,29 @@ function makeChart() {
             }
         }
     };
-    var doughnutCtx1 = document.getElementById('doughnutChart1').getContext('2d');
-    var doughnutChart1 = new Chart(doughnutCtx1, {
+    drawChart("doughnutChart" + activeCarouselId, data, options);
+}
+
+function initializeChartData(successValue, failValue, unstableValue) {
+    var data = {
+        datasets: [{
+            data: [successValue, failValue, unstableValue],
+            backgroundColor: [
+                '#36A2EB', //light blue
+                "#FF6384", //light red
+                "#FFCD56" //light yellow
+            ],
+            borderColor: ["#333645", "#333645", "#333645"],
+            borderWidth: [2, 2, 2],
+        }],
+        labels: ['Success', 'Fail', 'Unstable']
+    };
+    return data;
+}
+
+function drawChart(elementId, data, options) {
+    var ctx = document.getElementById(elementId).getContext('2d');
+    var doughnutChart = new Chart(ctx, {
         type: 'doughnut',
         data: data,
         options: options

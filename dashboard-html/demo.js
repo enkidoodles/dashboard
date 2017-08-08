@@ -54,6 +54,13 @@ function start() {
     makeChart();
     initializeValues();
     move();
+    var lastCarouselItem = $(".carousel div:last-child");
+    if (lastCarouselItem.hasClass("active")) {
+        getJenkinsData();
+    } else { // moves to the next carousel when the last card and item is showing
+        slideCarousel();
+        start();
+    }
 }
 
 function initializeValues() {
@@ -69,33 +76,13 @@ function initializeValues() {
 }
 
 function move() {
-    while (!isLastCardShowing && !isLastListItemShowing) {
-        setTimeout(function () {
-            moveCards();
-            moveLists();
-        }, 3000); // 
-    }
-    var lastCarouselItem = $(".carousel div:last-child");
-    if (lastCarouselItem.hasClass("active")) {
-        getJenkinsData();
-    } else { // moves to the next carousel when the last card and item is showing
-        slideCarousel();
-        initializeValues();
-    }
-}
-
-function slideCarousel() {
-    $(".carousel").carousel("next");
-    // fires callback after carousel has slid
-    $('.carousel').on('slid.bs.carousel', function () {
-        // reset position
-        card.each(function () {
-            $(this).css("transform", "translateX(0%)");
-        });
-        listItem.each(function () {
-            $(this).css("transform", "translateY(0%)");
-        });
-    });
+    setTimeout(function () {
+        moveCards();
+        moveLists();
+        if (!isLastCardShowing && !isLastListItemShowing) {
+            move();
+        }
+    }, 3000);
 }
 
 function moveCards() {
@@ -120,6 +107,20 @@ function moveLists() {
     } else {
         isLastListItemShowing = true;
     }
+}
+
+function slideCarousel() {
+    $(".carousel").carousel("next");
+    // fires callback after carousel has slid
+    $('.carousel').on('slid.bs.carousel', function () {
+        // reset position
+        card.each(function () {
+            $(this).css("transform", "translateX(0%)");
+        });
+        listItem.each(function () {
+            $(this).css("transform", "translateY(0%)");
+        });
+    });
 }
 
 function isElementInContainer(element, container) {
@@ -186,43 +187,37 @@ function setChartConfig() {
 }
 
 function makeChart() {
-    var carouselItems = $(".carousel .carousel-item");
-    for (var i = 0; i < carouselItems.length; i++) {
-        var successId = $(this).find("#success" + i);
-        var failId = $(this).find("#fail" + i);
-        var unstableId = $(this).find("#unstable" + i);
-        var data = initializeChartData(successId, failId, unstableId);
-        var options = {
-            showAllTooltips: true,
-            cutoutPercentage: 50,
-            title: {
-                display: true,
-                text: 'Branch Status',
+    var activeCarouselId = $(".active")[0].id;
+    var successValue = $(this).find("#success" + activeCarouselId).val();
+    var failValue = $(this).find("#fail" + activeCarouselId).val();
+    var unstableValue = $(this).find("#unstable" + activeCarouselId).val();
+    var data = initializeChartData(successValue, failValue, unstableValue);
+    var options = {
+        showAllTooltips: true,
+        cutoutPercentage: 50,
+        title: {
+            display: true,
+            text: 'Branch Status',
+            fontColor: "#fff",
+            fontSize: 20,
+            fontFamily: "Segoe UI Light"
+        },
+        legend: {
+            display: false,
+            labels: {
                 fontColor: "#fff",
-                fontSize: 20,
+                fontSize: 16,
                 fontFamily: "Segoe UI Light"
-            },
-            legend: {
-                display: false,
-                labels: {
-                    fontColor: "#fff",
-                    fontSize: 16,
-                    fontFamily: "Segoe UI Light"
-                }
             }
-        };
-        drawChart("doughnutChart" + i, data, options);
-    }
+        }
+    };
+    drawChart("doughnutChart" + activeCarouselId, data, options);
 }
 
-function initializeChartData(successId, failId, unstableId) {
-    var successPercent = successId.value;
-    var failPercent = failId.value;
-    var unstablePercent = unstableId.value;
-
+function initializeChartData(successValue, failValue, unstableValue) {
     var data = {
         datasets: [{
-            data: [successPercent, failPercent, unstablePercent],
+            data: [successValue, failValue, unstableValue],
             backgroundColor: [
                 '#36A2EB', //light blue
                 "#FF6384", //light red
@@ -237,7 +232,7 @@ function initializeChartData(successId, failId, unstableId) {
 }
 
 function drawChart(elementId, data, options) {
-    var ctx = document.getElementById("doughnutChart1").getContext('2d');
+    var ctx = document.getElementById(elementId).getContext('2d');
     var doughnutChart = new Chart(ctx, {
         type: 'doughnut',
         data: data,
