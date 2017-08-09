@@ -1,44 +1,44 @@
-<div class="container-fluid">
-  <div class="row" id="header">
-    <div class="col-lg-6" id="logodiv">
-      <img id="logo" src="/nokiaLogo.png" alt="rss feed" />
+<nav class="navbar fixed-top navbar-light bg-faded">
+    <a href="" class="navbar-brand">
+      <img id="logo" src="../../assets/logo.png" height="30" alt="Nokia" />
+    </a>
+</nav>
+
+    <div class="card border-0 rounded-0 h-100">
+      <img class="card-img border-0 rounded-0 h-100" src="../../assets/desk-backgound.jpg" alt="Card image">
+      <div class="card-img-overlay d-flex align-items-center">
+          <main class="container-fluid">
+              <div class="card m-auto" style="width: 20rem;">
+                  <div class="card-block">
+                      <i class="fa fa-5x fa-user-circle-o d-block text-center"></i>
+                      <h4 class="card-title text-center">Sign up</h4>
+
+                      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+
+                        <%= devise_error_messages! %>
+
+                        <div class="form-group">
+                          <label for="user_email" class="form-control-label">Email</label>
+                          <%= f.email_field :email, class: "form-control", placeholder: "admin@mymail.com" %>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="user_password">Password</label>
+                          <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "*******" %>
+                          <small id="emailHelp" class="form-text text-muted">(6 characters minimum)</small>
+                        </div>
+
+                        <div class="form-group" class="form-control-label">
+                          <label for="user_password_confirmation">Confirm Password</label>
+                          <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "*******" %>
+                        </div>
+
+                        <%= f.submit "Sign up" , :class => "btn btn-block btn-primary"%>
+
+                      <% end %>
+
+                  </div>
+              </div>
+          </main>
+      </div>
     </div>
-    <div class="col-lg-6" id="links">
-      <%= render "devise/shared/links" %>
-    </div>
-  </div>
-</div> 
-
-<div class="container-fluid" id="body">
-  <div class="jumbotron" id="login">
-    <div class="inner">
-      <center><h2>Sign up</h2></center>
-
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= devise_error_messages! %>
-
-        <div class="form-group">
-          <%= f.label :email %>
-          <%= f.email_field :email, autofocus: true %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :password %>
-          <% if @minimum_password_length %>
-          (<%= @minimum_password_length %> characters minimum)
-          <% end %>
-          <%= f.password_field :password, autocomplete: "off" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :password_confirmation %> 
-          <%= f.password_field :password_confirmation, autocomplete: "off" %>
-        </div>
-
-        <center><div class="form-check" id="signupbutton">
-          <%= f.submit "Sign up" , :class => "btn btn-secondary"%>
-        </div></center>
-      <% end %>
-    </div>
-  </div>
-</div>      
