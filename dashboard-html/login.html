@@ -13,40 +13,30 @@
 </head>
 
 <body>
-    <nav class="navbar fixed-top navbar-light bg-faded">
-        <a href="" class="navbar-brand">
-            <img id="logo" src="images/logo.png" height="30" alt="Nokia" />
-        </a>
-    </nav>
-    <div class="card border-0 rounded-0 h-100">
-        <img class="card-img border-0 rounded-0 h-100" src="images/desk-backgound.jpg" alt="Card image">
-        <div class="card-img-overlay d-flex align-items-center">
-            <main class="container-fluid">
-                <div class="card m-auto" style="width: 20rem;">
-                    <div class="card-block">
-                        <i class="fa fa-5x fa-user-circle d-block text-center"></i>
-                        <h4 class="card-title text-center">Log in</h4>
-                        <form>
-                            <div class="form-group">
-                                <label for="user_email" class="form-control-label">Email</label>
-                                <input autofocus="autofocus" type="email" value="" name="user[email]" id="user_email" class="form-control" placeholder="abc123@nokia.com"
-                                />
-                            </div>
-                            <div class="form-group" class="form-control-label">
-                                <label for="user_password">Password</label>
-                                <input autocomplete="off" type="password" name="user[password]" id="user_password" class="form-control" placeholder="*******"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <a href="" class="card-link">Forgot Your Password?</a>
-                            </div>
-                            <button type="button" class="btn btn-block btn-primary">Log in</button>
-                        </form>
+    <main class="container-fluid mt-4">
+        <div class="card m-auto" style="width: 20rem;">
+            <div class="card-block">
+                <i class="fa fa-5x fa-user-circle d-block text-center"></i>
+                <h4 class="card-title text-center">Log in</h4>
+                <form>
+                    <div class="form-group">
+                        <label for="user_email" class="form-control-label">Email</label>
+                        <input autofocus="autofocus" type="email" value="" name="user[email]" id="user_email" class="form-control" placeholder="abc123@nokia.com"
+                        />
                     </div>
-                </div>
-            </main>
+                    <div class="form-group" class="form-control-label">
+                        <label for="user_password">Password</label>
+                        <input autocomplete="off" type="password" name="user[password]" id="user_password" class="form-control" placeholder="*******"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <a href="" class="card-link">Forgot Your Password?</a>
+                    </div>
+                    <button type="button" class="btn btn-block btn-primary">Log in</button>
+                </form>
+            </div>
         </div>
-    </div>
+    </main>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/tether/dist/js/tether.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
