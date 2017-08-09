@@ -214,16 +214,16 @@ function makeChart() {
 function initializeChartData(successValue, failValue, unstableValue) {
     var data = {
         datasets: [{
-            data: [successValue, failValue, unstableValue],
+            data: [unstableValue, failValue, successValue],
             backgroundColor: [
-                '#36A2EB', //light blue
+                "#FFCD56", //light yellow                
                 "#FF6384", //light red
-                "#FFCD56" //light yellow
+                '#36A2EB' //light blue
             ],
             borderColor: ["#333645", "#333645", "#333645"],
             borderWidth: [2, 2, 2],
         }],
-        labels: ['Success', 'Fail', 'Unstable']
+        labels: ['Unstable', 'Fail',  'Success']
     };
     return data;
 }
