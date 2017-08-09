@@ -11,8 +11,11 @@
 // about supported directives.
 //
 //= require jquery
+//= require tether
+//= require bootstrap
 //= require jquery_ujs
 //= require turbolinks
+//= require Chart.min
 
 var initalOffset = 100;
 var card; // card element
