@@ -155,6 +155,9 @@ class Branchdata
 	end
 
 	def folders
+		if @jobs.nil?
+			return nil
+		end
 		folderList = Array.new
 		@jobs.each do |job|
 			if job["_class"] == "com.cloudbees.hudson.plugins.folder.Folder"
@@ -165,6 +168,9 @@ class Branchdata
 	end
 
 	def projects
+		if jobs.nil?
+			return nil
+		end
 		projectList = Array.new
 		@jobs.each do |job|
 			if job["_class"] == "hudson.model.FreeStyleProject"
