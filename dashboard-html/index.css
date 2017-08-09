@@ -4,10 +4,6 @@ body {
     font-family: Roboto;
 }
 
-body {
-    background: #393939;
-}
-
 .wrapper {
     width: 100%;
     min-height: 100%;
@@ -86,32 +82,6 @@ body {
 
 .text-black{
     color: #000;
-}
-
-
-/* ******************** Status ******************** */
-
-.passed h4 {
-    padding: 8px 8px;
-}
-
-.failed h4 {
-    background: #F2DEDE;
-    padding: 8px 8px;
-}
-
-.aborted h4 {
-    background: #f1f1f1;
-    padding: 8px 8px;
-}
-
-.unstable h4 {
-    background: #FCF8E3;
-    padding: 8px 8px;
-}
-
-.default h4 {
-    padding: 8px 8px;
 }
 
 
