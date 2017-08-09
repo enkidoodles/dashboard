@@ -1,203 +1,228 @@
 <% branches = init_branches %>
 
+<% if not branches.nil? %>
+
 <div class="carousel-inner h-100">
 
   <% slide = 0 %>
+  
   <% branches.each do |branch| %>
-  <% slide += 1 %>
 
-  <div class="carousel-item h-100" id="<%= slide %>">
+    <% slide += 1 %>
 
-    <div class="wrapper">
+    <div class="carousel-item h-100" id="<%= slide %>">
 
-      <!-- SIDE NAV -->
-      <aside id="health" class="card-inverse">
+      <div class="wrapper">
 
-        <!-- CHART -->
-        <div style="max-height: 250px;">
-          <canvas id="doughnutChart<%= slide %>"></canvas>
-          <input type="hidden" id="success<%= slide %>" value="60"></input>
-          <input type="hidden" id="fail<%= slide %>" value="28"></input>
-          <input type="hidden" id="unstable<%= slide %>" value="12"></input>
-        </div>
+        <!-- SIDE NAV -->
+        <aside id="health" class="card-inverse">
 
-        <!-- WORST HEALTH -->
-        <div class="alert alert-danger text-center" role="alert">
-          <%= branch.reportHealth("worst") %>
-        </div>
-
-        <!-- PROGRESS BARS -->
-        <div class="h-100">
-          <ul class="list-group list-group-flush">
-            <% branch.folders.each do |folder| %>
-              <% stat = branch.getStatus(folder) %>
-              <li class="list-group-item justify-content-between bg-transparent">
-                <%= folder["name"] %>
-                <span>
-                  <% if stat == -1 %>
-                    N/A
-                  <% else %>
-                    <%= stat %>%
-                  <% end %>
-                </span>
-                <div class="progress w-100">
-                  <div class="progress-bar" style="width: <%= stat %>%; height: 5px;"></div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-
-      </aside>
-
-      <!-- NAV BAR -->
-      <nav id="main-nav" class="navbar navbar-inverse">
-        <button class="navbar-toggler navbar-toggler-left" type="button">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <h1 class="mb-0 text-white text-center"><%= branch.name %></h1>
-      </nav>
-
-      <!-- MAIN CONTENT -->
-      <main id="branch" class="container-fluid mt-2 mb-2">
-
-        <!-- ALERT -->
-        <% if branch.display == true %>
-          <div class="alert alert-warning" role="alert">
-            <strong>Holy guacamole!</strong> <%= branch.msg %>
+          <!-- CHART -->
+          <div style="max-height: 250px;">
+            <canvas id="doughnutChart<%= slide %>"></canvas>
+            <input type="hidden" id="success<%= slide %>" value="60"></input>
+            <input type="hidden" id="fail<%= slide %>" value="28"></input>
+            <input type="hidden" id="unstable<%= slide %>" value="12"></input>
           </div>
-        <% end %>
 
-        <!-- ROW -->
-        <section class="row">
+          <!-- WORST HEALTH -->
+          <div class="alert alert-danger text-center" role="alert">
+            <%= branch.reportHealth("worst") %>
+          </div>
 
-          <!-- FOLDERS -->
-          <article id="builds" class="col-md-8 col-xl-10">
-       
-            <!-- CARDS -->
-            <div class="card-deck flex-nowrap overflow-hidden">
-              
-              <% branch.folders.each do |folder| %>
-              
-              <!-- ONE CARD -->
-              <div class="card border-0 mb-2 translate-x">
-       
-                <% folderStatus = branch.getStatus(folder) %>
-                <% folderStatusProps = branch.getFolderProps(folderStatus) %>
+          <% folders = branch.folders %>
 
-                <!-- CARD HEADER -->
-                <h4 class="card-header card-inverse <%= folderStatusProps["bgColor"] %>">
-                  <i class="fa fa-folder-open"></i>   <%= folder["name"] %>
-                  <i class="fa pull-right <%= folderStatusProps["icon"] %>"></i>
-                </h4>
-       
-                <% latestJob = branch.getLatestJob(folder["jobs"]) %>
-                
-                <% latestBuild = branch.getLatestBuild(folder) %>
+          <!-- PROGRESS BARS -->
+          <div class="h-100">
+            <ul class="list-group list-group-flush">
 
-                <% if latestBuild.nil? %>
-                  <div class="card-block bg-faded p-3" style="flex: 0 auto;">
-                    <div class="alert alert-info mb-0">
-                      <b>NO RECENT BUILDS</b> 
+              <% if not folders.nil? %>
+
+                <% folders.each do |folder| %>
+                  <% stat = branch.getStatus(folder) %>
+                  <li class="list-group-item justify-content-between bg-transparent">
+                    <%= folder["name"] %>
+                    <span>
+                      <% if stat == -1 %>
+                        N/A
+                      <% else %>
+                        <%= stat %>%
+                      <% end %>
+                    </span>
+                    <div class="progress w-100">
+                      <div class="progress-bar" style="width: <%= stat %>%; height: 5px;"></div>
                     </div>
-                  </div>
-
-                <% else %>
-
-                  <% latestCommit = branch.getLatestCommit(latestBuild) %>
-                  <div class="card-block bg-faded p-3" style="flex: 0 auto;">
-
-                  <!-- COMMIT INFO -->
-                  <% if latestCommit.nil? %>
-                      <div class="alert alert-info mb-0">
-                        <b>EMPTY CHANGESET FOR BUILD#<%=latestBuild["number"]%></b> 
-                      </div>
-                  <% else %>
-                      <div class="alert alert-info mb-0">
-                        <b><%= latestCommit["author"]["fullName"] %></b> 
-                        <small class="badge badge-primary pull-right"><%= latestCommit["id"][0..7] %></small>
-                        <small class="d-block text-center"><%= latestCommit["msg"] %></small>
-                      </div>
-                  <% end %>
-                  </div>
+                  </li>
                 <% end %>
-
-                <!-- LIST OF SUBJOBS -->
-                <% subjobs = folder["jobs"] %>
-                <% if not subjobs.nil? %>
-
-                  <ul class="list-group list-group-flush" style="flex: 1 auto;">
-
-                  <% subjobs.each do |subjob| %>
-
-                    <% if subjob["_class"] == "com.cloudbees.hudson.plugins.folder.Folder" %>
-                        <% subjobStatus = branch.getFolderProps(branch.getStatus(subjob)) %>
-                        <% icon = "fa-folder" %>
-                    <% else %>
-                        <% subjobStatus = branch.getProjectProps(subjob) %>
-                        <% icon = subjobStatus["icon"] %>
-                    <% end %>
-                    <li class="list-group-item justify-content-between <%= subjobStatus["bgColor"] %> <%= subjobStatus["color"] %>">
-                      <%= subjob["name"] %>
-                      <i class="fa <%= icon %>"></i>
-                    </li>
-
-                  <% end %>
-
-                  </ul>
-                <% end %>
-       
-                <!-- CARD FOOTER -->
-                <div class="card-footer <%= folderStatusProps["bgColor"] %> card-inverse text-center p-1">
-                  <% if not latestBuild.nil? %>
-                  <small>
-                    <h6 class="mb-0"><b>BUILD #<%= latestBuild["number"] %> - <%=h truncate(latestJob ["name"], :length => 23) %></b></h6>
-                    <%= Time.at(latestBuild["timestamp"]*0.001).to_datetime.strftime("%I:%M%p - %b %d, %Y (%a)") %>
-                  </small>
-                  <% end %>
-                </div>
-              </div>
-              <% end %>
-            </div>
-          </article>
-
-          <!-- PROJECTS -->
-          <article id="projects" class="col-md-4 col-xl-2">
-
-            <ul class="list-group list-group-flush overflow-hidden">
-              <% branch.projects.each do |project| %>
-                <% projectStatus = branch.getProjectProps(project) %>
-                <li class="list-group-item translate-y <%= projectStatus["bgColor"] %> <%= projectStatus["color"] %>">
-                  <i class="fa fa-3x <%= projectStatus["icon"] %>"></i>
-                  <div>
-                      <h5 class="mb-0"><%=h truncate(project["name"], :length => 17) %></h5>
-                      <% health = branch.reportProjectHealth(project) %>
-                      <small>
-                        <% if health == [] %>
-                            Not built
-                        <% elsif project["color"] == "aborted" %>
-                            Recently aborted.
-                        <%  else %>
-                            <%= health %>
-                        <% end %>
-                      </small>
-                  </div>
-
-                </li>
 
               <% end %>
             </ul>
+          </div>
 
-          </article>
+        </aside>
 
-        </section>
+        <!-- NAV BAR -->
+        <nav id="main-nav" class="navbar navbar-inverse">
+          <button class="navbar-toggler navbar-toggler-left" type="button">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <h1 class="mb-0 text-white text-center"><%= branch.name %></h1>
+        </nav>
 
-      </main>
+        <!-- MAIN CONTENT -->
+        <main id="branch" class="container-fluid mt-2 mb-2">
+
+          <!-- ALERT -->
+          <% if branch.display == true %>
+            <div class="alert alert-warning" role="alert">
+              <strong>Holy guacamole!</strong> <%= branch.msg %>
+            </div>
+          <% end %>
+
+          <!-- ROW -->
+          <section class="row">
+
+            <!-- FOLDERS -->
+            <article id="builds" class="col-md-8 col-xl-10">
+         
+              <!-- CARDS -->
+              <div class="card-deck flex-nowrap overflow-hidden">
+                
+                <% if not folders.nil? %>
+
+                  <% folders.each do |folder| %>
+                  
+                  <!-- ONE CARD -->
+                  <div class="card border-0 mb-2 translate-x">
+           
+                    <% folderStatus = branch.getStatus(folder) %>
+                    <% folderStatusProps = branch.getFolderProps(folderStatus) %>
+
+                    <!-- CARD HEADER -->
+                    <h4 class="card-header card-inverse <%= folderStatusProps["bgColor"] %>">
+                      <i class="fa fa-folder-open"></i>   <%= folder["name"] %>
+                      <i class="fa pull-right <%= folderStatusProps["icon"] %>"></i>
+                    </h4>
+           
+                    <% latestJob = branch.getLatestJob(folder["jobs"]) %>
+                    
+                    <% latestBuild = branch.getLatestBuild(folder) %>
+
+                    <% if latestBuild.nil? %>
+                      <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+                        <div class="alert alert-info mb-0">
+                          <b>NO RECENT BUILDS</b> 
+                        </div>
+                      </div>
+
+                    <% else %>
+
+                      <% latestCommit = branch.getLatestCommit(latestBuild) %>
+                      <div class="card-block bg-faded p-3" style="flex: 0 auto;">
+
+                      <!-- COMMIT INFO -->
+                      <% if latestCommit.nil? %>
+                          <div class="alert alert-info mb-0">
+                            <b>EMPTY CHANGESET FOR BUILD#<%=latestBuild["number"]%></b> 
+                          </div>
+                      <% else %>
+                          <div class="alert alert-info mb-0">
+                            <b><%= latestCommit["author"]["fullName"] %></b> 
+                            <small class="badge badge-primary pull-right"><%= latestCommit["id"][0..7] %></small>
+                            <small class="d-block text-center"><%= latestCommit["msg"] %></small>
+                          </div>
+                      <% end %>
+                      </div>
+                    <% end %>
+
+                  <!-- LIST OF SUBJOBS -->
+                  <% subjobs = folder["jobs"] %>
+
+                  <% if not subjobs.nil? %>
+
+                    <ul class="list-group list-group-flush" style="flex: 1 auto;">
+
+                    <% subjobs.each do |subjob| %>
+
+                      <% if subjob["_class"] == "com.cloudbees.hudson.plugins.folder.Folder" %>
+                          <% subjobStatus = branch.getFolderProps(branch.getStatus(subjob)) %>
+                          <% icon = "fa-folder" %>
+                      <% else %>
+                          <% subjobStatus = branch.getProjectProps(subjob) %>
+                          <% icon = subjobStatus["icon"] %>
+                      <% end %>
+                      <li class="list-group-item justify-content-between <%= subjobStatus["bgColor"] %> <%= subjobStatus["color"] %>">
+                        <%= subjob["name"] %>
+                        <i class="fa <%= icon %>"></i>
+                      </li>
+
+                    <% end %>
+
+                    </ul>
+                  <% end %>
+         
+                  <!-- CARD FOOTER -->
+                  <div class="card-footer <%= folderStatusProps["bgColor"] %> card-inverse text-center p-1">
+
+                    <% if not latestBuild.nil? %>
+                    <small>
+                      <h6 class="mb-0"><b>BUILD #<%= latestBuild["number"] %> - <%=h truncate(latestJob ["name"], :length => 23) %></b></h6>
+                      <%= Time.at(latestBuild["timestamp"]*0.001).to_datetime.strftime("%I:%M%p - %b %d, %Y (%a)") %>
+                    </small>
+                    <% end %>
+
+                  </div>
+                </div>
+                <% end %>
+              </div>
+            </article>
+            <% end %>
+
+            <!-- PROJECTS -->
+            <article id="projects" class="col-md-4 col-xl-2">
+
+              <ul class="list-group list-group-flush overflow-hidden">
+
+                <% projects = branch.projects %>
+
+                <% if not projects.nil? %>
+
+                  <% projects.each do |project| %>
+                    <% projectStatus = branch.getProjectProps(project) %>
+                    <li class="list-group-item translate-y <%= projectStatus["bgColor"] %> <%= projectStatus["color"] %>">
+                      <i class="fa fa-3x <%= projectStatus["icon"] %>"></i>
+                      <div>
+                          <h5 class="mb-0"><%=h truncate(project["name"], :length => 14) %></h5>
+                          <% health = branch.reportProjectHealth(project) %>
+                          <small>
+                            <% if health == [] %>
+                                Not built
+                            <% elsif project["color"] == "aborted" %>
+                                Recently aborted.
+                            <%  else %>
+                                <%=h truncate(health, :length => 32) %>
+                            <% end %>
+                          </small>
+                      </div>
+                    </li>
+                  <% end %>
+
+                <% end %>
+
+              </ul>
+
+            </article>
+
+          </section>
+
+        </main>
+
+      </div>
 
     </div>
-
-  </div>
 
   <% end %>
 
 </div>
+
+<% end %>
