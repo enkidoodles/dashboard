@@ -13,17 +13,6 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <nav class="navbar" id="signedin">
-        <div class="row">
-           <div class="col-sm-6" id="header">
-          </div>
-          <div class="col-sm-6" id="signout">
-            <p>Hello, <%= current_user.email %> | <%= link_to "Sign_out", destroy_user_session_path, :method => 'delete', :class => "btn btn-info" %></p> 
-          </div>
-        </div>
-      </nav>
-    <% end %>
     <%= yield %>
   </body>
 </html>

@@ -1,5 +1,5 @@
 
-  <%= form_for(branch) do |f| %>
+<!--   <%= form_for(branch) do |f| %>
     <% if branch.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(branch.errors.count, "error") %> prohibited this branch from being saved:</h2>
@@ -37,3 +37,54 @@
       </div>
       </div>
   <% end %>   
+ -->
+
+<%= form_for(branch) do |f| %>
+
+  <% if branch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(branch.errors.count, "error") %> prohibited this branch from being saved:</h2>
+
+      <ul>
+      <% branch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, :class => "form-control-label"%>
+    <%= f.text_field :name , :class => "form-control", :placeholder => "Name", :autofocus => true, :required => true %>
+  </div>
+
+
+  <div class="form-group">
+    <%= f.label :branch_json_url, :class => "form-control-label" %>
+    <%= f.text_area :branch_json_url , :class => "form-control", :placeholder => "http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/MASTER_DEV/job/AIRPHONE/", :autofocus => true, :required => true %>
+  </div>
+
+
+  <div class="form-group">
+
+    <%= f.label "Alert Message", :class => "form-control-label custom-checkbox mb-2 mr-sm-2 mb-sm-0"%>
+    <%= f.text_field :alertMessage, :class => "form-control"%>
+    <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+        <%= f.check_box :displayAlert, :class=>"custom-control-input" %>
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Display alert message on view</span>
+    </label>
+
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6" id="submitbutton">
+      <%= f.submit :class => "btn btn-primary mr-2"%>
+    </div>
+
+    <div class="col-sm-6" id="backbutton">
+      <%= link_to 'Back', branches_path  , :class => "btn btn-secondary"%>
+    </div>
+  </div>
+
+<% end %>

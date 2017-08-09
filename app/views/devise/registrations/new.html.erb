@@ -1,44 +1,33 @@
-<nav class="navbar fixed-top navbar-light bg-faded">
-    <a href="" class="navbar-brand">
-      <img id="logo" src="../../assets/logo.png" height="30" alt="Nokia" />
-    </a>
-</nav>
+<main class="container-fluid mt-4">
+    <div class="card m-auto" style="width: 20rem;">
+        <div class="card-block">
+            <i class="fa fa-5x fa-user-circle-o d-block text-center"></i>
+            <h4 class="card-title text-center">Sign up</h4>
 
-<div class="card border-0 rounded-0 h-100">
-  <img class="card-img border-0 rounded-0 h-100" src="../../assets/desk-backgound.jpg" alt="Card image">
-  <div class="card-img-overlay d-flex align-items-center">
-      <main class="container-fluid">
-          <div class="card m-auto" style="width: 20rem;">
-              <div class="card-block">
-                  <i class="fa fa-5x fa-user-circle-o d-block text-center"></i>
-                  <h4 class="card-title text-center">Sign up</h4>
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
-                  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+              <%= devise_error_messages! %>
 
-                    <%= devise_error_messages! %>
-
-                    <div class="form-group">
-                      <label for="user_email" class="form-control-label">Email</label>
-                      <%= f.email_field :email, class: "form-control", placeholder: "admin@mymail.com" %>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="user_password">Password</label>
-                      <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "*******" %>
-                      <small id="emailHelp" class="form-text text-muted">(6 characters minimum)</small>
-                    </div>
-
-                    <div class="form-group" class="form-control-label">
-                      <label for="user_password_confirmation">Confirm Password</label>
-                      <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "*******" %>
-                    </div>
-
-                    <%= f.submit "Sign up" , :class => "btn btn-block btn-primary"%>
-
-                  <% end %>
-
+              <div class="form-group">
+                <label for="user_email" class="form-control-label">Email</label>
+                <%= f.email_field :email, class: "form-control", placeholder: "admin@mymail.com" %>
               </div>
-          </div>
-      </main>
-  </div>
-</div>
+
+              <div class="form-group">
+                <label for="user_password">Password</label>
+                <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "*******" %>
+                <small id="emailHelp" class="form-text text-muted">(6 characters minimum)</small>
+              </div>
+
+              <div class="form-group" class="form-control-label">
+                <label for="user_password_confirmation">Confirm Password</label>
+                <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "*******" %>
+              </div>
+
+              <%= f.submit "Sign up" , :class => "btn btn-block btn-primary"%>
+
+            <% end %>
+
+        </div>
+    </div>
+</main>
