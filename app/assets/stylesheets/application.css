@@ -12,6 +12,7 @@
  *
  *= require_self
  */
+
 html,
 body {
     height: 100%;
@@ -80,9 +81,10 @@ body {
     background: transparent !important;
 }
 
-.border-white{
+.border-white {
     border-color: #fff !important;
 }
+
 
 /* ---------------------------- Icon Colors --------------------------------*/
 
@@ -98,7 +100,7 @@ body {
     color: #a94442;
 }
 
-.text-black{
+.text-black {
     color: #000;
 }
 

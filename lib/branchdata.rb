@@ -168,7 +168,7 @@ class Branchdata
 	end
 
 	def projects
-		if jobs.nil?
+		if @jobs.nil?
 			return nil
 		end
 		projectList = Array.new
