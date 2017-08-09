@@ -195,6 +195,8 @@ class Branchdata
 				return hr["description"].split(' ')[4].to_i
 			elsif hr["description"].include? "failed builds" and type == "fail"
 			 	return hr["description"].split(' ')[4].to_i
+			elsif hr["description"].include? "unstable builds" and type == "unstable"
+			 	return hr["description"].split(' ')[4].to_i
 			elsif hr["description"].include? "Jobs with builds:" and type == "builds"
 				return hr["description"].split(' ')[3].to_i
 			end

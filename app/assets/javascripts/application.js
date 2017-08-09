@@ -11,8 +11,11 @@
 // about supported directives.
 //
 //= require jquery
+//= require tether
+//= require bootstrap
 //= require jquery_ujs
 //= require turbolinks
+//= require Chart.min
 
 var initalOffset = 100;
 var card; // card element
@@ -190,8 +193,8 @@ function makeChart() {
         showAllTooltips: true,
         cutoutPercentage: 50,
         title: {
-            display: true,
-            text: 'Branch Status',
+            display: false,
+            text: 'Total Builds',
             fontColor: "#fff",
             fontSize: 20,
             fontFamily: "Segoe UI Light"

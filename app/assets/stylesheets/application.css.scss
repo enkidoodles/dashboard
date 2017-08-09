@@ -2,151 +2,182 @@
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
  *
  * You're free to add application-wide styles to this file and they'll appear at the bottom of the
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  */
 
-
-@import url("//netdna.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css");
+@import "font-awesome";
 @import "bootstrap";
 
-@import url('https://fonts.google.com/specimen/Lato?selection.family=Lato');
-
-body{
-  height: 100%;
+html,
+body {
+    height: 100%;
+    font-family: Roboto;
 }
 
-.row#header{
-  height: 20%;
+body {
+    background: #393939 !important;
 }
 
-.col-xs-6#logodiv{
-  padding: 2%;
+.wrapper {
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    transition: 0.5s;
 }
 
-img#logo{
-  width: 40%;
-  height: auto;
-  margin: auto;
+#main-nav {
+    background: #34495e;
 }
 
-.col-xs-6#links{
-  text-align: right;
-  padding: 2%;
-  vertical-align: bottom;
+#main-nav,
+#branch {
+    width: 100%;
+    margin-left: 0;
+    transition: 0.5s;
 }
 
-.container-fluid#body{
-  padding: 10%;
-  height: 80%;
-  font-family: 'Lato', Lato;
-  background-image: url(/admin_background.jpg);
-  background-repeat: no-repeat, no-repeat, no-repeat;
-  background-size: 100%;
-  font-size: 150%;
+#health {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: #333645;
+    overflow: hidden;
+    z-index: 1;
+    transition: 0.5s;
+    transform: translateX(-100%);
 }
 
-.height-full {
-  height: 100vh;
+#health.toggle {
+    transform: translateX(0);
 }
 
-.form-check#loginbutton, .form-check#signupbutton{
-  color: black;
+#health.toggle~#branch,
+#health.toggle~#main-nav {
+    margin-left: 250px;
 }
 
-.jumbotron#login{
-  box-shadow: 0 0 30px black;
-  margin: auto;
-  width: 40%; /*can be in percentage also.*/
-  height: auto;
-  margin: 0 auto;
-  padding: 1%;
-  position: relative;
-  background-color: rgba(68, 108, 179, 0.7);
-  border-radius: 25px;
-  text-align: center;
+
+/* Background Colors */
+
+.bg-white {
+    background: #fff !important;
 }
 
-#body{
-  font-family: 'Lato', Lato;
-  background-image: url(/admin_background.jpg);
-  background-repeat: no-repeat, no-repeat, no-repeat;
-  background-size: 100%;
-  height: 80%;
-  font-size: 150%;
+.bg-black {
+    background: #555 !important;
+    /* border-color: #fff !important; */
 }
 
-.inner{
-  font-size: 70%;
-  text-align: left;
-  margin: auto;
-  width: 80%;
-  color: white;
+.bg-transparent {
+    background: transparent !important;
 }
 
-#user_email, #user_password, #user_password_confirmation{
-  width: 100%;
-  color: black;
-  font-size: 110%;
+.border-white {
+    border-color: #fff !important;
 }
 
-.actions{
-  color: black;
+
+/* ---------------------------- Icon Colors --------------------------------*/
+
+.text-green {
+    color: #3c763d;
 }
 
-label{
-  font-size: 130%;
+.text-yellow {
+    color: #8a6d3b;
 }
 
-.btn:hover{
-  background-image:none;
-  background-color:rgba(68, 108, 179, 0.3);
+.text-red {
+    color: #a94442;
 }
 
-.col-group {
-  overflow: hidden;
-}
-.col-group > div {
-  padding: 1em;
+.text-black {
+    color: #000;
 }
 
-@media screen and (min-width: 44em) {
-  .col-group > div {
-    float: left;
-    width: 50%;
-  }
-  .col-group > div:nth-child(odd) {
-    clear: left;
-  }
+
+/* Custom carousel x-axis */
+
+.overflow-hidden {
+    overflow: hidden;
 }
 
-@media screen and (min-width: 50em) {
-  .col-group > div {
-    float: left;
-    width: 33.3333333%;
-  }
-  .col-group > div:nth-child(3n+1) {
-    clear: left;
-  }
-  .col-group > div:nth-child(odd) {
-    clear: none;
-  }
+.translate-x {
+    flex: 0 0 98% !important;
+    margin: 0.5rem 1% !important;
+    transition: 0.5s;
 }
 
-@media screen and (min-width: 70em) {
-  .col-group > div {
-    width: 20%;
-  }
-  .col-group > div:nth-child(odd), .col-group > div:nth-child(3n+1) {
-    clear: none;
-  }
+
+/* Custom Carousel of list-items */
+
+.translate-y {
+    flex: 0 0 20%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+    transition: 0.5s;
+    margin-bottom: 0;
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
 }
 
+
+/* Media Queries */
+
+@media (min-width: 768px) {
+    #main-nav,
+    #branch {
+        margin-left: 250px;
+        width: auto;
+    }
+    #health {
+        transform: translateX(0);
+    }
+    #health.toggle {
+        transform: translateX(-100%);
+    }
+    #health.toggle~#branch,
+    #health.toggle~#main-nav {
+        margin-left: 0;
+    }
+    .overflow-hidden {
+        height: 80vh;
+    }
+}
+
+@media (min-width: 1200px) {
+    .translate-x {
+        flex: 0 0 48% !important;
+    }
+}
+
+@media (min-width: 1440px) {
+    .translate-x {
+        flex: 0 0 31.33% !important;
+    }
+}
+
+@media (min-width: 1920px) {
+    /* .translate-x {
+        flex: 1 0 23% !important;
+    } */
+    .translate-y {
+        flex: 0 0 10%;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        text-align: right;
+        overflow: hidden;
+    }
+}

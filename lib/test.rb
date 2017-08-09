@@ -103,6 +103,7 @@ class Brench
 
 	def printHealthReport
 		healthReport = @parsed["healthReport"]
+		puts healthReport
 		if healthReport.nil?
 			puts 
 		end
@@ -161,4 +162,4 @@ class Brench
 end
 
 branch = Brench.new("http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/MASTER_DEV/job/AIRPHONE/")
-branch.print
+branch.printHealthReport
