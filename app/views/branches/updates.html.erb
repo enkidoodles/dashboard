@@ -87,8 +87,12 @@
          
               <!-- CARDS -->
               <div class="card-deck flex-nowrap overflow-hidden">
-                
+
                 <% if not folders.nil? %>
+
+                  <% if folders.size == 0 %>
+                    <h3 class="text-white">0 FOLDERS</h3>
+                  <% end %>
 
                   <% folders.each do |folder| %>
                   
@@ -175,7 +179,9 @@
                 </div>
                 <% end %>
               </div>
+
             </article>
+
             <% end %>
 
             <!-- PROJECTS -->
@@ -184,29 +190,34 @@
               <ul class="list-group list-group-flush overflow-hidden">
 
                 <% projects = branch.projects %>
-
                 <% if not projects.nil? %>
 
-                  <% projects.each do |project| %>
-                    <% projectStatus = branch.getProjectProps(project) %>
-                    <li class="list-group-item translate-y <%= projectStatus["bgColor"] %> <%= projectStatus["color"] %>">
-                      <i class="fa fa-3x <%= projectStatus["icon"] %>"></i>
-                      <div>
-                          <h5 class="mb-0"><%=h truncate(project["name"], :length => 14) %></h5>
-                          <% health = branch.reportProjectHealth(project) %>
-                          <small>
-                            <% if health == [] %>
-                                Not built
-                            <% elsif project["color"] == "aborted" %>
-                                Recently aborted.
-                            <%  else %>
-                                <%=h truncate(health, :length => 32) %>
-                            <% end %>
-                          </small>
-                      </div>
-                    </li>
-                  <% end %>
+                  <% if projects.size == 0 %>
+                    <h3 class="text-white">0 PROJECTS</h3>
+                  <% else %>
 
+                    <% projects.each do |project| %>
+
+                      <% projectStatus = branch.getProjectProps(project) %>
+                      <li class="list-group-item translate-y <%= projectStatus["bgColor"] %> <%= projectStatus["color"] %>">
+                        <i class="fa fa-3x <%= projectStatus["icon"] %>"></i>
+                        <div>
+                            <h5 class="mb-0"><%=h truncate(project["name"], :length => 14) %></h5>
+                            <% health = branch.reportProjectHealth(project) %>
+                            <small>
+                              <% if health == [] %>
+                                  Not built
+                              <% elsif project["color"] == "aborted" %>
+                                  Recently aborted.
+                              <%  else %>
+                                  <%=h truncate(health, :length => 32) %>
+                              <% end %>
+                            </small>
+                        </div>
+                      </li>
+
+                    <% end %>
+                  <% end %>
                 <% end %>
 
               </ul>
