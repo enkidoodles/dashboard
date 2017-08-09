@@ -39,7 +39,7 @@ class BranchesController < ApplicationController
     @branch = Branch.new(branch_params)
     respond_to do |format|
         if @branch.save
-          format.html { redirect_to @branch, notice: 'Branch was successfully created.' }
+          format.html { redirect_to branches_url, notice: 'Branch was successfully created.' }
           format.json { render :show, status: :created, location: @branch }
         else
           format.html { render :new }
@@ -53,7 +53,7 @@ class BranchesController < ApplicationController
   def update
     respond_to do |format|
       if @branch.update(branch_params)
-        format.html { redirect_to @branch, notice: 'Branch was successfully updated.' }
+        format.html { redirect_to branches_url, notice: 'Branch was successfully updated.' }
         format.json { render :show, status: :ok, location: @branch }
       else
         format.html { render :edit }
