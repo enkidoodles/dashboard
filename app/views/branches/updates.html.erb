@@ -17,13 +17,16 @@
         <!-- SIDE NAV -->
         <aside id="health" class="card-inverse">
 
+          <h5 class="text-center text-white"><%= branch.reportHealth("builds") %> Jobs with Builds</h5>
           <!-- CHART -->
-          <div style="max-height: 250px;">
+          <div style="max-height: 200px; max-width: 200px;" class="m-auto">
             <canvas id="doughnutChart<%= slide %>"></canvas>
-            <input type="hidden" id="success<%= slide %>" value="60"></input>
-            <input type="hidden" id="fail<%= slide %>" value="28"></input>
-            <input type="hidden" id="unstable<%= slide %>" value="12"></input>
+            <input type="hidden" id="success<%= slide %>" value="<%= branch.reportHealth("success")%>"></input>
+            <input type="hidden" id="fail<%= slide %>" value="<%= branch.reportHealth("fail")%>"></input>
+            <input type="hidden" id="unstable<%= slide %>" value="<%= branch.reportHealth("unstable")%>"></input>
           </div>
+
+          
 
           <!-- WORST HEALTH -->
           <div class="alert alert-danger text-center" role="alert">

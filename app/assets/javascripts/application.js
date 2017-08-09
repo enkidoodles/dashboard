@@ -193,8 +193,8 @@ function makeChart() {
         showAllTooltips: true,
         cutoutPercentage: 50,
         title: {
-            display: true,
-            text: 'Branch Status',
+            display: false,
+            text: 'Total Builds',
             fontColor: "#fff",
             fontSize: 20,
             fontFamily: "Segoe UI Light"
