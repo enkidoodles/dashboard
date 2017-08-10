@@ -11,8 +11,11 @@ $AccessTree = "api/json?tree=name,healthReport[description,score],jobs[name,heal
 class Branchdata
 
 	def initialize(url, name, disp, msg)
-
-		@branch_url = url + $AccessTree
+		if url[-1] != '/'
+			@branch_url = url + "/" + $AccessTree
+		else
+			@branch_url = url + $AccessTree
+		end
 		@branch_name = name
 		@display = disp
 		@message = msg
@@ -30,6 +33,32 @@ class Branchdata
 		else
 			@branch_name = nil
 		end
+
+		@day = Date.today.to_time.to_i
+		@countPerDay = 0
+		@buildsPerDay = Array.new
+		@countPerWeek = 0
+		@buildsPerWeek = Array.new
+
+		# Get latest Sunday
+		dayInWord = Time.now.to_datetime.strftime("%a")
+		dayOffset = 0
+		if dayInWord == "Sun"
+			dayOffset = 0
+		elsif dayInWord == "Mon"
+			dayOffset = 1
+		elsif dayInWord == "Tue"
+			dayOffset = 2
+		elsif dayInWord == "Wed"
+			dayOffset = 3
+		elsif dayInWord == "Thu"
+			dayOffset = 4
+		elsif dayInWord == "Fri"
+			dayOffset = 5
+		else
+			dayOffset = 6
+		end
+		@lastSunday = (Date.today - dayOffset).to_time.to_i
 
 	end
 
@@ -293,4 +322,41 @@ class Branchdata
 		end
 		return projectProps
 	end
+
+	def countBuildsPerDay(jobs)
+		jobs.each do |job|
+			if not job["lastBuild"].nil?
+				timeOfBuild = job["lastBuild"]["timestamp"]*0.001
+				if not job["lastBuild"]["changeSet"]["items"].nil?
+					if (timeOfBuild > @day)
+						@countPerDay += 1
+					end
+				end
+			else
+				if not job["jobs"].nil?
+					countBuildsPerDay(job["jobs"])
+				end
+			end
+		end
+		return @countPerDay
+	end
+
+	def countBuildsPerWeek(jobs)
+		jobs.each do |job|
+			if not job["lastBuild"].nil?
+				timeOfBuild = job["lastBuild"]["timestamp"]*0.001
+				if not job["lastBuild"]["changeSet"]["items"].nil?
+					if (timeOfBuild > @lastSunday)
+						@countPerWeek += 1
+					end
+				end
+			else
+				if not job["jobs"].nil?
+					countBuildsPerWeek(job["jobs"])
+				end
+			end
+		end
+		return @countPerWeek
+	end
+
 end
