@@ -127,6 +127,7 @@ body {
     justify-content: space-around;
     text-align: center;
     transition: 0.5s;
+    overflow: hidden;
 }
 
 .text-wrap{
@@ -160,7 +161,7 @@ body {
         overflow: hidden;
     }
     .translate-y {
-        flex: 1 0 20%;
+        flex: 0 0 30%;
     }
 }
 
@@ -182,6 +183,5 @@ body {
         flex-wrap: nowrap;
         justify-content: space-between;
         text-align: right;
-        overflow: hidden;
     }
 }

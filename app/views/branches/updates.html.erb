@@ -78,11 +78,11 @@
         </nav>
 
         <!-- MAIN CONTENT -->
-        <main id="branch" class="container-fluid h-100 d-flex flex-column overflow-auto">
+        <main id="branch" class="container-fluid h-100 d-flex flex-column overflow-auto" style="padding-top: 4em;">
 
           <!-- ALERT -->
           <% if branch.display == true %>
-            <div class="alert alert-warning" style="margin-top: 4em;">
+            <div class="alert alert-warning">
               <strong>Holy guacamole!</strong> <%= branch.msg %>
             </div>
           <% end %>
@@ -184,7 +184,7 @@
                     <div style="width: 80%;">
                         <h5 class="mb-0 text-wrap"><%= project["name"] %></h5>
                         <% health = branch.reportProjectHealth(project) %>
-                        <small>
+                        <small style="line-height: 1 !important;">
                           <% if health == [] %>
                               Not built
                           <% elsif project["color"] == "aborted" %>
