@@ -1,45 +1,10 @@
 <% if user_signed_in? %>
-
-<p id="notice"><%= notice %></p>
-
-<!-- <div class = "container" id="branchestable">
-  <div class="row" id="branchesheader">
-    <div class="col-sm-6" id="brancheslabel">
-      <h1>Branches</h1>
-    </div>
-    <div class="col-sm-6" id="newbranchbutton">
-      <h1><%= link_to 'New Branch', new_branch_path, :class=> "btn btn-info" %></h1>
-    </div>
-  </div>
-
-  <table class="table table-hover table-default table-responsive" id="branches">
-    <thead>
-      <tr class="row-sm-6">
-        <th class="col-sm-2">Name</th>
-        <th class="col-sm-4">Branch json url</th>
-        <th class="col-sm-4">Alert Message</th>
-        <th class="col-sm-2">Display on view?</th>
-      </tr>
-    </thead>
-      <% @branches.each do |branch| %>
-        <tr class="row-sm-6">
-          <td><%= branch.name %></td>
-          <td><%= branch.branch_json_url %></td>
-          <td><%= branch.alertMessage %></td>
-          <td><%= branch.displayAlert? %></td>
-          <td><%= link_to 'Edit', edit_branch_path(branch) %></td>
-          <td><%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-  </table>
-</div>
-<br><br> -->
-
-<main class="container mt-4 p-4 bg-white rounded">
+    <p id="notice"><%= notice %></p>
+    <main class="container mt-4 p-4 bg-white rounded">
         <div class="alert alert-warning" role="alert">
             <form class="form-inline justify-content-between">
                 <h5 class="mb-0">Logged in as <%= current_user.email %> </h5>
-                <%= link_to "Sign out", destroy_user_session_path, :method => 'delete', :class => "btn btn-sm align-middle btn-outline-primary", :type => "button" %>
+                <%= link_to "Sign out", destroy_user_session_path, :method => 'delete', :class => "btn btn-sm align-middle btn-outline-primary" %>
             </form>
         </div>
         <div class="d-flex justify-content-between">
@@ -70,94 +35,11 @@
             <% end %>
         </table>
     </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <% else %>
-<div class="carousel slide h-100" id="dashes" 
-  data-interval="false" data-keyboard="false" data-ride="false" data-wrap="false">
-</div>
-
-<footer><p id="loading" class="loading" style="color: #fff;">Loading</p>
-</footer>
-<script type="text/javascript">
-  getJenkinsData();
-  function getJenkinsData() {
-    console.log("sending request to jenkins....");
-    $.ajax({
-        'type': 'GET',
-        'url': 'branches/updates',
-        'dataType': 'html',
-        'success': function (response) {
-            $("#dashes").html(response);
-            $("#1").addClass("active");
-            console.log("received data from jenkins");
-            start();
-        },
-        'error': function (errorThrown) {
-            window.location.reload();
-            console.log('Error:', errorThrown);
-        }
-    });
-}
-</script>
-<!-- <script type="text/javascript">
-  $.ajax({
-    'type': 'GET',
-    'url': 'branches/updates',
-    'dataType': 'html',
-    'success': function(response)
-    {
-      $("#dashes").html(response);
-      $("#loading").hide();
-      $("#1").addClass("active");
-    },
-    'error': function(errorThrown)
-    {
-      window.location.reload();
-      console.log('Error:', errorThrown);    
-    }
-  });
-
-  setInterval(function(){
-    $.ajax({
-      'type': 'GET',
-      'url': 'branches/updates',
-      'dataType': 'html',
-      'success': function(response)
-      {
-        var cur = $(".active")[0].id;
-        $("#dashes").html(response);
-        $("#"+cur).addClass("active");
-      },
-      'error': function(errorThrown)
-      {
-        console.log('Error on update:', errorThrown);    
-      }
-    });
-  }, 120000);
-
-  $(document).ready(function () {
-    $(document).ajaxStart(function () {
-      $("#loading").show();
-    }).ajaxStop(function () {
-      $("#loading").hide();
-    });
-  });
-</script> -->
-
+    <div class="carousel slide h-100" id="dashes" 
+      data-interval="false" data-keyboard="false" data-ride="false" data-wrap="false">
+    </div>
+    <script>
+        getJenkinsData();
+    </script>
 <% end %>
-
-</div>

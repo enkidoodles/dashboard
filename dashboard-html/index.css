@@ -62,9 +62,10 @@ body {
     background: transparent !important;
 }
 
-.border-white{
+.border-white {
     border-color: #fff !important;
 }
+
 
 /* ---------------------------- Icon Colors --------------------------------*/
 
@@ -80,16 +81,12 @@ body {
     color: #a94442;
 }
 
-.text-black{
+.text-black {
     color: #000;
 }
 
 
 /* Custom carousel x-axis */
-
-.overflow-hidden {
-    overflow: hidden;
-}
 
 .translate-x {
     flex: 0 0 98% !important;
@@ -101,7 +98,7 @@ body {
 /* Custom Carousel of list-items */
 
 .translate-y {
-    flex: 0 0 20%;
+    flex: 1 0 auto;
     flex-wrap: wrap;
     justify-content: space-around;
     text-align: center;
@@ -131,7 +128,10 @@ body {
         margin-left: 0;
     }
     .overflow-hidden {
-        height: 80vh;
+        overflow: hidden;
+    }
+    .translate-y {
+        flex: 0 0 20%;
     }
 }
 
@@ -148,11 +148,8 @@ body {
 }
 
 @media (min-width: 1920px) {
-    /* .translate-x {
-        flex: 1 0 23% !important;
-    } */
     .translate-y {
-        flex: 0 0 10%;
+        flex: 0 0 15%;
         flex-wrap: nowrap;
         justify-content: space-between;
         text-align: right;
