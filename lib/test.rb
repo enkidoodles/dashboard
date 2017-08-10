@@ -1,12 +1,14 @@
 require 'net/http'
 require 'uri'
 require 'json'
+require 'date'
 
 $AccessTree = "api/json?tree=name,healthReport[description,score],jobs[name,healthReport[description,score],color,healthReport[description,score],jobs[name,healthReport[description,score],color,jobs[name,color,lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]],lastBuild[timestamp,number,changeSet[items[msg,id,author[fullName]]]]]]"
 
 class Brench
 
 	def initialize(url)
+		
 		@branch_url = url + $AccessTree
 		@parsed = nil
 		uri = URI.parse(@branch_url)
@@ -17,6 +19,28 @@ class Brench
 		else
 			@branch_name = nil
 		end
+		@day = Date.today.to_time.to_i
+		@count = 0
+		@commits = Array.new
+
+		dayInWord = Time.now.to_datetime.strftime("%a")
+		dayOffset = 0
+		if dayInWord == "Sun"
+			dayOffset = 0
+		elsif dayInWord == "Mon"
+			dayOffset = 1
+		elsif dayInWord == "Tue"
+			dayOffset = 2
+		elsif dayInWord == "Wed"
+			dayOffset = 3
+		elsif dayInWord == "Thu"
+			dayOffset = 4
+		elsif dayInWord == "Fri"
+			dayOffset = 5
+		else
+			dayOffset = 6
+		end
+		@lastSunday = (Date.today - dayOffset).to_time.to_i
 	end
 
 	def getLatestBuild(job)
@@ -101,6 +125,10 @@ class Brench
 		end
 	end
 
+	def parsed
+		return @parsed
+	end 
+
 	def printHealthReport
 		healthReport = @parsed["healthReport"]
 		puts healthReport
@@ -144,7 +172,6 @@ class Brench
 						puts "last commit: "+lc.to_s
 					end
 				end
-
 				if not jenks["jobs"].nil?
 					sj = jenks["jobs"]
 					sj.each do |subjob|
@@ -158,8 +185,24 @@ class Brench
 		end
 	end
 
-
+	def countCommits(jobs)
+		jobs.each do |job|
+			if not job["lastBuild"].nil?
+				timeOfBuild = job["lastBuild"]["timestamp"]*0.001
+				if not job["lastBuild"]["changeSet"]["items"].nil?
+					if (timeOfBuild > @day)
+						@count += 1
+					end
+				end
+			else
+				if not job["jobs"].nil?
+					countCommits(job["jobs"])
+				end
+			end
+		end
+		return @count
+	end
 end
 
 branch = Brench.new("http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/MASTER_DEV/job/AIRPHONE/")
-branch.printHealthReport
+# puts branch.countCommits(branch.parsed["jobs"])
