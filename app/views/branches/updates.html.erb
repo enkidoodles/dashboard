@@ -78,12 +78,13 @@
         </nav>
 
         <!-- MAIN CONTENT -->
-        <main id="branch" class="container-fluid h-100 d-flex flex-column overflow-auto" style="padding-top: 4em;">
+        <main id="branch" class="container-fluid h-100 d-flex flex-column overflow-auto"
+         style="padding-top: 4em;">
 
           <!-- ALERT -->
           <% if branch.display == true %>
             <div class="alert alert-warning">
-              <strong>Holy guacamole!</strong> <%= branch.msg %>
+              <strong>Announcement!</strong> <%= branch.msg %>
             </div>
           <% end %>
 
@@ -147,7 +148,7 @@
                             <% icon = subjobStatus["icon"] %>
                         <% end %>
                         <li class="list-group-item justify-content-between <%= subjobStatus["bgColor"] %> <%= subjobStatus["color"] %>">
-                          <%= subjob["name"] %>
+                          <span class="w-75 overflow-hidden"><%= subjob["name"] %></span>
                           <i class="fa <%= icon %>"></i>
                         </li>
                       <% end %>

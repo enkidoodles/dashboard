@@ -38,6 +38,7 @@ function getJenkinsData() {
         'success': function (response) {
             $("#dashes").html(response);
             $("#1").addClass("active");
+            $("#loading").remove();
             console.log("received data from jenkins");
             start();
         },
@@ -56,10 +57,7 @@ function start() {
     makeChart();
     initializeValues();
     interval = setInterval(function () {
-        console.log("move");
         // adds a css property transform to all the cards if the last card is not showing
-        console.log(card.length);
-        console.log(listItem.length);
         if (card.length != 0 && !isShowing(card.last(), cardDeck)) {
             card.each(function () {
                 $(this).css("transform", "translateX(-" + translateX + "%)");
@@ -79,12 +77,11 @@ function start() {
             isLastListItemShowing = true;
         }
 
-        console.log("isLastCardShowing: " + isLastCardShowing);
-        console.log("isLastListItemShowing: " + isLastListItemShowing);
         // moves to the next carousel when the last card and item is showing
         if (isLastCardShowing && isLastListItemShowing) {
             if ($(".carousel div:last-child").hasClass("active")) {
                 clearInterval(interval);
+                insertLoadingDiv();
                 getJenkinsData();
             } else {
                 slideCarousel();
@@ -98,7 +95,6 @@ function slideCarousel() {
     // fires callback after carousel has slid
     $('.carousel').on('slid.bs.carousel', function () {
         // reset position
-        console.log("reset pos");
         card.each(function () {
             $(this).css("transform", "translateX(0%)");
         });
@@ -112,7 +108,6 @@ function slideCarousel() {
 
 
 function initializeValues() {
-    console.log("initialize values");
     card = $(".active .card.translate-x");
     listItem = $(".active .list-group-item.translate-y");
     cardDeck = card.parent();
@@ -126,11 +121,21 @@ function initializeValues() {
 
 function isShowing(element, container) {
     var elementPos = element.position();
-    if (elementPos.left < container.width() && elementPos.top + element.height() <= container.height()) {
+    if (elementPos.left + element.width() < container.width() &&
+        elementPos.top + element.height() <= container.height()) {
         return true;
     } else {
         return false;
     }
+}
+
+function insertLoadingDiv() {
+    var loadingDiv =
+        "<div id=\"loading\">" +
+            "<i class=\"fa fa-spin fa-pulse fa-spinner\"></i> " +
+            "Loading new data from jenkins server..." +
+        "</div>";
+    $("#branch .alert").after(loadingDiv);
 }
 
 // Chart.js Section
