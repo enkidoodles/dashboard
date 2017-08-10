@@ -86,8 +86,7 @@ function initializeValues() {
 
 function isShowing(element, container) {
     var elementPos = element.position();
-    var containerPos = container.position();
-    if (elementPos.left < container.width() && elementPos.top + 2 < container.height()) {
+    if (elementPos.left < container.width() && elementPos.top + element.height() <= container.height()) {
         return true;
     } else {
         return false;
@@ -169,14 +168,14 @@ var options = {
         text: 'Branch Status',
         fontColor: "#fff",
         fontSize: 20,
-        fontFamily: "Segoe UI Light"
+        fontFamily: "Roboto"
     },
     legend: {
         display: false,
         labels: {
             fontColor: "#fff",
             fontSize: 16,
-            fontFamily: "Segoe UI Light"
+            fontFamily: "Roboto"
         }
     }
 };

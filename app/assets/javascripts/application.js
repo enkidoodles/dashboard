@@ -29,21 +29,32 @@ var isLastCardShowing; // is the last card inside the parent element
 var isLastListItemShowing; // is the last item inside the parent element
 var interval;
 
-$(document).ready(function () {
-    $(".navbar-toggler").on("click", function (event) {
-        $(".active #health").toggleClass("toggle");
+function getJenkinsData() {
+    console.log("sending request to jenkins....");
+    $.ajax({
+        'type': 'GET',
+        'url': 'branches/updates',
+        'dataType': 'html',
+        'success': function (response) {
+            $("#dashes").html(response);
+            $("#1").addClass("active");
+            console.log("received data from jenkins");
+            start();
+        },
+        'error': function (errorThrown) {
+            window.location.reload();
+            console.log('Error:', errorThrown);
+        }
     });
-});
+}
 
 function start() {
-    console.log("start");
     $(".navbar-toggler").on("click", function (event) {
         $(".active #health").toggleClass("toggle");
     });
     setChartConfig();
     makeChart();
     initializeValues();
-    console.log("setting interval");
     interval = setInterval(function () {
         console.log("move");
         // adds a css property transform to all the cards if the last card is not showing
@@ -55,7 +66,6 @@ function start() {
             });
             translateX = translateX + initalOffset + cardMargin;
         } else {
-            console.log("showing last card");
             isLastCardShowing = true;
         }
 
@@ -74,24 +84,21 @@ function start() {
         // moves to the next carousel when the last card and item is showing
         if (isLastCardShowing && isLastListItemShowing) {
             if ($(".carousel div:last-child").hasClass("active")) {
-                console.log("last child");
                 clearInterval(interval);
-                console.log("clear interval");
                 getJenkinsData();
             } else {
                 slideCarousel();
-                console.log("after slide");
             }
         }
     }, 5000);
 }
 
 function slideCarousel() {
-    console.log("will go to next");
     $(".carousel").carousel("next");
     // fires callback after carousel has slid
     $('.carousel').on('slid.bs.carousel', function () {
         // reset position
+        console.log("reset pos");
         card.each(function () {
             $(this).css("transform", "translateX(0%)");
         });
@@ -100,8 +107,6 @@ function slideCarousel() {
         });
         initializeValues();
         makeChart();
-        // move();
-        console.log("after slid");
     });
 }
 
@@ -121,8 +126,7 @@ function initializeValues() {
 
 function isShowing(element, container) {
     var elementPos = element.position();
-    var containerPos = container.position();
-    if (elementPos.left < container.width() && elementPos.top + 2 < container.height()) {
+    if (elementPos.left < container.width() && elementPos.top + element.height() <= container.height()) {
         return true;
     } else {
         return false;
@@ -191,21 +195,15 @@ function makeChart() {
     var data = initializeChartData(successValue, failValue, unstableValue);
     var options = {
         showAllTooltips: true,
-        cutoutPercentage: 50,
         title: {
-            display: false,
-            text: 'Total Builds',
+            display: true,
+            text: 'Branch Status',
             fontColor: "#fff",
             fontSize: 20,
-            fontFamily: "Segoe UI Light"
+            fontFamily: "Roboto"
         },
         legend: {
-            display: false,
-            labels: {
-                fontColor: "#fff",
-                fontSize: 16,
-                fontFamily: "Segoe UI Light"
-            }
+            display: false
         }
     };
     drawChart("doughnutChart" + activeCarouselId, data, options);
@@ -223,7 +221,7 @@ function initializeChartData(successValue, failValue, unstableValue) {
             borderColor: ["#333645", "#333645", "#333645"],
             borderWidth: [2, 2, 2],
         }],
-        labels: ['Unstable', 'Fail',  'Success']
+        labels: ['Unstable', 'Fail', 'Success']
     };
     return data;
 }

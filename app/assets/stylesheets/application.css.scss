@@ -14,7 +14,6 @@
 
 @import "font-awesome";
 @import "bootstrap";
-
 html,
 body {
     height: 100%;
@@ -22,14 +21,18 @@ body {
 }
 
 body {
-    background: #393939 !important;
+    background: #393939;
 }
 
 .wrapper {
     width: 100%;
-    min-height: 100%;
-    overflow: hidden;
+    // min-height: 100%;
+    // overflow: hidden;
     transition: 0.5s;
+}
+
+.overflow-auto{
+    overflow-y: auto !important;
 }
 
 #main-nav {
@@ -109,13 +112,9 @@ body {
 
 /* Custom carousel x-axis */
 
-.overflow-hidden {
-    overflow: hidden;
-}
-
 .translate-x {
     flex: 0 0 98% !important;
-    margin: 0.5rem 1% !important;
+    margin: 0 1% 0.5rem 1% !important;
     transition: 0.5s;
 }
 
@@ -123,18 +122,23 @@ body {
 /* Custom Carousel of list-items */
 
 .translate-y {
-    flex: 0 0 20%;
+    flex: 1 0 auto;
     flex-wrap: wrap;
     justify-content: space-around;
     text-align: center;
     transition: 0.5s;
-    margin-bottom: 0;
-    border: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+
+.text-wrap{
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 
 /* Media Queries */
+
+@media (min-width: 576px){
+}
 
 @media (min-width: 768px) {
     #main-nav,
@@ -153,7 +157,10 @@ body {
         margin-left: 0;
     }
     .overflow-hidden {
-        height: 80vh;
+        overflow: hidden;
+    }
+    .translate-y {
+        flex: 1 0 20%;
     }
 }
 
@@ -170,11 +177,8 @@ body {
 }
 
 @media (min-width: 1920px) {
-    /* .translate-x {
-        flex: 1 0 23% !important;
-    } */
     .translate-y {
-        flex: 0 0 10%;
+        flex: 0 0 15%;
         flex-wrap: nowrap;
         justify-content: space-between;
         text-align: right;

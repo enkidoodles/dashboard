@@ -11,36 +11,23 @@
     <% slide += 1 %>
 
     <div class="carousel-item h-100" id="<%= slide %>">
-
       <div class="wrapper">
-
         <!-- SIDE NAV -->
-        <aside id="health" class="card-inverse">
-
-          <h5 class="text-center text-white"><%= branch.reportHealth("builds") %> Jobs with Builds</h5>
+        <aside id="health" class="card-inverse overflow-auto">
           <!-- CHART -->
-          <div style="max-height: 200px; max-width: 200px;" class="m-auto">
+          <div class="mx-auto" style="max-height: 200px; max-width: 200px;">
             <canvas id="doughnutChart<%= slide %>"></canvas>
             <input type="hidden" id="success<%= slide %>" value="<%= branch.reportHealth("success")%>"></input>
             <input type="hidden" id="fail<%= slide %>" value="<%= branch.reportHealth("fail")%>"></input>
             <input type="hidden" id="unstable<%= slide %>" value="<%= branch.reportHealth("unstable")%>"></input>
           </div>
-
-          
-
-          <!-- WORST HEALTH -->
-          <div class="alert alert-danger text-center" role="alert">
-            <%= branch.reportHealth("worst") %>
-          </div>
+          <h6 class="text-center">Jobs with builds: <%= branch.reportHealth("builds") %></h6>
 
           <% folders = branch.folders %>
-
           <!-- PROGRESS BARS -->
-          <div class="h-100">
+          <div class="h-100 overflow-auto" style="min-height: 150px;">
+            <% if not folders.nil? and folders.size != 0 %>
             <ul class="list-group list-group-flush">
-
-              <% if not folders.nil? %>
-
                 <% folders.each do |folder| %>
                   <% stat = branch.getStatus(folder) %>
                   <li class="list-group-item justify-content-between bg-transparent">
@@ -57,15 +44,33 @@
                     </div>
                   </li>
                 <% end %>
-
-              <% end %>
             </ul>
+            <% else %>
+              <h5 class="text-center">NO FOLDERS</h5>
+            <% end %>
           </div>
 
+          <!-- WORST HEALTH -->
+          <div class="alert alert-danger text-center rounded-0 my-3">
+            <%= branch.reportHealth("worst") %>
+          </div>
+
+          <!-- COMMITS -->
+          <div>
+              <h5 class="ml-2">Commits:</h5>
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item justify-content-between bg-transparent">
+                      Today: <b class="text-white">30</b>
+                  </li>
+                  <li class="list-group-item justify-content-between bg-transparent">
+                      This week: <b class="text-white">296</b>
+                  </li>
+              </ul>
+          </div>
         </aside>
 
         <!-- NAV BAR -->
-        <nav id="main-nav" class="navbar navbar-inverse">
+        <nav id="main-nav" class="navbar fixed-top navbar-inverse">
           <button class="navbar-toggler navbar-toggler-left" type="button">
           <span class="navbar-toggler-icon"></span>
           </button>
@@ -73,48 +78,36 @@
         </nav>
 
         <!-- MAIN CONTENT -->
-        <main id="branch" class="container-fluid mt-2 mb-2">
+        <main id="branch" class="container-fluid h-100 d-flex flex-column overflow-auto">
 
           <!-- ALERT -->
           <% if branch.display == true %>
-            <div class="alert alert-warning" role="alert">
+            <div class="alert alert-warning" style="margin-top: 4em;">
               <strong>Holy guacamole!</strong> <%= branch.msg %>
             </div>
           <% end %>
 
           <!-- ROW -->
-          <section class="row">
+          <section class="row" style="flex: 1 auto;">
 
             <!-- FOLDERS -->
-            <article id="builds" class="col-md-8 col-xl-10">
-         
+            <article id="builds" class="col-md-8 col-xl-10 d-flex">
+              <% if not folders.nil? and folders.size != 0 %>
               <!-- CARDS -->
-              <div class="card-deck flex-nowrap overflow-hidden">
-
-                <% if not folders.nil? %>
-
-                  <% if folders.size == 0 %>
-                    <h3 class="text-white">0 FOLDERS</h3>
-                  <% end %>
-
+              <div class="card-deck flex-nowrap overflow-hidden w-100">
                   <% folders.each do |folder| %>
-                  
                   <!-- ONE CARD -->
-                  <div class="card border-0 mb-2 translate-x">
-           
+                  <div class="card border-0 translate-x">
                     <% folderStatus = branch.getStatus(folder) %>
                     <% folderStatusProps = branch.getFolderProps(folderStatus) %>
-
                     <!-- CARD HEADER -->
                     <h4 class="card-header card-inverse <%= folderStatusProps["bgColor"] %>">
                       <i class="fa fa-folder-open"></i>   <%= folder["name"] %>
                       <i class="fa pull-right <%= folderStatusProps["icon"] %>"></i>
                     </h4>
-           
                     <% latestJob = branch.getLatestJob(folder["jobs"]) %>
-                    
                     <% latestBuild = branch.getLatestBuild(folder) %>
-
+                    <!-- Build equals null -->
                     <% if latestBuild.nil? %>
                       <div class="card-block bg-faded p-3" style="flex: 0 auto;">
                         <div class="alert alert-info mb-0">
@@ -122,8 +115,8 @@
                         </div>
                       </div>
 
+                    <!-- Build not equals null -->
                     <% else %>
-
                       <% latestCommit = branch.getLatestCommit(latestBuild) %>
                       <div class="card-block bg-faded p-3" style="flex: 0 auto;">
 
@@ -141,102 +134,77 @@
                       <% end %>
                       </div>
                     <% end %>
-
-                  <!-- LIST OF SUBJOBS -->
-                  <% subjobs = folder["jobs"] %>
-
-                  <% if not subjobs.nil? %>
-
-                    <ul class="list-group list-group-flush bg-faded" style="flex: 1 auto;">
-
-                    <% subjobs.each do |subjob| %>
-
-                      <% if subjob["_class"] == "com.cloudbees.hudson.plugins.folder.Folder" %>
-                          <% subjobStatus = branch.getFolderProps(branch.getStatus(subjob)) %>
-                          <% icon = "fa-folder" %>
-                      <% else %>
-                          <% subjobStatus = branch.getProjectProps(subjob) %>
-                          <% icon = subjobStatus["icon"] %>
+                    <!-- LIST OF SUBJOBS -->
+                    <% subjobs = folder["jobs"] %>
+                    <% if not subjobs.nil? %>
+                      <ul class="list-group list-group-flush bg-faded" style="flex: 1 auto;">
+                      <% subjobs.each do |subjob| %>
+                        <% if subjob["_class"] == "com.cloudbees.hudson.plugins.folder.Folder" %>
+                            <% subjobStatus = branch.getFolderProps(branch.getStatus(subjob)) %>
+                            <% icon = "fa-folder" %>
+                        <% else %>
+                            <% subjobStatus = branch.getProjectProps(subjob) %>
+                            <% icon = subjobStatus["icon"] %>
+                        <% end %>
+                        <li class="list-group-item justify-content-between <%= subjobStatus["bgColor"] %> <%= subjobStatus["color"] %>">
+                          <%= subjob["name"] %>
+                          <i class="fa <%= icon %>"></i>
+                        </li>
                       <% end %>
-                      <li class="list-group-item justify-content-between <%= subjobStatus["bgColor"] %> <%= subjobStatus["color"] %>">
-                        <%= subjob["name"] %>
-                        <i class="fa <%= icon %>"></i>
-                      </li>
-
+                      </ul>
                     <% end %>
+                    <!-- CARD FOOTER -->
+                    <div class="card-footer <%= folderStatusProps["bgColor"] %> card-inverse text-center p-1">
 
-                    </ul>
-                  <% end %>
-         
-                  <!-- CARD FOOTER -->
-                  <div class="card-footer <%= folderStatusProps["bgColor"] %> card-inverse text-center p-1">
+                      <% if not latestBuild.nil? %>
+                      <small>
+                        <h6 class="mb-0"><b>BUILD #<%= latestBuild["number"] %> - <%=h truncate(latestJob ["name"], :length => 23) %></b></h6>
+                        <%= Time.at(latestBuild["timestamp"]*0.001).to_datetime.strftime("%I:%M%p - %b %d, %Y (%a)") %>
+                      </small>
+                      <% end %>
 
-                    <% if not latestBuild.nil? %>
-                    <small>
-                      <h6 class="mb-0"><b>BUILD #<%= latestBuild["number"] %> - <%=h truncate(latestJob ["name"], :length => 23) %></b></h6>
-                      <%= Time.at(latestBuild["timestamp"]*0.001).to_datetime.strftime("%I:%M%p - %b %d, %Y (%a)") %>
-                    </small>
-                    <% end %>
-
+                    </div>
                   </div>
-                </div>
-                <% end %>
+                  <% end %>
               </div>
-
+              <% else %>
+                <h3 class="text-center card-inverse align-self-center w-100">NO FOLDERS</h3>
+              <% end %>
             </article>
-
-            <% end %>
 
             <!-- PROJECTS -->
-            <article id="projects" class="col-md-4 col-xl-2">
-
-              <ul class="list-group list-group-flush overflow-hidden">
-
-                <% projects = branch.projects %>
-                <% if not projects.nil? %>
-
-                  <% if projects.size == 0 %>
-                    <h3 class="text-white">0 PROJECTS</h3>
-                  <% else %>
-
-                    <% projects.each do |project| %>
-
-                      <% projectStatus = branch.getProjectProps(project) %>
-                      <li class="list-group-item translate-y <%= projectStatus["bgColor"] %> <%= projectStatus["color"] %>">
-                        <i class="fa fa-3x <%= projectStatus["icon"] %>"></i>
-                        <div>
-                            <h5 class="mb-0"><%=h truncate(project["name"], :length => 14) %></h5>
-                            <% health = branch.reportProjectHealth(project) %>
-                            <small>
-                              <% if health == [] %>
-                                  Not built
-                              <% elsif project["color"] == "aborted" %>
-                                  Recently aborted.
-                              <%  else %>
-                                  <%=h truncate(health, :length => 32) %>
-                              <% end %>
-                            </small>
-                        </div>
-                      </li>
-
-                    <% end %>
-                  <% end %>
+            <article id="projects" class="col-md-4 col-xl-2 d-flex">
+              <% projects = branch.projects %>
+              <% if not projects.nil? and projects.size != 0 %>
+              <ul class="list-group list-group-flush overflow-hidden w-100">
+                <% projects.each do |project| %>
+                  <% projectStatus = branch.getProjectProps(project) %>
+                  <li class="list-group-item translate-y <%= projectStatus["bgColor"] %> <%= projectStatus["color"] %>">
+                    <i class="fa fa-3x <%= projectStatus["icon"] %>"></i>
+                    <div style="width: 80%;">
+                        <h5 class="mb-0 text-wrap"><%= project["name"] %></h5>
+                        <% health = branch.reportProjectHealth(project) %>
+                        <small>
+                          <% if health == [] %>
+                              Not built
+                          <% elsif project["color"] == "aborted" %>
+                              Recently aborted.
+                          <% else %>
+                              <%= health %>
+                          <% end %>
+                        </small>
+                    </div>
+                  </li>
                 <% end %>
-
               </ul>
-
+              <% else %>
+                <h3 class="text-center card-inverse align-self-center w-100">NO PROJECTS</h3>
+              <% end %>
             </article>
-
           </section>
-
         </main>
-
       </div>
-
     </div>
-
   <% end %>
-
 </div>
-
 <% end %>
