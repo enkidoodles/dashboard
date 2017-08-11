@@ -1,14 +1,36 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+
+@import "font-awesome";
+@import "bootstrap";
 html,
 body {
     height: 100%;
     font-family: Roboto;
 }
 
+body {
+    background: #393939;
+}
+
 .wrapper {
     width: 100%;
-    min-height: 100%;
-    overflow: hidden;
     transition: 0.5s;
+}
+
+.overflow-auto {
+    overflow-y: auto !important;
 }
 
 #main-nav {
@@ -20,6 +42,10 @@ body {
     width: 100%;
     margin-left: 0;
     transition: 0.5s;
+}
+
+#branch {
+    margin-bottom: -50px;
 }
 
 #health {
@@ -90,7 +116,7 @@ body {
 
 .translate-x {
     flex: 0 0 98% !important;
-    margin: 0.5rem 1% !important;
+    margin: 0 1% 0.5rem 1% !important;
     transition: 0.5s;
 }
 
@@ -103,13 +129,27 @@ body {
     justify-content: space-around;
     text-align: center;
     transition: 0.5s;
-    margin-bottom: 0;
-    border: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    overflow: hidden;
+}
+
+.text-wrap {
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+
+/* Footer */
+
+#loading {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
 
 /* Media Queries */
+
+@media (min-width: 576px) {}
 
 @media (min-width: 768px) {
     #main-nav,
@@ -129,9 +169,10 @@ body {
     }
     .overflow-hidden {
         overflow: hidden;
+        text-overflow: ellipsis;
     }
     .translate-y {
-        flex: 0 0 20%;
+        flex: 0 0 30%;
     }
 }
 
@@ -144,6 +185,7 @@ body {
 @media (min-width: 1440px) {
     .translate-x {
         flex: 0 0 31.33% !important;
+        width: 31.33% !important;
     }
 }
 
@@ -153,6 +195,5 @@ body {
         flex-wrap: nowrap;
         justify-content: space-between;
         text-align: right;
-        overflow: hidden;
     }
 }
