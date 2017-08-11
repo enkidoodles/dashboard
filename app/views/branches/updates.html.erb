@@ -57,13 +57,13 @@
 
           <!-- COMMITS -->
           <div>
-              <h5 class="ml-2">Commits:</h5>
+              <h5 class="ml-2">Recent builds:</h5>
               <ul class="list-group list-group-flush">
                   <li class="list-group-item justify-content-between bg-transparent">
-                      Today: <b class="text-white">30</b>
+                      Today: <b class="text-white"><%= branch.countBuildsPerDay(branch.parsed["jobs"]) %></b>
                   </li>
                   <li class="list-group-item justify-content-between bg-transparent">
-                      This week: <b class="text-white">296</b>
+                      This week: <b class="text-white"><%= branch.countBuildsPerWeek(branch.parsed["jobs"]) %></b>
                   </li>
               </ul>
           </div>
@@ -78,11 +78,11 @@
         </nav>
 
         <!-- MAIN CONTENT -->
-        <main id="branch" class="container-fluid h-100 d-flex flex-column overflow-auto">
+        <main id="branch" class="container-fluid h-100 d-flex flex-column overflow-auto" style="padding-top: 4em;">
 
           <!-- ALERT -->
           <% if branch.display == true %>
-            <div class="alert alert-warning" style="margin-top: 4em;">
+            <div class="alert alert-warning">
               <strong>Holy guacamole!</strong> <%= branch.msg %>
             </div>
           <% end %>

@@ -325,22 +325,16 @@ class Branchdata
 
 	def countBuildsPerDay(jobs)
 		jobs.each do |job|
-			puts "[job: "+job["name"]+"]"
 			if not job["lastBuild"].nil?
 				timeOfBuild = job["lastBuild"]["timestamp"]*0.001
 				if not job["lastBuild"]["changeSet"]["items"].nil?
 					if (timeOfBuild > @day)
 						@countPerDay += 1
-						puts "build#" + job["lastBuild"]["number"].to_s
 					end
 				end
 			else
-				puts "no lastBuild"
 				if not job["jobs"].nil?
-					puts "has jobs!"
 					countBuildsPerDay(job["jobs"])
-				else
-					puts "no jobs"
 				end
 			end
 		end
@@ -353,7 +347,6 @@ class Branchdata
 				timeOfBuild = job["lastBuild"]["timestamp"]*0.001
 				if not job["lastBuild"]["changeSet"]["items"].nil?
 					if (timeOfBuild > @lastSunday)
-						puts job["lastBuild"]["number"]
 						@countPerWeek += 1
 					end
 				end
@@ -367,6 +360,3 @@ class Branchdata
 	end
 
 end
-
-b = Branchdata.new("http://5g-cimaster-4.eecloud.dynamic.nsn-net.net:8080/job/MASTER_DEV/job/AIRPHONE/", "Master dev", true, "how")
-puts b.countBuildsPerDay(b.parsed["jobs"])
