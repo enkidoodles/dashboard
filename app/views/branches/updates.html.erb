@@ -52,7 +52,11 @@
 
           <!-- WORST HEALTH -->
           <div class="alert alert-danger text-center rounded-0 my-3">
-            <%= branch.reportHealth("worst") %>
+            <% if branch.reportHealth("worst") == 0 %>
+              Worst Health: N/A
+            <% else %>
+              <%= branch.reportHealth("worst") %>
+            <% end %>
           </div>
 
           <!-- COMMITS -->
@@ -84,11 +88,11 @@
           <!-- ALERT -->
           <% if branch.display == true %>
             <div class="alert alert-warning">
-
               <strong>Announcement!</strong> <%= branch.msg %>
-              
             </div>
           <% end %>
+
+          <div class="loading"></div>
 
           <!-- ROW -->
           <section class="row" style="flex: 1 auto;">
@@ -210,4 +214,12 @@
     </div>
   <% end %>
 </div>
+<a class="carousel-control-prev" href="" role="button" data-slide="prev">
+  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  <span class="sr-only">Previous</span>
+</a>
+<a class="carousel-control-next" href="" role="button" data-slide="next">
+  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  <span class="sr-only">Next</span>
+</a>
 <% end %>

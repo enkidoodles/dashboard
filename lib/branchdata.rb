@@ -215,21 +215,29 @@ class Branchdata
 		if healthReport.nil?
 			return nil
 		end
+		value = 0
 		healthReport.each do |hr|
-			if hr["description"].include? "Average health" and type == "average"
-				return hr["score"].to_i
-			elsif hr["description"].include? "Worst health:" and type == "worst"
-			 	return hr["description"]
-			elsif hr["description"].include? "successful builds" and type == "success"
-				return hr["description"].split(' ')[4].to_i
-			elsif hr["description"].include? "failed builds" and type == "fail"
-			 	return hr["description"].split(' ')[4].to_i
-			elsif hr["description"].include? "unstable builds" and type == "unstable"
-			 	return hr["description"].split(' ')[4].to_i
-			elsif hr["description"].include? "Jobs with builds:" and type == "builds"
-				return hr["description"].split(' ')[3].to_i
+			if type == "average" and hr["description"].include? "Average health"
+				value = hr["score"].to_i
+				break
+			elsif type == "worst" and hr["description"].include? "Worst health:"
+				value =  hr["description"]
+				break
+			elsif type == "success" and hr["description"].include? "successful builds"
+				value =  hr["description"].split(' ')[4].to_i
+				break
+			elsif type == "fail" and hr["description"].include? "failed builds"
+				value =  hr["description"].split(' ')[4].to_i
+				break
+			elsif type == "unstable" and hr["description"].include? "unstable builds"
+				value =  hr["description"].split(' ')[4].to_i
+				break
+			elsif type == "builds" and hr["description"].include? "Jobs with builds:"
+				value =  hr["description"].split(' ')[3].to_i
+				break
 			end
 		end
+		return value
 	end
 
 	def reportProjectHealth(project)

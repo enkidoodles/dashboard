@@ -36,8 +36,11 @@
         </table>
     </main>
 <% else %>
-    <div class="carousel slide h-100" id="dashes" 
-      data-interval="false" data-keyboard="false" data-ride="false" data-wrap="false">
+    <div class="carousel slide h-100" id="dashes">
+        <div id="preload" class="text-white text-center">
+            <i class="fa fa-spin fa-pulse fa-spinner"></i>
+            Loading data from jenkins server...
+        </div>
     </div>
     <script>
         getJenkinsData();

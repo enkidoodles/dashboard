@@ -29,72 +29,18 @@ var isLastCardShowing; // is the last card inside the parent element
 var isLastListItemShowing; // is the last item inside the parent element
 var interval;
 
-function getJenkinsData() {
-    console.log("sending request to jenkins....");
-    $.ajax({
-        'type': 'GET',
-        'url': 'branches/updates',
-        'dataType': 'html',
-        'success': function (response) {
-            $("#dashes").html(response);
-            $("#1").addClass("active");
-            $("#loading").remove();
-            console.log("received data from jenkins");
-            start();
-        },
-        'error': function (errorThrown) {
-            window.location.reload();
-            console.log('Error:', errorThrown);
-        }
+$(document).ready(function () {
+    $('.carousel').carousel({
+        interval: false,
+        keyboard: false,
+        pause: false,
+        ride: false,
+        wrap: false
     });
-}
-
-function start() {
-    $(".navbar-toggler").on("click", function (event) {
-        $(".active #health").toggleClass("toggle");
-    });
-    setChartConfig();
-    makeChart();
-    initializeValues();
-    interval = setInterval(function () {
-        // adds a css property transform to all the cards if the last card is not showing
-        if (card.length != 0 && !isShowing(card.last(), cardDeck)) {
-            card.each(function () {
-                $(this).css("transform", "translateX(-" + translateX + "%)");
-            });
-            translateX = translateX + initalOffset + cardMargin;
-        } else {
-            isLastCardShowing = true;
-        }
-
-        // adds a css property transform to all the list-items if the last item is not showing
-        if (listItem.length != 0 && !isShowing(listItem.last(), listGroup)) {
-            listItem.each(function () {
-                $(this).css("transform", "translateY(-" + translateY + "%)");
-            });
-            translateY = translateY + initalOffset;
-        } else {
-            isLastListItemShowing = true;
-        }
-
-        // moves to the next carousel when the last card and item is showing
-        if (isLastCardShowing && isLastListItemShowing) {
-            if ($(".carousel div:last-child").hasClass("active")) {
-                clearInterval(interval);
-                insertLoadingDiv();
-                getJenkinsData();
-            } else {
-                slideCarousel();
-            }
-        }
-    }, 5000);
-}
-
-function slideCarousel() {
-    $(".carousel").carousel("next");
     // fires callback after carousel has slid
-    $('.carousel').on('slid.bs.carousel', function () {
+    $('#dashes').on('slid.bs.carousel', function () {
         // reset position
+        console.log("slid event");
         card.each(function () {
             $(this).css("transform", "translateX(0%)");
         });
@@ -104,46 +50,6 @@ function slideCarousel() {
         initializeValues();
         makeChart();
     });
-}
-
-
-function initializeValues() {
-    card = $(".active .card.translate-x");
-    listItem = $(".active .list-group-item.translate-y");
-    cardDeck = card.parent();
-    listGroup = listItem.parent();
-    cardMargin = ((cardDeck.width() * 0.02) / card.width()) * 100;
-    translateX = initalOffset + cardMargin;
-    translateY = initalOffset;
-    isLastCardShowing = false;
-    isLastListItemShowing = false;
-}
-
-function isShowing(element, container) {
-    var elementPos = element.position();
-    if (elementPos.left + element.width() < container.width() &&
-        elementPos.top + element.height() <= container.height()) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function insertLoadingDiv() {
-    var loadingDiv =
-        "<div id=\"loading\">" +
-            "<i class=\"fa fa-spin fa-pulse fa-spinner\"></i> " +
-            "Loading new data from jenkins server..." +
-        "</div>";
-    $("#branch .alert").after(loadingDiv);
-}
-
-// Chart.js Section
-
-
-// PluginService
-
-function setChartConfig() {
     Chart.pluginService.register({
         beforeRender: function (chart) {
             if (chart.config.options.showAllTooltips) {
@@ -190,7 +96,100 @@ function setChartConfig() {
     });
 
     Chart.defaults.scale.ticks.beginAtZero = true;
+})
+
+function getJenkinsData() {
+    console.log("sending request to jenkins....");
+    $.ajax({
+        'type': 'GET',
+        'url': 'branches/updates',
+        'dataType': 'html',
+        'success': function (response) {
+            $("#dashes").html(response);
+            $("#1").addClass("active");
+            $(".loading").empty();
+            $(".loading").hide();
+            console.log("received data from jenkins");
+            start();
+        },
+        'error': function (errorThrown) {
+            window.location.reload();
+            console.log('Error:', errorThrown);
+        }
+    });
 }
+
+function start() {
+    $(".navbar-toggler").on("click", function (event) {
+        $(".active #health").toggleClass("toggle");
+    });
+    initializeValues();
+    makeChart();
+    interval = setInterval(function () {
+        // adds a css property transform to all the cards if the last card is not showing
+        if (card.length != 0 && !isShowing(card.last(), cardDeck)) {
+            card.each(function () {
+                $(this).css("transform", "translateX(-" + translateX + "%)");
+            });
+            translateX = translateX + initalOffset + cardMargin;
+        } else {
+            isLastCardShowing = true;
+        }
+
+        // adds a css property transform to all the list-items if the last item is not showing
+        if (listItem.length != 0 && !isShowing(listItem.last(), listGroup)) {
+            listItem.each(function () {
+                $(this).css("transform", "translateY(-" + translateY + "%)");
+            });
+            translateY = translateY + initalOffset;
+        } else {
+            isLastListItemShowing = true;
+        }
+
+        // moves to the next carousel when the last card and item is showing
+        if (isLastCardShowing && isLastListItemShowing) {
+            if ($("#dashes div:last-child").hasClass("active")) {
+                clearInterval(interval);
+                $(".loading").show();
+                insertLoadingDiv();
+                getJenkinsData();
+            } else {
+                $("#dashes").carousel("next");
+            }
+        }
+    }, 1000);
+}
+
+function initializeValues() {
+    card = $(".active .card.translate-x");
+    listItem = $(".active .list-group-item.translate-y");
+    cardDeck = card.parent();
+    listGroup = listItem.parent();
+    cardMargin = ((cardDeck.width() * 0.02) / card.width()) * 100;
+    translateX = initalOffset + cardMargin;
+    translateY = initalOffset;
+    isLastCardShowing = false;
+    isLastListItemShowing = false;
+}
+
+function isShowing(element, container) {
+    var elementPos = element.position();
+    if (elementPos.left + element.width() < container.width() &&
+        elementPos.top + element.height() <= container.height()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function insertLoadingDiv() {
+    var loadingContent =
+        "<i class=\"fa fa-spin fa-pulse fa-spinner\"></i> " +
+        "Loading new data from jenkins server...";
+    $(".loading").html(loadingContent);
+}
+
+// Chart.js Section
 
 function makeChart() {
     var activeCarouselId = $(".active")[0].id;
@@ -215,19 +214,31 @@ function makeChart() {
 }
 
 function initializeChartData(successValue, failValue, unstableValue) {
-    var data = {
-        datasets: [{
-            data: [unstableValue, failValue, successValue],
-            backgroundColor: [
-                "#FFCD56", //light yellow                
-                "#FF6384", //light red
-                '#36A2EB' //light blue
-            ],
-            borderColor: ["#333645", "#333645", "#333645"],
-            borderWidth: [2, 2, 2],
-        }],
-        labels: ['Unstable', 'Fail', 'Success']
-    };
+    var data;
+    if (successValue == 0 && failValue == 0 && unstableValue == 0) {
+        data = {
+            datasets: [{
+                data: [1],
+                backgroundColor: ["#777"],
+                borderWidth: [0]
+            }],
+            labels: ['N/A']
+        };
+    } else {
+        data = {
+            datasets: [{
+                data: [unstableValue, failValue, successValue],
+                backgroundColor: [
+                    "#FFCD56", //light yellow                
+                    "#FF6384", //light red
+                    '#36A2EB' //light blue
+                ],
+                borderColor: ["#333645", "#333645", "#333645"],
+                borderWidth: [2, 2, 2]
+            }],
+            labels: ['Unstable', 'Fail', 'Success']
+        };
+    }
     return data;
 }
 
