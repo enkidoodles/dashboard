@@ -157,7 +157,7 @@ function start() {
                 $("#dashes").carousel("next");
             }
         }
-    }, 1000);
+    }, 10000);
 }
 
 function initializeValues() {
